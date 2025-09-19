@@ -4,8 +4,157 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>어울림 성향 검사</title>
-    <!-- CSS 파일 연결: style.css 파일의 디자인을 적용합니다. -->
-    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f4f8;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .intro-container, .quiz-container, .result-container {
+            background-color: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 800px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 3rem;
+            line-height: 1.2;
+            word-break: keep-all;
+        }
+
+        .intro-container h2 {
+            color: #4a90e2;
+            font-size: 2rem;
+            margin-top: 30px;
+        }
+
+        .intro-container h3 {
+            margin-top: 20px;
+            color: #555;
+        }
+
+        .intro-container p {
+            color: #666;
+            line-height: 1.8;
+            text-align: justify;
+            margin-bottom: 15px;
+        }
+
+        .intro-container p strong {
+            color: #444;
+        }
+
+        .intro-container .summary {
+            margin-top: 40px;
+            font-weight: bold;
+            color: #444;
+            text-align: center;
+            font-size: 1.1rem;
+        }
+
+        #start-btn, #next-btn, #restart-btn {
+            padding: 15px 30px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            cursor: pointer;
+            margin-top: 30px;
+            transition: background-color 0.3s, transform 0.2s;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        #start-btn:hover, #next-btn:hover, #restart-btn:hover {
+            background-color: #45a049;
+            transform: translateY(-2px);
+        }
+
+        #question-box {
+            margin-bottom: 20px;
+        }
+
+        .answer-btn {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 15px;
+            background-color: #e2e8f0;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+            text-align: left;
+        }
+
+        .answer-btn:hover {
+            background-color: #cbd5e1;
+            transform: translateY(-2px);
+        }
+
+        .answer-btn.selected {
+            background-color: #4a90e2;
+            color: white;
+            font-weight: bold;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        #next-btn, #restart-btn {
+            background-color: #4a90e2;
+            margin-top: 10px;
+        }
+        
+        .progress-container {
+            width: 100%;
+            height: 10px;
+            background-color: #e0e0e0;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background-color: #4CAF50;
+            width: 0%;
+            border-radius: 5px;
+            transition: width 0.4s ease;
+        }
+
+        .info-message {
+            padding: 10px;
+            background-color: #e9ecef;
+            color: #495057;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 14px;
+            font-weight: bold;
+            opacity: 1;
+            transition: opacity 0.5s ease-in-out, margin-bottom 0.5s ease-in-out, padding 0.5s ease-in-out;
+        }
+
+        .info-message.hidden {
+            opacity: 0;
+            padding: 0;
+            margin-bottom: 0;
+            height: 0;
+            overflow: hidden;
+        }
+    </style>
 </head>
 <body>
 
@@ -34,13 +183,19 @@
         <p><strong>C (Contextual, 감응 편향)</strong><br>
         리드와 감응 성향이 섞인 복합형에서, 장기적 흐름과 관계 조율 능력이 두드러집니다.</p>
 
-        <p class="summary">어울림 검사는 사회적 관계 속에서 내가 어떤 역할을 하는지 알려주는 검사입니다.<br>총 16문항, 3분 내외 소요됩니다.</p>
+        <p class="summary">어울림 검사는 사회적 관계 속에서 내가 어떤 역할을 하는지 알려주는 검사입니다.<br>총 20문항, 3분 내외 소요됩니다.</p>
         <button id="start-btn">검사 시작하기</button>
     </div>
 
     <!-- 검사 페이지 컨테이너 (처음에는 숨겨져 있습니다) -->
     <div class="quiz-container" style="display:none;">
         <h1>어울림 성향 검사</h1>
+        <div id="quiz-info-message" class="info-message hidden">
+            답변 방향이 바뀌는 문항이 있습니다. 문항 내용을 꼭 확인해 주세요!
+        </div>
+        <div class="progress-container">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
         <div id="question-box">
             <!-- JavaScript가 여기에 질문을 표시할 겁니다. -->
         </div>
@@ -52,11 +207,12 @@
     <!-- 결과 페이지 (처음에는 숨겨져 있습니다) -->
     <div class="result-container" style="display:none;">
         <h2 id="result-title"></h2>
-        <p id="result-description"></p>
+        <div id="result-description">
+            <!-- 결과 내용이 여기에 추가됩니다. -->
+        </div>
         <button id="restart-btn">다시 시작하기</button>
     </div>
-
-    <!-- JavaScript 파일 연결 -->
+    
     <script src="script.js"></script>
 
 </body>
