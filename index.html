@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>어울림 성향 검사</title>
+    <!-- CSS 파일 연결: style.css 파일의 디자인을 적용합니다. -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- 설명 페이지 컨테이너 -->
+    <div class="intro-container">
+        <h1>어울림 성격 유형 검사 (Awoolim Type Test, ATT)</h1>
+        <p>어울림: 개인이 사회·집단 속에서 어떤 역할과 방식으로 관계를 형성하고 흐름을 조율하는지 보여주는 구조</p>
+        <hr>
+        
+        <h2>🔹 어울림 유형검사 구분 설명</h2>
+        <h3>1️⃣ 에너지 방향: 리드(L) ↔ 플로우(F)</h3>
+        <p><strong>리드(L, Lead / 조율자형)</strong><br>
+        팀이나 모임에서 주도적으로 방향을 잡고 결정을 이끌어가는 스타일입니다. 순간적인 결단력과 조율 능력으로 상황을 관리하며, 다른 사람들이 자연스럽게 따르게 만드는 힘이 있습니다.</p>
+        <p><strong>플로우(F, Flow / 따르는 흐름형)</strong><br>
+        주도보다 주변 상황과 팀의 흐름을 관찰하며 따라가는 스타일입니다. 상황과 사람의 감정을 읽고 적응하며, 안정적이고 균형 있는 역할을 수행합니다.</p>
+
+        <h3>2️⃣ 정보·표현 방식: 표현(E) ↔ 감응(R)</h3>
+        <p><strong>표현(E, Expression / 언어·행동 중심)</strong><br>
+        말과 행동을 통해 자신의 생각과 감정을 표현하며, 주변 사람들과 직접적으로 상호작용하는 것을 선호합니다. 눈에 보이는 행동과 즉각적 피드백으로 영향력을 발휘합니다.</p>
+        <p><strong>감응(R, Response / 맥락·관계 중심)</strong><br>
+        상황의 맥락, 사람들의 관계, 비언어적 신호를 민감하게 읽는 스타일입니다. 말보다는 관찰과 이해를 통해 영향력을 발휘하며, 팀과 조직의 흐름을 조율합니다.</p>
+
+        <h3>3️⃣ 복합형 전용 알파벳: P / C</h3>
+        <p><strong>P (Performance, 표현 편향)</strong><br>
+        리드와 표현 성향이 강하게 섞인 복합형에서, 순간적 몰입과 퍼포먼스로 주변을 이끄는 능력이 두드러집니다.</p>
+        <p><strong>C (Contextual, 감응 편향)</strong><br>
+        리드와 감응 성향이 섞인 복합형에서, 장기적 흐름과 관계 조율 능력이 두드러집니다.</p>
+
+        <p class="summary">어울림 검사는 사회적 관계 속에서 내가 어떤 역할을 하는지 알려주는 검사입니다.<br>총 16문항, 3분 내외 소요됩니다.</p>
+        <button id="start-btn">검사 시작하기</button>
+    </div>
+
+    <!-- 검사 페이지 컨테이너 (처음에는 숨겨져 있습니다) -->
+    <div class="quiz-container" style="display:none;">
+        <h1>어울림 성향 검사</h1>
+        <div id="question-box">
+            <!-- JavaScript가 여기에 질문을 표시할 겁니다. -->
+        </div>
+        <div class="button-group">
+            <button id="next-btn">다음</button>
+        </div>
+    </div>
+
+    <!-- 결과 페이지 (처음에는 숨겨져 있습니다) -->
+    <div class="result-container" style="display:none;">
+        <h2 id="result-title"></h2>
+        <p id="result-description"></p>
+        <button id="restart-btn">다시 시작하기</button>
+    </div>
+
+    <!-- JavaScript 파일 연결 -->
+    <script src="script.js"></script>
+
+</body>
+</html>
