@@ -3,71 +3,85 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>어울림 성향 검사</title>
+    <title>어울림 성향 검사 (Awoolim Type Test)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen p-4">
 
-    <div class="intro-container">
-        <h1>어울림 성격 유형 검사 (Awoolim Type Test, ATT)</h1>
-        <p>어울림: 개인이 사회·집단 속에서 어떤 역할과 방식으로 관계를 형성하고 흐름을 조율하는지 보여주는 구조</p>
-        <hr>
+    <!-- Intro Container -->
+    <div id="intro-container" class="container bg-white p-8 md:p-12 rounded-2xl shadow-xl transform transition-transform duration-500 ease-in-out fade-in">
+        <h1 class="text-4xl md:text-5xl font-extrabold text-center text-gray-800 mb-2">어울림 성격 유형 검사</h1>
+        <p class="text-lg text-center text-gray-500 mb-6">(Awoolim Type Test, ATT)</p>
+        <p class="text-md text-gray-600 mb-6 text-center">어울림: 개인이 사회·집단 속에서 어떤 역할과 방식으로 관계를 형성하고 흐름을 조율하는지 보여주는 구조</p>
         
-        <h2>🔹 어울림 유형검사 구분 설명</h2>
-        <h3>1️⃣ 에너지 방향: 리드(L) ↔ 플로우(F)</h3>
-        <p><strong>리드(L, Lead / 조율자형)</strong><br>
-        팀이나 모임에서 주도적으로 방향을 잡고 결정을 이끌어가는 스타일입니다. 순간적인 결단력과 조율 능력으로 상황을 관리하며, 다른 사람들이 자연스럽게 따르게 만드는 힘이 있습니다.</p>
-        <p><strong>플로우(F, Flow / 따르는 흐름형)</strong><br>
-        주도보다 주변 상황과 팀의 흐름을 관찰하며 따라가는 스타일입니다. 상황과 사람의 감정을 읽고 적응하며, 안정적이고 균형 있는 역할을 수행합니다.</p>
+        <hr class="my-6 border-t-2 border-gray-200">
 
-        <h3>2️⃣ 정보·표현 방식: 표현(E) ↔ 감응(R)</h3>
-        <p><strong>표현(E, Expression / 언어·행동 중심)</strong><br>
-        말과 행동을 통해 자신의 생각과 감정을 표현하며, 주변 사람들과 직접적으로 상호작용하는 것을 선호합니다. 눈에 보이는 행동과 즉각적 피드백으로 영향력을 발휘합니다.</p>
-        <p><strong>감응(R, Response / 맥락·관계 중심)</strong><br>
-        상황의 맥락, 사람들의 관계, 비언어적 신호를 민감하게 읽는 스타일입니다. 말보다는 관찰과 이해를 통해 영향력을 발휘하며, 팀과 조직의 흐름을 조율합니다.</p>
-
-        <h3>3️⃣ 복합형 전용 알파벳: P / C</h3>
-        <p><strong>P (Performance, 표현 편향)</strong><br>
-        리드와 표현 성향이 강하게 섞인 복합형에서, 순간적 몰입과 퍼포먼스로 주변을 이끄는 능력이 두드러집니다.</p>
-        <p><strong>C (Contextual, 감응 편향)</strong><br>
-        리드와 감응 성향이 섞인 복합형에서, 장기적 흐름과 관계 조율 능력이 두드러집니다.</p>
-
-        <p class="summary">어울림 검사는 사회적 관계 속에서 내가 어떤 역할을 하는지 알려주는 검사입니다.<br>총 20문항, 3분 내외 소요됩니다.</p>
-        <button id="start-btn">검사 시작하기</button>
-    </div>
-
-    <div class="quiz-container" style="display:none;">
-        <h1>어울림 성향 검사</h1>
-        <div id="quiz-info-message" class="info-message hidden">
-            답변 방향이 바뀌는 문항이 있습니다. 문항 내용을 꼭 확인해 주세요!
-        </div>
-        <div class="progress-container">
-            <div class="progress-bar" id="progressBar"></div>
-        </div>
-        <div id="question-box">
+        <!-- Type Descriptions -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+            <div class="p-6 bg-blue-50 rounded-lg transform-scale-105 transition-all">
+                <h2 class="text-2xl font-bold text-lead-flow mb-2">🔹 에너지 방향: 리드(L) ↔ 플로우(F)</h2>
+                <p class="text-lg font-bold text-gray-800">리드(L, Lead / 조율자형)</p>
+                <p class="text-gray-600 mb-4">팀이나 모임에서 주도적으로 방향을 잡고 결정을 이끌어가는 스타일입니다. 순간적인 결단력과 조율 능력으로 상황을 관리하며, 다른 사람들이 자연스럽게 따르게 만드는 힘이 있습니다.</p>
+                <p class="text-lg font-bold text-gray-800">플로우(F, Flow / 따르는 흐름형)</p>
+                <p class="text-gray-600">주도보다 주변 상황과 팀의 흐름을 관찰하며 따라가는 스타일입니다. 상황과 사람의 감정을 읽고 적응하며, 안정적이고 균형 있는 역할을 수행합니다.</p>
             </div>
-        <div class="button-group">
-            <button id="next-btn" disabled>다음</button>
+            <div class="p-6 bg-pink-50 rounded-lg transform-scale-105 transition-all">
+                <h2 class="text-2xl font-bold text-expression-response mb-2">🔹 정보·표현 방식: 표현(E) ↔ 감응(R)</h2>
+                <p class="text-lg font-bold text-gray-800">표현(E, Expression / 언어·행동 중심)</p>
+                <p class="text-gray-600 mb-4">말과 행동을 통해 자신의 생각과 감정을 표현하며, 주변 사람들과 직접적으로 상호작용하는 것을 선호합니다. 눈에 보이는 행동과 즉각적 피드백으로 영향력을 발휘합니다.</p>
+                <p class="text-lg font-bold text-gray-800">감응(R, Response / 맥락·관계 중심)</p>
+                <p class="text-gray-600">상황의 맥락, 사람들의 관계, 비언어적 신호를 민감하게 읽는 스타일입니다. 말보다는 관찰과 이해를 통해 영향력을 발휘하며, 팀과 조직의 흐름을 조율합니다.</p>
+            </div>
+            <div class="p-6 bg-orange-50 rounded-lg transform-scale-105 transition-all col-span-1 md:col-span-2">
+                <h2 class="text-2xl font-bold text-performance mb-2">🔹 복합형 전용 알파벳: P / C</h2>
+                <p class="text-lg font-bold text-gray-800">P (Performance, 표현 편향)</p>
+                <p class="text-gray-600 mb-4">리드와 표현 성향이 강하게 섞인 복합형에서, 순간적 몰입과 퍼포먼스로 주변을 이끄는 능력이 두드러집니다.</p>
+                <p class="text-lg font-bold text-gray-800">C (Contextual, 감응 편향)</p>
+                <p class="text-gray-600">리드와 감응 성향이 섞인 복합형에서, 장기적 흐름과 관계 조율 능력이 두드러집니다.</p>
+            </div>
+        </div>
+
+        <p class="text-lg text-center font-semibold text-gray-700 mb-6">어울림 검사는 사회적 관계 속에서 내가 어떤 역할을 하는지 알려주는 검사입니다.<br>총 20문항, 3분 내외 소요됩니다.</p>
+        <button id="start-btn" class="w-full bg-blue-600 text-white font-bold py-3 rounded-xl hover:bg-blue-700 transition-colors duration-300 shadow-lg">검사 시작하기</button>
+    </div>
+
+    <!-- Quiz Container (Hidden by default) -->
+    <div id="quiz-container" class="container bg-white p-8 md:p-12 rounded-2xl shadow-xl hidden fade-in">
+        <h1 class="text-3xl font-bold text-gray-800 text-center mb-6">어울림 성향 검사</h1>
+        <div class="w-full bg-gray-200 rounded-full h-2.5 mb-6">
+            <div id="progressBar" class="bg-blue-600 h-2.5 rounded-full progress-bar-fill" style="width: 0%;"></div>
+        </div>
+        <div id="question-box" class="min-h-[150px] mb-6">
+            <!-- Question and options will be injected here by script.js -->
+        </div>
+        <button id="next-btn" disabled class="w-full bg-blue-400 text-white font-bold py-3 rounded-xl cursor-not-allowed transition-colors duration-300">다음</button>
+    </div>
+
+    <!-- Result Container (Hidden by default) -->
+    <div id="result-container" class="container bg-white p-8 md:p-12 rounded-2xl shadow-xl hidden fade-in text-center">
+        <h2 class="text-3xl font-bold text-gray-800 mb-4">당신의 어울림 유형은...</h2>
+        <div id="result-title-container" class="flex flex-col items-center justify-center mb-6">
+            <span id="result-icon" class="text-5xl mb-2"></span>
+            <h3 id="result-title" class="text-4xl font-extrabold text-gray-800"></h3>
+        </div>
+        <div id="result-description" class="text-gray-700 text-md text-left mb-8 space-y-4">
+            <!-- Result description will be injected here by script.js -->
+        </div>
+        <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+            <button id="copy-btn" class="flex-1 bg-green-500 text-white font-bold py-3 rounded-xl hover:bg-green-600 transition-colors duration-300 shadow-md">결과 복사하기</button>
+            <button id="restart-btn" class="flex-1 bg-gray-400 text-white font-bold py-3 rounded-xl hover:bg-gray-500 transition-colors duration-300 shadow-md">다시 시작하기</button>
         </div>
     </div>
 
-    <div class="result-container" style="display:none;">
-        <div class="result-title-container">
-            <span id="result-icon" class="result-icon"></span>
-            <h2 id="result-title"></h2>
-        </div>
-        <div id="result-description" class="result-description">
-            </div>
-        <button id="copy-btn">결과 복사하기</button>
-        <button id="restart-btn">다시 시작하기</button>
-    </div>
-    
     <script src="script.js"></script>
 
 </body>
 </html>
-
+<div id="quiz-container" class="container bg-white p-8 md:p-12 rounded-2xl shadow-xl hidden fade-in">
+    <div id="quiz-info-message" class="text-center mb-4 text-gray-500 hidden">3분 내외 소요됩니다.</div>
+    </div>
 
