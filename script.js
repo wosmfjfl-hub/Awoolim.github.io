@@ -1,7 +1,7 @@
 // Get a reference to all the HTML elements we'll be interacting with
-const introContainer = document.querySelector('.intro-container');
-const quizContainer = document.querySelector('.quiz-container');
-const resultContainer = document.querySelector('.result-container');
+const introContainer = document.getElementById('intro-container');
+const quizContainer = document.getElementById('quiz-container');
+const resultContainer = document.getElementById('result-container');
 const startBtn = document.getElementById('start-btn');
 const questionBox = document.getElementById('question-box');
 const nextBtn = document.getElementById('next-btn');
@@ -151,88 +151,88 @@ const questions = [
         question: "13. 나는 다른 사람들에게 활기차고 재미있는 사람으로 인식되는 편이다.",
         category: "expression",
         options: [
-            { text: "매우 그렇다", score: 5 },
-            { text: "그렇다", score: 4 },
-            { text: "보통이다", score: 3 },
+            { text: "매우 아니다", score: 1 },
             { text: "아니다", score: 2 },
-            { text: "매우 아니다", score: 1 }
+            { text: "보통이다", score: 3 },
+            { text: "그렇다", score: 4 },
+            { text: "매우 그렇다", score: 5 }
         ]
     },
     {
         question: "14. 나는 다른 사람들에게 진지하고 책임감 있는 사람으로 인식되는 편이다.",
         category: "response",
         options: [
-            { text: "매우 그렇다", score: 5 },
-            { text: "그렇다", score: 4 },
-            { text: "보통이다", score: 3 },
+            { text: "매우 아니다", score: 1 },
             { text: "아니다", score: 2 },
-            { text: "매우 아니다", score: 1 }
+            { text: "보통이다", score: 3 },
+            { text: "그렇다", score: 4 },
+            { text: "매우 그렇다", score: 5 }
         ]
     },
     {
         question: "15. 나는 갈등 상황에서 '중재자' 역할을 맡는 경우가 많다.",
         category: "flow",
         options: [
-            { text: "매우 그렇다", score: 5 },
-            { text: "그렇다", score: 4 },
-            { text: "보통이다", score: 3 },
+            { text: "매우 아니다", score: 1 },
             { text: "아니다", score: 2 },
-            { text: "매우 아니다", score: 1 }
+            { text: "보통이다", score: 3 },
+            { text: "그렇다", score: 4 },
+            { text: "매우 그렇다", score: 5 }
         ]
     },
     {
         question: "16. 나는 팀에서 '주도자' 역할을 맡는 경우가 많다.",
         category: "lead",
         options: [
-            { text: "매우 그렇다", score: 5 },
-            { text: "그렇다", score: 4 },
-            { text: "보통이다", score: 3 },
+            { text: "매우 아니다", score: 1 },
             { text: "아니다", score: 2 },
-            { text: "매우 아니다", score: 1 }
+            { text: "보통이다", score: 3 },
+            { text: "그렇다", score: 4 },
+            { text: "매우 그렇다", score: 5 }
         ]
     },
     {
         question: "17. 팀 프로젝트에서 새로운 아이디어를 제시하고 실행하는 것을 즐긴다.",
         category: "lead",
         options: [
-            { text: "매우 그렇다", score: 5 },
-            { text: "그렇다", score: 4 },
-            { text: "보통이다", score: 3 },
+            { text: "매우 아니다", score: 1 },
             { text: "아니다", score: 2 },
-            { text: "매우 아니다", score: 1 }
+            { text: "보통이다", score: 3 },
+            { text: "그렇다", score: 4 },
+            { text: "매우 그렇다", score: 5 }
         ]
     },
     {
         question: "18. 나는 팀의 안정적인 관계를 유지하는 것이 성과보다 더 중요하다고 생각한다.",
         category: "flow",
         options: [
-            { text: "매우 그렇다", score: 5 },
-            { text: "그렇다", score: 4 },
-            { text: "보통이다", score: 3 },
+            { text: "매우 아니다", score: 1 },
             { text: "아니다", score: 2 },
-            { text: "매우 아니다", score: 1 }
+            { text: "보통이다", score: 3 },
+            { text: "그렇다", score: 4 },
+            { text: "매우 그렇다", score: 5 }
         ]
     },
     {
         question: "19. 팀원 간 갈등이 생기면, 직접 나서서 문제를 해결하려고 한다.",
         category: "lead",
         options: [
-            { text: "매우 그렇다", score: 5 },
-            { text: "그렇다", score: 4 },
-            { text: "보통이다", score: 3 },
+            { text: "매우 아니다", score: 1 },
             { text: "아니다", score: 2 },
-            { text: "매우 아니다", score: 1 }
+            { text: "보통이다", score: 3 },
+            { text: "그렇다", score: 4 },
+            { text: "매우 그렇다", score: 5 }
         ]
     },
     {
         question: "20. 갈등이 생기면, 상대방의 감정을 먼저 살피고 공감하려 노력한다.",
         category: "flow",
         options: [
-            { text: "매우 그렇다", score: 5 },
-            { text: "그렇다", score: 4 },
-            { text: "보통이다", score: 3 },
+            { text: "매우 아니다", score: 1 },
             { text: "아니다", score: 2 },
-            { text: "매우 아니다", score: 1 }
+            { text: "보통이다", score: 3 },
+            { text: "그렇다", score: 4 },
+            { text: "매우 그렇다", score: 5 }
         ]
     }
 ];
@@ -246,7 +246,7 @@ let scores = {
     response: 0
 };
 
-// Data for each result type, separated for cleaner code
+// Data for each result type, including social tips
 const resultsData = {
     'LP': {
         icon: '🔥',
@@ -273,7 +273,18 @@ const resultsData = {
                 <h3>📈 성장 & 자기 계발 조언</h3>
                 <p>강력한 카리스마가 때로는 팀원들에게 압박이 될 수 있습니다. 개개인의 의견을 경청하고 반영하는 노력을 통해 진정한 리더십을 발휘하세요.</p>
             </div>
-        `
+        `,
+        socialTips: {
+            tips: [
+                "회의나 모임에서 주제를 명확히 제시하고 토론을 주도하세요.",
+                "팀원들의 의견을 경청하고 최종 결정을 내릴 때 이를 반영하세요.",
+                "리더십을 발휘하되, 모두가 참여할 수 있는 분위기를 만드는 데 집중하세요."
+            ],
+            advice: [
+                "지나친 주도성이 독단적으로 보이지 않도록 '우리의 의견은 어떤가요?'와 같은 질문을 자주 던지세요.",
+                "목표 달성에 너무 집중하여 팀원들의 감정을 놓치지 않도록 주의하세요."
+            ]
+        }
     },
     'LC': {
         icon: '🌬️',
@@ -300,7 +311,18 @@ const resultsData = {
                 <h3>📈 성장 & 자기 계발 조언</h3>
                 <p>조율자의 역할에 너무 몰입하다 보면 결정이 늦어질 수 있습니다. 때로는 신중함보다 빠른 결단이 필요하다는 것을 기억하고, 주도적으로 의사를 결정하는 훈련을 해보세요.</p>
             </div>
-        `
+        `,
+        socialTips: {
+            tips: [
+                "팀원들의 감정적 동기나 고민을 먼저 파악하고 접근하세요.",
+                "갈등 상황에서 중재자 역할을 맡아 원만한 해결을 유도하세요.",
+                "새로운 아이디어를 제시할 때, 그 아이디어가 팀 전체에 어떤 긍정적 영향을 줄지 설명하세요."
+            ],
+            advice: [
+                "때로는 'No'라고 말하거나 자신의 의견을 명확히 표현하는 연습이 필요합니다.",
+                "모든 사람을 만족시키려다 자신의 에너지를 소진하지 않도록 주의하세요."
+            ]
+        }
     },
     'LE': {
         icon: '🔥',
@@ -335,7 +357,18 @@ const resultsData = {
                 <h3>📈 성장 & 자기 계발 조언</h3>
                 <p>순간의 열정뿐 아니라 장기적인 목표를 세우는 연습을 해보세요. 팀원들의 의견을 충분히 듣고 의사결정하는 습관을 들이는 것도 좋습니다.</p>
             </div>
-        `
+        `,
+        socialTips: {
+            tips: [
+                "회의나 모임에서 주도적으로 의견을 제시하고 분위기를 이끄세요.",
+                "말과 행동으로 자신의 생각과 감정을 명확히 표현하세요.",
+                "새로운 도전 과제에 가장 먼저 나서며 팀에 활력을 불어넣으세요."
+            ],
+            advice: [
+                "지나친 주도성이 독단으로 비치지 않도록 경청하는 자세를 보여주세요.",
+                "순간의 몰입만큼 장기적인 계획과 지속적인 관리를 중요하게 생각하세요."
+            ]
+        }
     },
     'LR': {
         icon: '🌱',
@@ -370,7 +403,18 @@ const resultsData = {
                 <h3>📈 성장 & 자기 계발 조언</h3>
                 <p>급격한 변화나 돌발 상황에 대비해 빠른 판단력을 기르는 연습을 해보세요. 당신의 조언이 팀에 큰 도움이 될 수 있으니, 자신 있게 의견을 표현하는 훈련도 필요합니다.</p>
             </div>
-        `
+        `,
+        socialTips: {
+            tips: [
+                "팀원들의 감정적 동기나 고민을 먼저 파악하고 접근하세요.",
+                "갈등 상황에서 중재자 역할을 맡아 원만한 해결을 유도하세요.",
+                "새로운 아이디어를 제시할 때, 그 아이디어가 팀 전체에 어떤 긍정적 영향을 줄지 설명하세요."
+            ],
+            advice: [
+                "때로는 'No'라고 말하거나 자신의 의견을 명확히 표현하는 연습이 필요합니다.",
+                "모든 사람을 만족시키려다 자신의 에너지를 소진하지 않도록 주의하세요."
+            ]
+        }
     },
     'FE': {
         icon: '⚡',
@@ -405,7 +449,18 @@ const resultsData = {
                 <h3>📈 성장 & 자기 계발 조언</h3>
                 <p>흥분과 즉흥성보다는 장기적인 계획과 현실적인 제약을 고려하는 습관을 들이세요. 당신의 에너지를 효과적으로 분배하여 지속 가능한 활력을 유지하는 것이 중요합니다.</p>
             </div>
-        `
+        `,
+        socialTips: {
+            tips: [
+                "활발한 소통으로 팀의 분위기 메이커 역할을 자처하세요.",
+                "새로운 관계를 맺고 팀원들 간의 연결고리를 만드세요.",
+                "아이디어를 낼 때, '이런 아이디어는 어떨까요?'와 같이 긍정적이고 개방적인 태도를 보이세요."
+            ],
+            advice: [
+                "친밀함을 넘어 업무의 효율성이 떨어지지 않도록 때로는 진지한 태도를 보여줄 필요가 있습니다.",
+                "모든 사람과 친해지려 하기보다 중요한 관계에 집중하세요."
+            ]
+        }
     },
     'FR': {
         icon: '🌊',
@@ -440,9 +495,21 @@ const resultsData = {
                 <h3>📈 성장 & 자기 계발 조언</h3>
                 <p>타인의 감정을 살피는 만큼, 자신의 목표와 의견을 명확하게 표현하는 연습을 해보세요. 중요한 결정이 필요할 때는 신중하되, 너무 오래 망설이지 않고 결단하는 힘을 길러야 합니다.</p>
             </div>
-        `
+        `,
+        socialTips: {
+            tips: [
+                "묵묵히 자신의 역할을 해내고, 팀의 안정감을 유지하는 데 기여하세요.",
+                "팀원의 말에 귀 기울이고 공감하며 신뢰를 쌓으세요.",
+                "데이터 분석이나 보고서 작성 등 섬세함이 필요한 업무에서 강점을 발휘하세요."
+            ],
+            advice: [
+                "자신의 기여를 밖으로 드러내는 데 어려움을 느낄 수 있으므로, 작은 성공이라도 스스로 칭찬해 주세요.",
+                "과도한 배려로 인해 본인의 의견을 희생하지 않도록 주의하세요."
+            ]
+        }
     }
 };
+
 
 /**
  * Resets the quiz to its initial state.
@@ -546,6 +613,22 @@ function showResult() {
     resultIcon.innerText = result.icon;
     resultTitle.innerText = `당신의 성향은 ${result.title}입니다!`;
     resultDescription.innerHTML = result.descriptionHTML;
+
+    // ✅ 사회생활 팁 섹션 생성 및 추가
+    const socialTipsSection = document.createElement('div');
+    socialTipsSection.classList.add('result-description-section');
+    socialTipsSection.innerHTML = `
+        <h3>💡 사회생활 꿀팁</h3>
+        <p><strong>👍 꿀팁</strong></p>
+        <ul>
+            ${result.socialTips.tips.map(tip => `<li>${tip}</li>`).join('')}
+        </ul>
+        <p><strong>🤔 주의할 점</strong></p>
+        <ul>
+            ${result.socialTips.advice.map(advice => `<li>${advice}</li>`).join('')}
+        </ul>
+    `;
+    resultDescription.appendChild(socialTipsSection);
 }
 
 /**
@@ -564,10 +647,12 @@ startBtn.addEventListener('click', () => {
     quizContainer.style.display = 'block';
 
     // Show and hide the info message
-    quizInfoMessage.classList.remove('hidden');
-    setTimeout(() => {
-        quizInfoMessage.classList.add('hidden');
-    }, 3000);
+    if (quizInfoMessage) { // Check if the element exists
+        quizInfoMessage.classList.remove('hidden');
+        setTimeout(() => {
+            quizInfoMessage.classList.add('hidden');
+        }, 3000);
+    }
 
     showQuestion(questions[currentQuestionIndex]);
     updateProgressBar();
@@ -611,7 +696,10 @@ questionBox.addEventListener('click', (e) => {
 
 // Handle the "Restart" button click
 restartBtn.addEventListener('click', () => {
-    resetQuiz();
+    // Reset the URL hash to ensure the initial state is loaded
+    window.location.hash = '';
+    // Reload the page to reset the entire application state
+    window.location.reload(); 
 });
 
 // Handle the "Copy Result" button click
