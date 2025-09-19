@@ -4,12 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>어울림 성향 검사</title>
-    <!-- CSS 파일을 연결합니다. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <!-- 설명 페이지 컨테이너 -->
     <div class="intro-container">
         <h1>어울림 성격 유형 검사 (Awoolim Type Test, ATT)</h1>
         <p>어울림: 개인이 사회·집단 속에서 어떤 역할과 방식으로 관계를 형성하고 흐름을 조율하는지 보여주는 구조</p>
@@ -38,7 +39,6 @@
         <button id="start-btn">검사 시작하기</button>
     </div>
 
-    <!-- 검사 페이지 컨테이너 (처음에는 숨겨져 있습니다) -->
     <div class="quiz-container" style="display:none;">
         <h1>어울림 성향 검사</h1>
         <div id="quiz-info-message" class="info-message hidden">
@@ -48,29 +48,26 @@
             <div class="progress-bar" id="progressBar"></div>
         </div>
         <div id="question-box">
-            <!-- JavaScript가 여기에 질문을 표시할 겁니다. -->
-        </div>
+            </div>
         <div class="button-group">
             <button id="next-btn" disabled>다음</button>
         </div>
     </div>
 
-    <!-- 결과 페이지 (처음에는 숨겨져 있습니다) -->
     <div class="result-container" style="display:none;">
         <div class="result-title-container">
             <span id="result-icon" class="result-icon"></span>
             <h2 id="result-title"></h2>
         </div>
         <div id="result-description" class="result-description">
-            <!-- 결과 내용이 여기에 추가됩니다. -->
-        </div>
+            </div>
         <button id="copy-btn">결과 복사하기</button>
         <button id="restart-btn">다시 시작하기</button>
     </div>
     
-    <!-- JavaScript 파일을 연결합니다. -->
     <script src="script.js"></script>
 
 </body>
 </html>
+
 
