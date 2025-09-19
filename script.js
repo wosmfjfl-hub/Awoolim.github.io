@@ -1,5 +1,3 @@
-
-
 // Get a reference to all the HTML elements we'll be interacting with
 const introContainer = document.querySelector('.intro-container');
 const quizContainer = document.querySelector('.quiz-container');
@@ -495,41 +493,49 @@ function showResult() {
     quizContainer.style.display = 'none';
     resultContainer.style.display = 'block';
 
-    // Calculate the most dominant category pairs
-    const sortedScores = Object.entries(scores).sort((a, b) => b[1] - a[1]);
-    const dominantCategories = sortedScores.slice(0, 2).map(item => item[0]);
-
-    // Determine the result type based on dominant categories and their scores
     let resultType = '';
     const leadScore = scores.lead;
     const flowScore = scores.flow;
     const expressionScore = scores.expression;
     const responseScore = scores.response;
 
-    // Check for "mixed" types (강호동형, 유재석형) where both lead and flow are high.
-    // Assuming "high" is relative to the total possible score.
-    const maxScore = 5 * (questions.length / 4); // Max score for each category
-    const leadFlowThreshold = (maxScore * 0.7); // 70% of max score as a threshold
+    // Get the count of questions for each category to calculate max scores
+    const leadQuestionCount = questions.filter(q => q.category === 'lead').length;
+    const flowQuestionCount = questions.filter(q => q.category === 'flow').length;
+    
+    const leadMaxScore = leadQuestionCount * 5;
+    const flowMaxScore = flowQuestionCount * 5;
 
-    if (leadScore >= leadFlowThreshold && flowScore >= leadFlowThreshold) {
+    // --- NEW LOGIC FOR KANG HO-DONG (LP) AND YOO JAE-SUK (LC) ---
+    // Criteria for LP/LC: Scores must be both high AND balanced.
+    const leadFlowDifference = Math.abs(leadScore - flowScore);
+    const totalMaxLeadFlowScore = leadMaxScore + flowMaxScore;
+    
+    // A 15% difference threshold and a 60% overall score threshold are used to define "high and balanced"
+    const isHighAndBalanced = 
+        leadFlowDifference <= (totalMaxLeadFlowScore * 0.05) && // Low difference (e.g., less than 5%)
+        leadScore >= (leadMaxScore * 0.7) && // High lead score (e.g., more than 70%)
+        flowScore >= (flowMaxScore * 0.7); // High flow score (e.g., more than 70%)
+
+    if (isHighAndBalanced) {
         if (expressionScore > responseScore) {
-            resultType = 'LP';
+            resultType = 'LP'; // 강호동형 (Kang Ho-dong type)
         } else {
-            resultType = 'LC';
+            resultType = 'LC'; // 유재석형 (Yoo Jae-suk type)
         }
     } else if (leadScore > flowScore) {
         // Lead is dominant
         if (expressionScore > responseScore) {
-            resultType = 'LE';
+            resultType = 'LE'; // 불꽃 리더 (LE)
         } else {
-            resultType = 'LR';
+            resultType = 'LR'; // 뿌리 리더 (LR)
         }
-    } else {
+    } else { // flowScore >= leadScore
         // Flow is dominant or equal
         if (expressionScore > responseScore) {
-            resultType = 'FE';
+            resultType = 'FE'; // 에너자이저 (FE)
         } else {
-            resultType = 'FR';
+            resultType = 'FR'; // 공명자 (FR)
         }
     }
 
@@ -640,3 +646,4 @@ copyBtn.addEventListener('click', () => {
         alert("클립보드 복사 실패!");
     });
 });
+
