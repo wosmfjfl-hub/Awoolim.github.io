@@ -1,24 +1,6 @@
 // 모든 코드를 즉시 실행 함수(IIFE)로 감싸서 전역 스코프 오염 방지
 (function() {
-    // HTML 요소 참조
-    const introContainer = document.getElementById('intro-container');
-    const quizContainer = document.getElementById('quiz-container');
-    const resultContainer = document.getElementById('result-container');
-    const startBtn = document.getElementById('start-btn');
-    const backBtn = document.getElementById('back-btn');
-    const questionBox = document.getElementById('question-box');
-    const nextBtn = document.getElementById('next-btn');
-    const restartBtn = document.getElementById('restart-btn');
-    const copyBtn = document.getElementById('copy-btn');
-    const resultIcon = document.getElementById('result-icon');
-    const resultTitle = document.getElementById('result-title');
-    const resultDescription = document.getElementById('result-description');
-    const progressBar = document.getElementById('progressBar');
-    const shareKakao = document.getElementById('share-kakao');
-    const shareFacebook = document.getElementById('share-facebook');
-    const shareTwitter = document.getElementById('share-twitter');
-
-    // 퀴즈 데이터 (수정 없음)
+    // 퀴즈 데이터
     const questions = [
         { question: "1. 모임에서 자연스럽게 중심을 잡고 의견을 제시한다.", category: "lead", options: [{ text: "매우 아니다", score: 1 }, { text: "아니다", score: 2 }, { text: "보통이다", score: 3 }, { text: "그렇다", score: 4 }, { text: "매우 그렇다", score: 5 }] },
         { question: "2. 문제 발생 시 먼저 해결책을 제시한다.", category: "lead", options: [{ text: "매우 아니다", score: 1 }, { text: "아니다", score: 2 }, { text: "보통이다", score: 3 }, { text: "그렇다", score: 4 }, { text: "매우 그렇다", score: 5 }] },
@@ -178,6 +160,26 @@
     let currentQuestionIndex = 0;
     let scores = { lead: 0, flow: 0, expression: 0, response: 0 };
     let answerHistory = [];
+    let myChart = null; // 차트 객체 전역 변수
+
+    // HTML 요소 참조
+    const introContainer = document.getElementById('intro-container');
+    const quizContainer = document.getElementById('quiz-container');
+    const resultContainer = document.getElementById('result-container');
+    const startBtn = document.getElementById('start-btn');
+    const backBtn = document.getElementById('back-btn');
+    const questionBox = document.getElementById('question-box');
+    const nextBtn = document.getElementById('next-btn');
+    const restartBtn = document.getElementById('restart-btn');
+    const copyBtn = document.getElementById('copy-btn');
+    const resultIcon = document.getElementById('result-icon');
+    const resultTitle = document.getElementById('result-title');
+    const resultDescription = document.getElementById('result-description');
+    const progressBar = document.getElementById('progressBar');
+    const shareKakao = document.getElementById('share-kakao');
+    const shareFacebook = document.getElementById('share-facebook');
+    const shareTwitter = document.getElementById('share-twitter');
+    const scoreCanvas = document.getElementById('score-chart');
 
     /**
      * 퀴즈를 초기 상태로 재설정하고 시작합니다.
@@ -284,7 +286,6 @@
             }
         });
 
-        // 사회생활 팁 섹션 추가
         const socialTipsHtml = `
             <div class="result-description-section">
                 <h3>💡 사회생활 꿀팁</h3>
@@ -302,6 +303,9 @@
 
         quizContainer.style.display = 'none';
         resultContainer.style.display = 'block';
+
+        // 차트 그리기
+        drawChart(scores);
     }
 
     /**
@@ -311,6 +315,81 @@
         const progress = (currentQuestionIndex / questions.length) * 100;
         progressBar.style.width = `${progress}%`;
         progressBar.setAttribute('aria-valuenow', progress);
+    }
+
+    /**
+     * Chart.js를 사용하여 레이더 차트를 그립니다.
+     * @param {object} scores - 각 카테고리별 점수 객체
+     */
+    function drawChart(scores) {
+        if (myChart) {
+            myChart.destroy(); // 기존 차트가 있으면 파괴
+        }
+
+        const ctx = scoreCanvas.getContext('2d');
+        const maxScore = 20; // 각 카테고리별 최대 점수
+        
+        myChart = new Chart(ctx, {
+            type: 'radar',
+            data: {
+                labels: ['리드(L)', '플로우(F)', '표현(E)', '감응(R)'],
+                datasets: [{
+                    label: '나의 어울림 성향',
+                    data: [scores.lead, scores.flow, scores.expression, scores.response],
+                    backgroundColor: 'rgba(74, 144, 226, 0.4)',
+                    borderColor: 'rgba(74, 144, 226, 1)',
+                    pointBackgroundColor: 'rgba(74, 144, 226, 1)',
+                    pointBorderColor: '#fff',
+                    pointHoverBackgroundColor: '#fff',
+                    pointHoverBorderColor: 'rgba(74, 144, 226, 1)',
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    r: {
+                        angleLines: {
+                            color: 'rgba(0, 0, 0, 0.1)'
+                        },
+                        grid: {
+                            color: 'rgba(0, 0, 0, 0.1)'
+                        },
+                        pointLabels: {
+                            font: {
+                                size: 14,
+                                weight: 'bold'
+                            },
+                            color: '#333'
+                        },
+                        ticks: {
+                            beginAtZero: true,
+                            stepSize: 5,
+                            max: maxScore,
+                            display: false // 눈금 값 숨기기
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return context.label + ': ' + context.raw + '점';
+                            }
+                        }
+                    }
+                },
+                elements: {
+                    line: {
+                        tension: 0.2 // 선을 부드럽게
+                    }
+                }
+            }
+        });
     }
 
     // --- 이벤트 리스너 ---
@@ -434,7 +513,6 @@
                     }
                 });
 
-                // 사회생활 팁 섹션 추가
                 const socialTipsHtml = `
                     <div class="result-description-section">
                         <h3>💡 사회생활 꿀팁</h3>
@@ -456,4 +534,5 @@
         }
     });
 })();
+
 
