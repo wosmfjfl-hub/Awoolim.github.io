@@ -9,10 +9,14 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+<script>
+    Kakao.init('d19cac14d55c5c1ace0ca7840261b9b0');
+</script>
 </head>
 <body class="bg-gray-100 flex items-center justify-center min-h-screen p-4">
 
-    <!-- Intro Container -->
     <div id="intro-container" class="container bg-white p-8 md:p-12 rounded-2xl shadow-xl transform transition-transform duration-500 ease-in-out fade-in">
         <h1 class="text-4xl md:text-5xl font-extrabold text-center text-gray-800 mb-2">어울림 성격 유형 검사</h1>
         <p class="text-lg text-center text-gray-500 mb-6">(Awoolim Type Test, ATT)</p>
@@ -20,7 +24,6 @@
         
         <hr class="my-6 border-t-2 border-gray-200">
 
-        <!-- Type Descriptions -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
             <div class="p-6 bg-blue-50 rounded-lg transform-scale-105 transition-all">
                 <h2 class="text-2xl font-bold text-lead-flow mb-2">🔹 에너지 방향: 리드(L) ↔ 플로우(F)</h2>
@@ -49,19 +52,19 @@
         <button id="start-btn" class="w-full bg-blue-600 text-white font-bold py-3 rounded-xl hover:bg-blue-700 transition-colors duration-300 shadow-lg">검사 시작하기</button>
     </div>
 
-    <!-- Quiz Container (Hidden by default) -->
     <div id="quiz-container" class="container bg-white p-8 md:p-12 rounded-2xl shadow-xl hidden fade-in">
         <h1 class="text-3xl font-bold text-gray-800 text-center mb-6">어울림 성향 검사</h1>
         <div class="w-full bg-gray-200 rounded-full h-2.5 mb-6">
             <div id="progressBar" class="bg-blue-600 h-2.5 rounded-full progress-bar-fill" style="width: 0%;"></div>
         </div>
         <div id="question-box" class="min-h-[150px] mb-6">
-            <!-- Question and options will be injected here by script.js -->
+            </div>
+        <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+            <button id="back-btn" class="flex-1 bg-gray-400 text-white font-bold py-3 rounded-xl hover:bg-gray-500 transition-colors duration-300 shadow-md hidden">이전</button>
+            <button id="next-btn" disabled class="flex-1 bg-blue-400 text-white font-bold py-3 rounded-xl cursor-not-allowed transition-colors duration-300">다음</button>
         </div>
-        <button id="next-btn" disabled class="w-full bg-blue-400 text-white font-bold py-3 rounded-xl cursor-not-allowed transition-colors duration-300">다음</button>
     </div>
 
-    <!-- Result Container (Hidden by default) -->
     <div id="result-container" class="container bg-white p-8 md:p-12 rounded-2xl shadow-xl hidden fade-in text-center">
         <h2 class="text-3xl font-bold text-gray-800 mb-4">당신의 어울림 유형은...</h2>
         <div id="result-title-container" class="flex flex-col items-center justify-center mb-6">
@@ -69,19 +72,27 @@
             <h3 id="result-title" class="text-4xl font-extrabold text-gray-800"></h3>
         </div>
         <div id="result-description" class="text-gray-700 text-md text-left mb-8 space-y-4">
-            <!-- Result description will be injected here by script.js -->
-        </div>
-        <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+            </div>
+        <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 mb-4">
             <button id="copy-btn" class="flex-1 bg-green-500 text-white font-bold py-3 rounded-xl hover:bg-green-600 transition-colors duration-300 shadow-md">결과 복사하기</button>
             <button id="restart-btn" class="flex-1 bg-gray-400 text-white font-bold py-3 rounded-xl hover:bg-gray-500 transition-colors duration-300 shadow-md">다시 시작하기</button>
         </div>
+        <hr class="my-6 border-t-2 border-gray-200">
+        <h4 class="text-xl font-bold text-gray-800 mb-4">결과 공유하기</h4>
+        <div id="share-buttons" class="flex justify-center space-x-4">
+            <button id="share-kakao" class="w-12 h-12 flex items-center justify-center bg-[#FEE500] rounded-full text-black hover:opacity-80 transition-opacity duration-300" aria-label="카카오톡 공유">
+                <i class="fas fa-comment fa-2x"></i>
+            </button>
+            <button id="share-facebook" class="w-12 h-12 flex items-center justify-center bg-[#1877F2] rounded-full text-white hover:opacity-80 transition-opacity duration-300" aria-label="페이스북 공유">
+                <i class="fab fa-facebook-f fa-2x"></i>
+            </button>
+            <button id="share-twitter" class="w-12 h-12 flex items-center justify-center bg-[#1DA1F2] rounded-full text-white hover:opacity-80 transition-opacity duration-300" aria-label="트위터 공유">
+                <i class="fab fa-twitter fa-2x"></i>
+            </button>
+        </div>
     </div>
-
+    
     <script src="script.js"></script>
-
 </body>
 </html>
-<div id="quiz-container" class="container bg-white p-8 md:p-12 rounded-2xl shadow-xl hidden fade-in">
-    <div id="quiz-info-message" class="text-center mb-4 text-gray-500 hidden">3분 내외 소요됩니다.</div>
-    </div>
 
