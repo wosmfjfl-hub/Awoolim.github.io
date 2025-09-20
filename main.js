@@ -136,6 +136,7 @@
     }
 
     function restartQuiz() {
+        resetTheme(); // 테마 초기화 호출
         history.pushState(null, '', window.location.pathname);
         location.reload();
     }
@@ -145,9 +146,8 @@
     window.goToPreviousQuestion = goToPreviousQuestion;
     window.restartQuiz = restartQuiz;
 
-    // 페이지 로드가 완료되면 UI 이벤트를 먼저 연결하고, 그 다음에 페이지 로드 로직을 실행
     window.addEventListener('load', () => {
-        initializeUIEventListeners(); // ui.js의 함수 호출
+        initializeUIEventListeners();
         onPageLoad();
     });
 
