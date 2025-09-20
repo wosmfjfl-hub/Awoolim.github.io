@@ -29,6 +29,26 @@ const modalCloseBtn = document.getElementById('modal-close-btn');
 
 let myChart = null;
 
+/**
+ * HEX 색상 코드를 RGBA로 변환하는 헬퍼 함수
+ * @param {string} hex - #xxxxxx 형식의 HEX 코드
+ * @param {number} alpha - 투명도 (0 ~ 1)
+ * @returns {string} rgba(r, g, b, a) 형식의 문자열
+ */
+function hexToRgba(hex, alpha = 1) {
+    const r = parseInt(hex.slice(1, 3), 16);
+    const g = parseInt(hex.slice(3, 5), 16);
+    const b = parseInt(hex.slice(5, 7), 16);
+    return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+}
+
+// 테마 색상을 초기화하는 함수
+function resetTheme() {
+    const root = document.documentElement;
+    root.style.removeProperty('--theme-color');
+    root.style.removeProperty('--theme-color-light');
+}
+
 function showLastResultBanner(result, onViewResultClick) {
     const banner = document.createElement('div');
     banner.className = 'last-result-banner';
@@ -57,6 +77,7 @@ function showLoadingScreen() {
 }
 
 function showQuizScreen() {
+    resetTheme(); // 테마 초기화
     introContainer.style.display = 'none';
     resultContainer.style.display = 'none';
     quizContainer.style.display = 'block';
@@ -70,7 +91,7 @@ function showResultScreen(result, scores) {
     renderResult(result);
     if (scores) {
         scoreChartSection.style.display = 'block';
-        drawChart(scores);
+        drawChart(scores, result); // 차트에 result 객체 전달
     } else {
         scoreChartSection.style.display = 'none';
     }
@@ -127,10 +148,18 @@ function renderQuestion(question, previousAnswer) {
 }
 
 function renderResult(result) {
+    // --- 테마 색상 적용 ---
+    const root = document.documentElement;
+    root.style.setProperty('--theme-color', result.themeColor);
+    root.style.setProperty('--theme-color-light', result.themeColorLight);
+
     const resultType = Object.keys(resultsData).find(key => resultsData[key].title === result.title);
-    resultIcon.innerText = result.icon;
+    
+    resultIcon.innerHTML = `<img src="${result.imageUrl}" alt="${result.title}" class="w-40 h-40 mx-auto rounded-full shadow-lg border-4" style="border-color: ${result.themeColor};">`;
+    
     const titleText = `당신의 성향은 ${result.title}입니다!`;
     resultTitle.innerText = titleText;
+    
     let descriptionHtml = result.details.map(detail => {
         if (detail.type === 'ul') {
             const listItems = detail.items.map(item => `<li>${item}</li>`).join('');
@@ -138,6 +167,7 @@ function renderResult(result) {
         }
         return `<${detail.type}>${detail.content}</${detail.type}>`;
     }).join('');
+
     const socialTipsHtml = `
         <div class="result-description-section">
             <h3>💡 사회생활 꿀팁</h3>
@@ -148,18 +178,20 @@ function renderResult(result) {
         </div>
     `;
     resultDescription.innerHTML = descriptionHtml + socialTipsHtml;
+
     const bestMatchData = result.compatibility.best;
     const goodMatchData = result.compatibility.good;
     const bestMatchResult = resultsData[bestMatchData.type];
     const goodMatchResult = resultsData[goodMatchData.type];
+
     const compatibilityHtml = `
         <h3 class="text-2xl font-bold text-gray-800 mb-4 text-center">다른 유형과의 관계</h3>
         <div class="compatibility-box" data-my-type="${resultType}" data-target-type="${bestMatchData.type}" data-relation="best">
-            <h4><span class="type-icon">💖</span> 환상의 짝꿍: <span class="type-title ml-2">${bestMatchResult.title}</span></h4>
+            <h4><span class="type-icon"><img src="${bestMatchResult.imageUrl}" class="w-10 h-10 rounded-full"></span> 환상의 짝꿍: <span class="type-title ml-2">${bestMatchResult.title}</span></h4>
             <p class="mt-2 text-gray-600">${bestMatchData.summary}</p>
         </div>
         <div class="compatibility-box" data-my-type="${resultType}" data-target-type="${goodMatchData.type}" data-relation="good">
-            <h4><span class="type-icon">🤝</span> 좋은 동료: <span class="type-title ml-2">${goodMatchResult.title}</span></h4>
+            <h4><span class="type-icon"><img src="${goodMatchResult.imageUrl}" class="w-10 h-10 rounded-full"></span> 좋은 동료: <span class="type-title ml-2">${goodMatchResult.title}</span></h4>
             <p class="mt-2 text-gray-600">${goodMatchData.summary}</p>
         </div>
         <div class="famous-examples">
@@ -168,6 +200,7 @@ function renderResult(result) {
         </div>
     `;
     compatibilitySection.innerHTML = compatibilityHtml;
+
     document.querySelector('meta[property="og:title"]').setAttribute('content', '내 어울림 유형 결과는?');
     document.querySelector('meta[property="og:description"]').setAttribute('content', titleText);
 }
@@ -178,8 +211,12 @@ function updateProgressBar(currentIndex, total) {
     progressBar.setAttribute('aria-valuenow', progress);
 }
 
-function drawChart(scores) {
+function drawChart(scores, result) {
     if (myChart) myChart.destroy();
+
+    const chartBackgroundColor = hexToRgba(result.themeColor, 0.4);
+    const chartBorderColor = result.themeColor;
+
     const ctx = scoreCanvas.getContext('2d');
     myChart = new Chart(ctx, {
         type: 'radar',
@@ -188,8 +225,8 @@ function drawChart(scores) {
             datasets: [{
                 label: '나의 어울림 성향',
                 data: [scores.lead, scores.flow, scores.expression, scores.response],
-                backgroundColor: 'rgba(74, 144, 226, 0.4)',
-                borderColor: 'rgba(74, 144, 226, 1)',
+                backgroundColor: chartBackgroundColor, // 테마 색상 적용
+                borderColor: chartBorderColor,       // 테마 색상 적용
                 borderWidth: 2
             }]
         },
@@ -230,7 +267,7 @@ function initializeUIEventListeners() {
         if (resultType && resultsData[resultType]) {
             const result = resultsData[resultType];
             const cleanUrl = window.location.origin + window.location.pathname;
-            const summaryText = `[어울림 성향 테스트] 제 타입은 ${result.icon}${result.title}입니다! 여러분도 참여해보세요!\n${cleanUrl}`;
+            const summaryText = `[어울림 성향 테스트] 제 타입은 ${result.title}입니다! 여러분도 참여해보세요!\n${cleanUrl}`;
             navigator.clipboard.writeText(summaryText).then(() => {
                 alert("요약 결과가 클립보드에 복사되었습니다!");
             });
@@ -281,8 +318,12 @@ function initializeUIEventListeners() {
         const relationDetails = myResult.compatibility[relation].details;
 
         const modalHtml = `
-            <div class="type-icons">${myResult.icon} ❤️ ${targetResult.icon}</div>
-            <h3>${relationDetails.title}</h3>
+            <div class="type-icons flex justify-center items-center gap-4">
+                <img src="${myResult.imageUrl}" class="w-24 h-24 rounded-full shadow-md">
+                <span class="text-4xl text-red-500 font-bold">❤️</span>
+                <img src="${targetResult.imageUrl}" class="w-24 h-24 rounded-full shadow-md">
+            </div>
+            <h3 class="mt-4">${relationDetails.title}</h3>
             <h4>🤝 함께 일한다면?</h4>
             <p>${relationDetails.collab}</p>
             <h4>💥 갈등이 생긴다면?</h4>
@@ -292,5 +333,5 @@ function initializeUIEventListeners() {
     });
 }
 
-// ui.js가 로드되면, 이벤트 연결 함수를 window 객체에 공개
 window.initializeUIEventListeners = initializeUIEventListeners;
+window.resetTheme = resetTheme; // 테마 초기화 함수를 외부에 공개
