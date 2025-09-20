@@ -93,7 +93,7 @@ body {
     border-radius: 0.625rem;
     font-size: 1.1rem;
     cursor: pointer;
-    transition: background-color 0.3s, transform 0.2s;
+    transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
     text-align: left;
     font-weight: 500;
 }
@@ -108,6 +108,7 @@ body {
     color: white;
     font-weight: bold;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transform: scale(1.02); /* 선택 시 확대 효과 추가 */
 }
 
 /* ==================================== */
