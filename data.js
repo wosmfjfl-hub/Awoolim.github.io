@@ -128,7 +128,7 @@ const resultsData = {
     },
     'LR': {
         icon: '🌱',
-        imageUrl: 'img/lr.jpg',
+        imageUrl: 'https://imgur.com/obPja8b.jpg',
         themeColor: '#38A169',
         themeColorLight: '#F0FFF4',
         title: '뿌리 리더 (L+R)',
@@ -158,7 +158,7 @@ const resultsData = {
     },
     'FE': {
         icon: '⚡',
-        imageUrl: 'img/fe.jpg',
+        imageUrl: 'ihttps://imgur.com/ugEIEVx.jpg',
         themeColor: '#D69E2E',
         themeColorLight: '#FFFAF0',
         title: '에너자이저 (F+E)',
@@ -188,7 +188,7 @@ const resultsData = {
     },
     'FR': {
         icon: '🌊',
-        imageUrl: 'img/fr.jpg',
+        imageUrl: 'https://imgur.com/11p8peA.jpg',
         themeColor: '#319795',
         themeColorLight: '#E6FFFA',
         title: '공명자 (F+R)',
