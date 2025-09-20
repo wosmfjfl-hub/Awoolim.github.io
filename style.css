@@ -1,9 +1,33 @@
 /* ==================================== */
+/* CSS 변수 설정 */
+/* ==================================== */
+:root {
+    /* 색상 */
+    --color-primary: #4a90e2;
+    --color-secondary: #e2e8f0;
+    --color-text-dark: #1f2937;
+    --color-text-body: #333;
+    --color-bg-light: #f7fafc;
+    --color-border: #cbd5e1;
+
+    /* 간격 */
+    --spacing-xs: 0.5rem;
+    --spacing-sm: 0.75rem;
+    --spacing-md: 1rem;
+    --spacing-lg: 1.5rem;
+    --spacing-xl: 2rem;
+
+    /* 그림자 */
+    --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+    --shadow-lg: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* ==================================== */
 /* 전체 페이지 기본 스타일 */
 /* ==================================== */
 body {
     font-family: 'Noto Sans KR', sans-serif;
-    background-color: #f0f4f8;
+    background-color: var(--color-bg-light);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -11,7 +35,7 @@ body {
     margin: 0;
     padding: 20px;
     box-sizing: border-box;
-    color: #333;
+    color: var(--color-text-body);
 }
 
 /* ==================================== */
@@ -19,24 +43,14 @@ body {
 /* ==================================== */
 .container {
     background-color: white;
-    padding: 2rem 2.5rem; /* rem 단위를 사용하여 일관성 유지 */
+    padding: var(--spacing-xl) var(--spacing-lg);
     border-radius: 1.25rem;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--shadow-lg);
     width: 100%;
     max-width: 800px;
     transition: all 0.5s ease-in-out;
 }
 
-@media (max-width: 768px) {
-    .container {
-        padding: 1.5rem; /* 모바일에서 패딩 줄이기 */
-    }
-}
-
-/* ==================================== */
-/* 인트로 페이지 스타일 */
-/* ==================================== */
-/* Tailwind CSS 클래스를 직접 사용하는 것으로 가정하고, 이 부분은 최소한으로 유지 */
 .fade-in {
     animation: fadeIn 0.8s ease-out forwards;
 }
@@ -56,28 +70,28 @@ body {
 /* 퀴즈 페이지 스타일 */
 /* ==================================== */
 #question-box {
-    margin-bottom: 2rem;
+    margin-bottom: var(--spacing-xl);
 }
 
 #question-box h2 {
-    font-size: 1.5rem; /* 질문 폰트 크기 */
+    font-size: var(--spacing-lg);
     font-weight: bold;
-    color: #1f2937;
+    color: var(--color-text-dark);
     text-align: center;
     line-height: 1.5;
     word-break: keep-all;
-    margin-bottom: 1.5rem;
+    margin-bottom: var(--spacing-lg);
 }
 
 .answer-btn {
     display: block;
     width: 100%;
-    padding: 1rem;
-    margin-bottom: 0.75rem; /* 버튼 간 간격 조정 */
-    background-color: #e2e8f0;
+    padding: var(--spacing-md);
+    margin-bottom: var(--spacing-sm);
+    background-color: var(--color-secondary);
     border: none;
     border-radius: 0.625rem;
-    font-size: 1.1rem; /* 폰트 크기 조정 */
+    font-size: 1.1rem;
     cursor: pointer;
     transition: background-color 0.3s, transform 0.2s;
     text-align: left;
@@ -85,29 +99,15 @@ body {
 }
 
 .answer-btn:hover {
-    background-color: #cbd5e1;
+    background-color: var(--color-border);
     transform: translateY(-0.125rem);
 }
 
 .answer-btn.selected {
-    background-color: #4a90e2;
+    background-color: var(--color-primary);
     color: white;
     font-weight: bold;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-@media (max-width: 768px) {
-    #question-box h2 {
-        font-size: 1.25rem; /* 모바일에서 질문 폰트 크기 줄이기 */
-    }
-    .answer-btn {
-        font-size: 1rem;
-        padding: 0.8rem; /* 모바일에서 버튼 패딩 줄이기 */
-    }
-    .flex-col.sm\:flex-row {
-        flex-direction: column; /* 버튼을 세로로 정렬 */
-        gap: 1rem;
-    }
 }
 
 /* ==================================== */
@@ -121,9 +121,9 @@ body {
 #result-description h4 {
     font-size: 1.5rem;
     font-weight: bold;
-    color: #2d3748;
-    margin-top: 2rem;
-    margin-bottom: 1rem;
+    color: var(--color-text-dark);
+    margin-top: var(--spacing-xl);
+    margin-bottom: var(--spacing-md);
 }
 
 #result-description ul {
@@ -132,14 +132,34 @@ body {
 }
 
 #result-description li {
-    background-color: #f7fafc;
-    border-left: 4px solid #4a90e2;
-    padding: 1rem 1.25rem;
-    margin-bottom: 0.75rem;
+    background-color: var(--color-bg-light);
+    border-left: 4px solid var(--color-primary);
+    padding: var(--spacing-md) 1.25rem;
+    margin-bottom: var(--spacing-sm);
     border-radius: 0.5rem;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    box-shadow: var(--shadow-sm);
 }
 
 #result-description li strong {
-    color: #4a90e2;
+    color: var(--color-primary);
+}
+
+/* ==================================== */
+/* 미디어 쿼리 (모바일) */
+/* ==================================== */
+@media (max-width: 768px) {
+    .container {
+        padding: var(--spacing-lg);
+    }
+    #question-box h2 {
+        font-size: 1.25rem;
+    }
+    .answer-btn {
+        font-size: 1rem;
+        padding: 0.8rem;
+    }
+    .flex-col.sm\:flex-row {
+        flex-direction: column;
+        gap: var(--spacing-md);
+    }
 }
