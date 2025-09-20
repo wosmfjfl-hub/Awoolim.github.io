@@ -2,13 +2,19 @@
 /* CSS 변수 설정 */
 /* ==================================== */
 :root {
-    /* 색상 */
+    /* 기본 색상 */
     --color-primary: #4a90e2;
     --color-secondary: #e2e8f0;
     --color-text-dark: #1f2937;
     --color-text-body: #333;
     --color-bg-light: #f7fafc;
     --color-border: #cbd5e1;
+
+    /* 👇 결과 페이지 테마 색상 변수 (기본값: 파란색) */
+    --theme-color: var(--color-primary);
+    --theme-color-light: #EBF8FF;
+    --theme-chart-bg: rgba(74, 144, 226, 0.4);
+    --theme-chart-border: rgba(74, 144, 226, 1);
 
     /* 간격 */
     --spacing-xs: 0.5rem;
@@ -104,11 +110,11 @@ body {
 }
 
 .answer-btn.selected {
-    background-color: var(--color-primary);
+    background-color: var(--theme-color); /* 테마 색상 적용 */
     color: white;
     font-weight: bold;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    transform: scale(1.02); /* 선택 시 확대 효과 추가 */
+    transform: scale(1.02);
 }
 
 /* ==================================== */
@@ -134,7 +140,7 @@ body {
 
 #result-description li {
     background-color: var(--color-bg-light);
-    border-left: 4px solid var(--color-primary);
+    border-left: 4px solid var(--theme-color); /* 테마 색상 적용 */
     padding: var(--spacing-md) 1.25rem;
     margin-bottom: var(--spacing-sm);
     border-radius: 0.5rem;
@@ -142,7 +148,7 @@ body {
 }
 
 #result-description li strong {
-    color: var(--color-primary);
+    color: var(--theme-color); /* 테마 색상 적용 */
 }
 
 /* ==================================== */
@@ -169,7 +175,7 @@ body {
 /* 로딩 및 애니메이션 효과 */
 /* ==================================== */
 .loader {
-    border-top-color: var(--color-primary);
+    border-top-color: var(--theme-color); /* 테마 색상 적용 */
     animation: spinner 1.5s linear infinite;
 }
 
@@ -210,11 +216,11 @@ button.w-full:active, button.flex-1:active {
 /* 궁합 섹션 스타일 */
 /* ==================================== */
 .compatibility-box {
-    background-color: #f7fafc;
+    background-color: var(--color-bg-light);
     border-radius: 0.75rem;
     padding: 1.5rem;
     margin-top: 1rem;
-    border: 1px solid #e2e8f0;
+    border: 1px solid var(--color-border);
     cursor: pointer;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
@@ -238,13 +244,13 @@ button.w-full:active, button.flex-1:active {
 }
 
 .compatibility-box .type-title {
-    color: var(--color-primary);
+    color: var(--theme-color); /* 테마 색상 적용 */
     font-weight: bold;
 }
 
 .famous-examples {
-    background-color: #fffaf0;
-    border-left: 4px solid #f6ad55;
+    background-color: var(--theme-color-light); /* 테마 색상 적용 */
+    border-left: 4px solid var(--theme-color); /* 테마 색상 적용 */
     padding: 1rem;
     border-radius: 0.5rem;
     margin-top: 2rem;
@@ -386,10 +392,10 @@ button.w-full:active, button.flex-1:active {
 #modal-content h4 {
     font-size: 1.2rem;
     font-weight: bold;
-    color: var(--color-primary);
+    color: var(--theme-color); /* 테마 색상 적용 */
     margin-top: 1.5rem;
     margin-bottom: 0.5rem;
-    border-left: 4px solid var(--color-primary);
+    border-left: 4px solid var(--theme-color); /* 테마 색상 적용 */
     padding-left: 0.75rem;
 }
 
