@@ -42,7 +42,7 @@ const questionPool = {
 const resultsData = {
     'LP': {
         icon: '🔥',
-        imageUrl: 'img/lp.jpg',
+        imageUrl: 'https://i.imgur.com/jLzhMTz.jpg',
         themeColor: '#E53E3E',
         themeColorLight: '#FFF5F5',
         title: '강호동형 (LP)',
@@ -70,7 +70,7 @@ const resultsData = {
     },
     'LC': {
         icon: '🌬️',
-        imageUrl: 'img/lc.jpg',
+        imageUrl: 'https://i.imgur.com/kmSblh4.jpg',
         themeColor: '#4A90E2',
         themeColorLight: '#EBF8FF',
         title: '유재석형 (LC)',
@@ -98,12 +98,12 @@ const resultsData = {
     },
     'LE': {
         icon: '🔥',
-        imageUrl: 'img/le.jpg',
+        imageUrl: 'https://i.imgur.com/Q78Tx2u.jpg',
         themeColor: '#DD6B20',
         themeColorLight: '#FFF5EB',
         title: '불꽃 리더 (L+E)',
         description: '순간의 열정으로 팀을 밝히고 몰입시키는 점화자',
-        famous_examples: ['백종원', '일론 머스크', '제니 (블랙핑크)'],
+        famous_examples: ['강형욱', '일론 머스크', '제니 (블랙핑크)'],
         compatibility: {
             best: { type: 'LC', summary: '유연한 유재석형 리더가 당신의 불꽃같은 열정이 올바른 방향으로 타오르도록 든든하게 지원합니다.', details: { title: "거센 불길을 감싸는 부드러운 바람", collab: "당신이 앞만 보고 달릴 때, 유재석형 리더는 뒤에서 팀원들을 다독이고 전체적인 균형을 맞춥니다. 당신의 리더십이 더욱 빛날 수 있도록 돕습니다.", conflict: "그의 조율 과정이 때로는 답답하게 느껴질 수 있습니다. 하지만 장기적인 관점에서 팀을 위한 과정임을 신뢰하는 것이 중요합니다." }},
             good: { type: 'FR', summary: '따뜻한 공명자가 당신이 놓칠 수 있는 팀원들의 감정을 세심하게 챙겨 완벽한 팀워크를 만듭니다.', details: { title: "뜨거운 불과 따뜻한 바다", collab: "당신의 열정과 공명자의 공감 능력이 만나면, 팀원들은 가슴으로 움직이기 시작합니다. 목표 달성과 팀워크 두 마리 토끼를 모두 잡을 수 있습니다.", conflict: "결과 중심적인 당신과 관계 중심적인 공명자는 갈등을 겪을 수 있습니다. 서로의 가치관을 존중하고 타협점을 찾는 노력이 필요합니다." }}
@@ -177,7 +177,7 @@ const resultsData = {
             { type: 'h3', content: '보완점' },
             { type: 'ul', items: ['계획적 접근과 장기적 집중력이 상대적으로 약함', '현실적 제약이나 규칙을 놓칠 수 있음', '순간적 에너지에 의존하다가 피로가 쌓일 수 있음'] },
             { type: 'h3', content: '⚡ 다른 유형과의 시너지' },
-            { type: 'p', content: '에너자이저는 **공명자(F+R)**의 섬세한 조율 능력과 만나면 더욱 빛을 발합니다. 공명자가 팀의 감정선을 읽고 조화를 만들어낼 때, 에너자이저는 활력을 불어넣어 팀의 사기를 높여줍니다. 서로의 강점을 보완하며, 팀 전체가 감정적, 심리적으로 안정된 상태에서 능동적으로 움직일 수 있도록 돕습니다.' },
+            { type: 'p', content: '에너자이저는 **공명자(F+R)**의 섬세한 조율 능력과 만나면 더욱 빛을 발합니다. 공명자가 팀의 감정선을 읽고 조화를 만들어낼 때, 에너자이저가 활력을 불어넣어 팀의 사기를 높여줍니다. 서로의 강점을 보완하며, 팀 전체가 감정적, 심리적으로 안정된 상태에서 능동적으로 움직일 수 있도록 돕습니다.' },
             { type: 'h3', content: '📈 성장 & 자기 계발 조언' },
             { type: 'p', content: '흥분과 즉흥성보다는 장기적인 계획과 현실적인 제약을 고려하는 습관을 들이세요. 당신의 에너지를 효과적으로 분배하여 지속 가능한 활력을 유지하는 것이 중요합니다.' }
         ],
