@@ -128,7 +128,7 @@ const resultsData = {
     },
     'LR': {
         icon: '🌱',
-        imageUrl: 'https://imgur.com/obPja8b.jpg',
+        imageUrl: 'https://i.imgur.com/obPja8b.jpg',
         themeColor: '#38A169',
         themeColorLight: '#F0FFF4',
         title: '뿌리 리더 (L+R)',
@@ -158,7 +158,7 @@ const resultsData = {
     },
     'FE': {
         icon: '⚡',
-        imageUrl: 'ihttps://imgur.com/ugEIEVx.jpg',
+        imageUrl: 'https://i.imgur.com/ugEIEVx.jpg',
         themeColor: '#D69E2E',
         themeColorLight: '#FFFAF0',
         title: '에너자이저 (F+E)',
@@ -177,7 +177,7 @@ const resultsData = {
             { type: 'h3', content: '보완점' },
             { type: 'ul', items: ['계획적 접근과 장기적 집중력이 상대적으로 약함', '현실적 제약이나 규칙을 놓칠 수 있음', '순간적 에너지에 의존하다가 피로가 쌓일 수 있음'] },
             { type: 'h3', content: '⚡ 다른 유형과의 시너지' },
-            { type: 'p', content: '에너자이저는 **공명자(F+R)**의 섬세한 조율 능력과 만나면 더욱 빛을 발합니다. 공명자가 팀의 감정선을 읽고 조화를 만들어낼 때, 에너자이저가 활력을 불어넣어 팀의 사기를 높여줍니다. 서로의 강점을 보완하며, 팀 전체가 감정적, 심리적으로 안정된 상태에서 능동적으로 움직일 수 있도록 돕습니다.' },
+            { type: 'p', content: '에너자이저는 **공명자(F+R)**의 섬세한 조율 능력과 만나면 더욱 빛을 발합니다. 공명자가 팀의 감정선을 읽고 조화를 만들어낼 때, 에너자이저는 활력을 불어넣어 팀의 사기를 높여줍니다. 서로의 강점을 보완하며, 팀 전체가 감정적, 심리적으로 안정된 상태에서 능동적으로 움직일 수 있도록 돕습니다.' },
             { type: 'h3', content: '📈 성장 & 자기 계발 조언' },
             { type: 'p', content: '흥분과 즉흥성보다는 장기적인 계획과 현실적인 제약을 고려하는 습관을 들이세요. 당신의 에너지를 효과적으로 분배하여 지속 가능한 활력을 유지하는 것이 중요합니다.' }
         ],
@@ -188,7 +188,7 @@ const resultsData = {
     },
     'FR': {
         icon: '🌊',
-        imageUrl: 'https://imgur.com/11p8peA.jpg',
+        imageUrl: 'https://i.imgur.com/11p8peA.jpg',
         themeColor: '#319795',
         themeColorLight: '#E6FFFA',
         title: '공명자 (F+R)',
@@ -207,7 +207,7 @@ const resultsData = {
             { type: 'h3', content: '보완점' },
             { type: 'ul', items: ['자기주장이 약해 핵심 결정에서 밀릴 수 있음', '결정 지연이나 우유부단으로 속도가 느려질 수 있음', '과도한 배려로 자신의 목표나 의견을 충분히 표현하지 못할 위험'] },
             { type: 'h3', content: '🌊 다른 유형과의 시너지' },
-            { type: 'p', content: '공명자는 **에너자이저(F+E)**의 폭발적인 에너지와 만나면, 팀의 역동성이 극대화됩니다. 공명자가 팀의 안정감을 확보하면, 에너자이저가 그 안정감 위에서 자유롭게 활력을 불어넣을 수 있게 됩니다.' },
+            { type: 'p', content: '공명자는 **에너자이저(F+E)**의 폭발적인 에너지와 만나면, 팀의 역동성이 극대화됩니다. 공명자가 팀의 안정감을 확보하면, 에너자이이저가 그 안정감 위에서 자유롭게 활력을 불어넣을 수 있게 됩니다.' },
             { type: 'h3', content: '📈 성장 & 자기 계발 조언' },
             { type: 'p', content: '타인의 감정을 살피는 만큼, 자신의 목표와 의견을 명확하게 표현하는 연습을 해보세요. 중요한 결정이 필요할 때는 신중하되, 너무 오래 망설이지 않고 결단하는 힘을 길러야 합니다.' }
         ],
