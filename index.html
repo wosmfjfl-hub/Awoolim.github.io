@@ -59,7 +59,11 @@
         </section>
 
         <p class="text-lg text-center font-semibold text-gray-700 mb-6">어울림 검사는 사회적 관계 속에서 내가 어떤 역할을 하는지 알려주는 검사입니다.<br>총 20문항, 3분 내외 소요됩니다.</p>
-        <button id="start-btn" class="w-full bg-blue-600 text-white font-bold py-3 rounded-xl hover:bg-blue-700 transition-colors duration-300 shadow-lg" role="button">검사 시작하기</button>
+        
+        <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+            <button id="start-btn" class="flex-1 bg-blue-600 text-white font-bold py-3 rounded-xl hover:bg-blue-700 transition-colors duration-300 shadow-lg" role="button">검사 시작하기</button>
+            <button id="stats-btn" class="flex-1 bg-gray-600 text-white font-bold py-3 rounded-xl hover:bg-gray-700 transition-colors duration-300 shadow-lg" role="button">전체 통계 보기</button>
+        </div>
     </main>
 
     <main id="quiz-container" class="container bg-white p-8 md:p-12 rounded-2xl shadow-xl hidden fade-in" role="main" aria-hidden="true">
@@ -122,6 +126,19 @@
         <div id="modal-panel" class="modal-panel">
             <button id="modal-close-btn" class="modal-close-btn">&times;</button>
             <div id="modal-content"></div>
+        </div>
+    </div>
+    
+    <div id="stats-modal-overlay" class="modal-overlay hidden">
+        <div id="stats-modal-panel" class="modal-panel">
+            <button id="stats-modal-close-btn" class="modal-close-btn">&times;</button>
+            <div id="stats-modal-content" class="text-center">
+                <h3 class="text-2xl font-bold text-gray-800 mb-6">전체 참여자 유형 통계</h3>
+                <div class="w-full h-64 md:h-80">
+                    <canvas id="stats-chart"></canvas>
+                </div>
+                <p id="stats-loading-text" class="text-gray-500 mt-4">통계를 불러오는 중입니다...</p>
+            </div>
         </div>
     </div>
     
