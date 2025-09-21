@@ -411,4 +411,3 @@ function initializeUIEventListeners() {
 window.initializeUIEventListeners = initializeUIEventListeners;
 window.resetTheme = resetTheme;
 
-
