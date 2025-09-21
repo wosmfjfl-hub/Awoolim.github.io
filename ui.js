@@ -122,7 +122,7 @@ function openStatsModal() {
     }
 
     // 서버에 통계 데이터 요청
-    fetch('https://awoolim-backend.onrender.com')
+    fetch('https://awoolim-backend.onrender.com/api/stats')
         .then(response => {
             if (!response.ok) {
                 throw new Error('서버 응답 실패');
@@ -410,4 +410,5 @@ function initializeUIEventListeners() {
 
 window.initializeUIEventListeners = initializeUIEventListeners;
 window.resetTheme = resetTheme;
+
 
