@@ -78,7 +78,7 @@
             localStorage.setItem('lastScores', JSON.stringify(state.scores));
             
             // 👇 --- 백엔드로 결과 전송 --- 👇
-            fetch('https://awoolim-backend.onrender.com', {
+            fetch('https://awoolim-backend.onrender.com/api/result', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -166,4 +166,5 @@
     });
 
 })();
+
 
