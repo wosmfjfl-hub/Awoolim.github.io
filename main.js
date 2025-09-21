@@ -76,6 +76,20 @@
             history.pushState(null, '', `#result=${resultType}&scores=${scoresString}`);
             localStorage.setItem('lastResultType', resultType);
             localStorage.setItem('lastScores', JSON.stringify(state.scores));
+            
+            // 👇 --- 백엔드로 결과 전송 --- 👇
+            fetch('http://localhost:3000/api/result', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ result: resultType }),
+            })
+            .then(response => response.json())
+            .then(data => console.log('서버 응답:', data))
+            .catch((error) => console.error('서버 통신 오류:', error));
+            // 👆 --- 여기까지 추가 --- 👆
+
             showResultScreen(resultData, state.scores);
         }, 2000);
     }
@@ -136,7 +150,7 @@
     }
 
     function restartQuiz() {
-        resetTheme(); // 테마 초기화 호출
+        resetTheme();
         history.pushState(null, '', window.location.pathname);
         location.reload();
     }
