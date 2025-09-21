@@ -27,13 +27,19 @@ const modalPanel = document.getElementById('modal-panel');
 const modalContent = document.getElementById('modal-content');
 const modalCloseBtn = document.getElementById('modal-close-btn');
 
+// 👇 통계 관련 요소 추가
+const statsBtn = document.getElementById('stats-btn');
+const statsModalOverlay = document.getElementById('stats-modal-overlay');
+const statsModalPanel = document.getElementById('stats-modal-panel');
+const statsModalCloseBtn = document.getElementById('stats-modal-close-btn');
+const statsChartCanvas = document.getElementById('stats-chart');
+const statsLoadingText = document.getElementById('stats-loading-text');
+
 let myChart = null;
+let statsChart = null; // 통계 차트 인스턴스 변수
 
 /**
  * HEX 색상 코드를 RGBA로 변환하는 헬퍼 함수
- * @param {string} hex - #xxxxxx 형식의 HEX 코드
- * @param {number} alpha - 투명도 (0 ~ 1)
- * @returns {string} rgba(r, g, b, a) 형식의 문자열
  */
 function hexToRgba(hex, alpha = 1) {
     const r = parseInt(hex.slice(1, 3), 16);
@@ -77,7 +83,7 @@ function showLoadingScreen() {
 }
 
 function showQuizScreen() {
-    resetTheme(); // 테마 초기화
+    resetTheme();
     introContainer.style.display = 'none';
     resultContainer.style.display = 'none';
     quizContainer.style.display = 'block';
@@ -91,7 +97,7 @@ function showResultScreen(result, scores) {
     renderResult(result);
     if (scores) {
         scoreChartSection.style.display = 'block';
-        drawChart(scores, result); // 차트에 result 객체 전달
+        drawChart(scores, result);
     } else {
         scoreChartSection.style.display = 'none';
     }
@@ -105,6 +111,38 @@ function openModal(html) {
 function closeModal() {
     modalOverlay.classList.add('hidden');
 }
+
+// 👇 통계 모달 제어 함수 추가
+function openStatsModal() {
+    statsModalOverlay.classList.remove('hidden');
+    statsLoadingText.textContent = '통계를 불러오는 중입니다...'; // 로딩 텍스트 초기화
+    statsLoadingText.style.display = 'block';
+    if (statsChart) {
+        statsChart.destroy(); // 이전 차트가 있다면 파괴
+    }
+
+    // 서버에 통계 데이터 요청
+    fetch('http://localhost:3000/api/stats')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('서버 응답 실패');
+            }
+            return response.json();
+        })
+        .then(statsData => {
+            statsLoadingText.style.display = 'none'; // 로딩 텍스트 숨기기
+            drawStatsChart(statsData); // 새 차트 그리기
+        })
+        .catch(error => {
+            console.error('통계 로딩 오류:', error);
+            statsLoadingText.textContent = '통계를 불러오는 데 실패했습니다. 서버가 켜져 있는지 확인해주세요.';
+        });
+}
+
+function closeStatsModal() {
+    statsModalOverlay.classList.add('hidden');
+}
+
 
 function renderQuestion(question, previousAnswer) {
     questionBox.classList.add('question-fade-out');
@@ -148,18 +186,13 @@ function renderQuestion(question, previousAnswer) {
 }
 
 function renderResult(result) {
-    // --- 테마 색상 적용 ---
     const root = document.documentElement;
     root.style.setProperty('--theme-color', result.themeColor);
     root.style.setProperty('--theme-color-light', result.themeColorLight);
-
     const resultType = Object.keys(resultsData).find(key => resultsData[key].title === result.title);
-    
     resultIcon.innerHTML = `<img src="${result.imageUrl}" alt="${result.title}" class="w-40 h-40 mx-auto rounded-full shadow-lg border-4" style="border-color: ${result.themeColor};">`;
-    
     const titleText = `당신의 성향은 ${result.title}입니다!`;
     resultTitle.innerText = titleText;
-    
     let descriptionHtml = result.details.map(detail => {
         if (detail.type === 'ul') {
             const listItems = detail.items.map(item => `<li>${item}</li>`).join('');
@@ -167,7 +200,6 @@ function renderResult(result) {
         }
         return `<${detail.type}>${detail.content}</${detail.type}>`;
     }).join('');
-
     const socialTipsHtml = `
         <div class="result-description-section">
             <h3>💡 사회생활 꿀팁</h3>
@@ -178,12 +210,10 @@ function renderResult(result) {
         </div>
     `;
     resultDescription.innerHTML = descriptionHtml + socialTipsHtml;
-
     const bestMatchData = result.compatibility.best;
     const goodMatchData = result.compatibility.good;
     const bestMatchResult = resultsData[bestMatchData.type];
     const goodMatchResult = resultsData[goodMatchData.type];
-
     const compatibilityHtml = `
         <h3 class="text-2xl font-bold text-gray-800 mb-4 text-center">다른 유형과의 관계</h3>
         <div class="compatibility-box" data-my-type="${resultType}" data-target-type="${bestMatchData.type}" data-relation="best">
@@ -200,7 +230,6 @@ function renderResult(result) {
         </div>
     `;
     compatibilitySection.innerHTML = compatibilityHtml;
-
     document.querySelector('meta[property="og:title"]').setAttribute('content', '내 어울림 유형 결과는?');
     document.querySelector('meta[property="og:description"]').setAttribute('content', titleText);
 }
@@ -213,10 +242,8 @@ function updateProgressBar(currentIndex, total) {
 
 function drawChart(scores, result) {
     if (myChart) myChart.destroy();
-
     const chartBackgroundColor = hexToRgba(result.themeColor, 0.4);
     const chartBorderColor = result.themeColor;
-
     const ctx = scoreCanvas.getContext('2d');
     myChart = new Chart(ctx, {
         type: 'radar',
@@ -225,8 +252,8 @@ function drawChart(scores, result) {
             datasets: [{
                 label: '나의 어울림 성향',
                 data: [scores.lead, scores.flow, scores.expression, scores.response],
-                backgroundColor: chartBackgroundColor, // 테마 색상 적용
-                borderColor: chartBorderColor,       // 테마 색상 적용
+                backgroundColor: chartBackgroundColor,
+                borderColor: chartBorderColor,
                 borderWidth: 2
             }]
         },
@@ -235,6 +262,48 @@ function drawChart(scores, result) {
             maintainAspectRatio: false,
             scales: { r: { beginAtZero: true, max: 20, display: false } },
             plugins: { legend: { display: false } }
+        }
+    });
+}
+
+// 👇 통계 차트를 그리는 함수 추가
+function drawStatsChart(statsData) {
+    if (statsChart) statsChart.destroy();
+    const ctx = statsChartCanvas.getContext('2d');
+    
+    const labels = Object.keys(statsData);
+    const data = Object.values(statsData);
+    
+    // 각 유형의 테마 색상을 차트 바 색상으로 사용
+    const backgroundColors = labels.map(label => resultsData[label] ? resultsData[label].themeColor : '#cccccc');
+
+    statsChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels.map(label => resultsData[label] ? resultsData[label].title : label),
+            datasets: [{
+                label: '유형별 참여자 수',
+                data: data,
+                backgroundColor: backgroundColors,
+                borderColor: backgroundColors,
+                borderWidth: 1
+            }]
+        },
+        options: {
+            indexAxis: 'y', // 가로 막대 차트
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { display: false }
+            },
+            scales: {
+                x: {
+                    beginAtZero: true,
+                    ticks: {
+                        stepSize: 1 // 눈금을 1 단위로
+                    }
+                }
+            }
         }
     });
 }
@@ -308,15 +377,12 @@ function initializeUIEventListeners() {
     compatibilitySection.addEventListener('click', (e) => {
         const targetBox = e.target.closest('.compatibility-box');
         if (!targetBox) return;
-
         const myType = targetBox.dataset.myType;
         const targetType = targetBox.dataset.targetType;
         const relation = targetBox.dataset.relation;
-
         const myResult = resultsData[myType];
         const targetResult = resultsData[targetType];
         const relationDetails = myResult.compatibility[relation].details;
-
         const modalHtml = `
             <div class="type-icons flex justify-center items-center gap-4">
                 <img src="${myResult.imageUrl}" class="w-24 h-24 rounded-full shadow-md">
@@ -331,7 +397,16 @@ function initializeUIEventListeners() {
         `;
         openModal(modalHtml);
     });
+
+    // 👇 통계 모달 이벤트 바인딩 추가
+    statsBtn.addEventListener('click', openStatsModal);
+    statsModalCloseBtn.addEventListener('click', closeStatsModal);
+    statsModalOverlay.addEventListener('click', (e) => {
+        if (e.target === statsModalOverlay) {
+            closeStatsModal();
+        }
+    });
 }
 
 window.initializeUIEventListeners = initializeUIEventListeners;
-window.resetTheme = resetTheme; // 테마 초기화 함수를 외부에 공개
+window.resetTheme = resetTheme;
