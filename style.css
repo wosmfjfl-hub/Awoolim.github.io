@@ -3,18 +3,21 @@
 /* ==================================== */
 :root {
     /* 기본 색상 */
-    --color-primary: #4a90e2;
+    --color-primary: #10B981; /* 녹색 테마 */
     --color-secondary: #e2e8f0;
     --color-text-dark: #1f2937;
     --color-text-body: #333;
     --color-bg-light: #f7fafc;
     --color-border: #cbd5e1;
+    --color-gray: #4b5563;
+    --color-green: #10B981;
+    --color-teal: #14B8A6;
 
-    /* 👇 결과 페이지 테마 색상 변수 (기본값: 파란색) */
+    /* 결과 페이지 테마 색상 변수 (기본값: 녹색) */
     --theme-color: var(--color-primary);
-    --theme-color-light: #EBF8FF;
-    --theme-chart-bg: rgba(74, 144, 226, 0.4);
-    --theme-chart-border: rgba(74, 144, 226, 1);
+    --theme-color-light: #ECFDF5;
+    --theme-chart-bg: rgba(16, 185, 129, 0.4);
+    --theme-chart-border: rgba(16, 185, 129, 1);
 
     /* 간격 */
     --spacing-xs: 0.5rem;
@@ -57,20 +60,84 @@ body {
     transition: all 0.5s ease-in-out;
 }
 
-.fade-in {
-    animation: fadeIn 0.8s ease-out forwards;
+/* 👇 --- 대표 이미지 스타일 추가 --- 👇 */
+.main-visual-image {
+    max-width: 300px;
+    width: 100%;
+    border-radius: 50%; /* 이미지를 원형으로 만듦 */
+    box-shadow: var(--shadow-lg);
+    border: 5px solid white;
+    margin-left: auto;
+    margin-right: auto;
+}
+/* 👆 --- 여기까지 추가 --- 👆 */
+
+
+/* ==================================== */
+/* 버튼 스타일 */
+/* ==================================== */
+.btn {
+    flex: 1;
+    font-weight: bold;
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+    border-radius: 0.75rem;
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.2s ease-out, box-shadow 0.2s ease-out, background-color 0.2s;
+    cursor: pointer;
+    border: none;
+    color: white;
 }
 
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+.btn:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
 }
+
+.btn:active {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-sm);
+}
+
+.btn.w-full {
+    flex: none;
+    width: 100%;
+}
+
+.btn-primary {
+    background-color: var(--color-primary);
+}
+.btn-primary:hover {
+    background-color: #059669; /* 더 진한 녹색 */
+}
+.btn-primary:disabled {
+    background-color: #9ca3af;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: var(--shadow-sm);
+}
+
+.btn-secondary {
+    background-color: var(--color-gray);
+}
+.btn-secondary:hover {
+    background-color: #374151; /* 더 진한 회색 */
+}
+
+.btn-teal {
+    background-color: var(--color-teal);
+}
+.btn-teal:hover {
+    background-color: #0D9488; /* 더 진한 청록색 */
+}
+
+.btn-green {
+    background-color: var(--color-green);
+}
+.btn-green:hover {
+    background-color: #059669; /* 더 진한 녹색 */
+}
+
 
 /* ==================================== */
 /* 퀴즈 페이지 스타일 */
@@ -110,7 +177,7 @@ body {
 }
 
 .answer-btn.selected {
-    background-color: var(--theme-color); /* 테마 색상 적용 */
+    background-color: var(--theme-color);
     color: white;
     font-weight: bold;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -140,7 +207,7 @@ body {
 
 #result-description li {
     background-color: var(--color-bg-light);
-    border-left: 4px solid var(--theme-color); /* 테마 색상 적용 */
+    border-left: 4px solid var(--theme-color);
     padding: var(--spacing-md) 1.25rem;
     margin-bottom: var(--spacing-sm);
     border-radius: 0.5rem;
@@ -148,7 +215,7 @@ body {
 }
 
 #result-description li strong {
-    color: var(--theme-color); /* 테마 색상 적용 */
+    color: var(--theme-color);
 }
 
 /* ==================================== */
@@ -175,7 +242,7 @@ body {
 /* 로딩 및 애니메이션 효과 */
 /* ==================================== */
 .loader {
-    border-top-color: var(--theme-color); /* 테마 색상 적용 */
+    border-top-color: var(--theme-color);
     animation: spinner 1.5s linear infinite;
 }
 
@@ -184,7 +251,21 @@ body {
     100% { transform: rotate(360deg); }
 }
 
-/* 질문 전환 애니메이션 */
+.fade-in {
+    animation: fadeIn 0.8s ease-out forwards;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 .question-fade-out {
     animation: fadeOut 0.3s ease-out forwards;
 }
@@ -197,20 +278,16 @@ body {
     to { opacity: 0; transform: translateY(-10px); }
 }
 
-/* 버튼 호버 효과 강화 */
-button.w-full, button.flex-1 {
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+#intro-container article {
+    border: 1px solid var(--color-secondary);
+    transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
 }
 
-button.w-full:hover, button.flex-1:hover {
-    transform: translateY(-3px);
+#intro-container article:hover {
+    transform: scale(1.05) translateY(-5px);
     box-shadow: var(--shadow-lg);
 }
 
-button.w-full:active, button.flex-1:active {
-    transform: translateY(-1px);
-    box-shadow: var(--shadow-sm);
-}
 
 /* ==================================== */
 /* 궁합 섹션 스타일 */
@@ -222,7 +299,7 @@ button.w-full:active, button.flex-1:active {
     margin-top: 1rem;
     border: 1px solid var(--color-border);
     cursor: pointer;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
 }
 
 .compatibility-box:hover {
@@ -244,13 +321,13 @@ button.w-full:active, button.flex-1:active {
 }
 
 .compatibility-box .type-title {
-    color: var(--theme-color); /* 테마 색상 적용 */
+    color: var(--theme-color);
     font-weight: bold;
 }
 
 .famous-examples {
-    background-color: var(--theme-color-light); /* 테마 색상 적용 */
-    border-left: 4px solid var(--theme-color); /* 테마 색상 적용 */
+    background-color: var(--theme-color-light);
+    border-left: 4px solid var(--theme-color);
     padding: 1rem;
     border-radius: 0.5rem;
     margin-top: 2rem;
@@ -298,7 +375,7 @@ button.w-full:active, button.flex-1:active {
     color: white;
 }
 .banner-btn.view:hover {
-    background-color: #3a7ac8;
+    background-color: #059669; /* 녹색 계열 호버 색상 */
 }
 
 .banner-btn.close {
@@ -392,10 +469,10 @@ button.w-full:active, button.flex-1:active {
 #modal-content h4 {
     font-size: 1.2rem;
     font-weight: bold;
-    color: var(--theme-color); /* 테마 색상 적용 */
+    color: var(--theme-color);
     margin-top: 1.5rem;
     margin-bottom: 0.5rem;
-    border-left: 4px solid var(--theme-color); /* 테마 색상 적용 */
+    border-left: 4px solid var(--theme-color);
     padding-left: 0.75rem;
 }
 
@@ -403,3 +480,4 @@ button.w-full:active, button.flex-1:active {
     color: #4b5563;
     line-height: 1.7;
 }
+
