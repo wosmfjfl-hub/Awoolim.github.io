@@ -27,16 +27,7 @@ const modalPanel = document.getElementById('modal-panel');
 const modalContent = document.getElementById('modal-content');
 const modalCloseBtn = document.getElementById('modal-close-btn');
 
-// 👇 통계 관련 요소 추가
-const statsBtn = document.getElementById('stats-btn');
-const statsModalOverlay = document.getElementById('stats-modal-overlay');
-const statsModalPanel = document.getElementById('stats-modal-panel');
-const statsModalCloseBtn = document.getElementById('stats-modal-close-btn');
-const statsChartCanvas = document.getElementById('stats-chart');
-const statsLoadingText = document.getElementById('stats-loading-text');
-
 let myChart = null;
-let statsChart = null; // 통계 차트 인스턴스 변수
 
 /**
  * HEX 색상 코드를 RGBA로 변환하는 헬퍼 함수
@@ -112,38 +103,6 @@ function closeModal() {
     modalOverlay.classList.add('hidden');
 }
 
-// 👇 통계 모달 제어 함수 추가
-function openStatsModal() {
-    statsModalOverlay.classList.remove('hidden');
-    statsLoadingText.textContent = '통계를 불러오는 중입니다...'; // 로딩 텍스트 초기화
-    statsLoadingText.style.display = 'block';
-    if (statsChart) {
-        statsChart.destroy(); // 이전 차트가 있다면 파괴
-    }
-
-    // 서버에 통계 데이터 요청
-    fetch('https://awoolim-backend.onrender.com/api/stats')
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('서버 응답 실패');
-            }
-            return response.json();
-        })
-        .then(statsData => {
-            statsLoadingText.style.display = 'none'; // 로딩 텍스트 숨기기
-            drawStatsChart(statsData); // 새 차트 그리기
-        })
-        .catch(error => {
-            console.error('통계 로딩 오류:', error);
-            statsLoadingText.textContent = '통계를 불러오는 데 실패했습니다. 서버가 켜져 있는지 확인해주세요.';
-        });
-}
-
-function closeStatsModal() {
-    statsModalOverlay.classList.add('hidden');
-}
-
-
 function renderQuestion(question, previousAnswer) {
     questionBox.classList.add('question-fade-out');
     setTimeout(() => {
@@ -190,9 +149,12 @@ function renderResult(result) {
     root.style.setProperty('--theme-color', result.themeColor);
     root.style.setProperty('--theme-color-light', result.themeColorLight);
     const resultType = Object.keys(resultsData).find(key => resultsData[key].title === result.title);
+    
     resultIcon.innerHTML = `<img src="${result.imageUrl}" alt="${result.title}" class="w-40 h-40 mx-auto rounded-full shadow-lg border-4" style="border-color: ${result.themeColor};">`;
+    
     const titleText = `당신의 성향은 ${result.title}입니다!`;
     resultTitle.innerText = titleText;
+    
     let descriptionHtml = result.details.map(detail => {
         if (detail.type === 'ul') {
             const listItems = detail.items.map(item => `<li>${item}</li>`).join('');
@@ -200,6 +162,7 @@ function renderResult(result) {
         }
         return `<${detail.type}>${detail.content}</${detail.type}>`;
     }).join('');
+
     const socialTipsHtml = `
         <div class="result-description-section">
             <h3>💡 사회생활 꿀팁</h3>
@@ -266,48 +229,6 @@ function drawChart(scores, result) {
     });
 }
 
-// 👇 통계 차트를 그리는 함수 추가
-function drawStatsChart(statsData) {
-    if (statsChart) statsChart.destroy();
-    const ctx = statsChartCanvas.getContext('2d');
-    
-    const labels = Object.keys(statsData);
-    const data = Object.values(statsData);
-    
-    // 각 유형의 테마 색상을 차트 바 색상으로 사용
-    const backgroundColors = labels.map(label => resultsData[label] ? resultsData[label].themeColor : '#cccccc');
-
-    statsChart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: labels.map(label => resultsData[label] ? resultsData[label].title : label),
-            datasets: [{
-                label: '유형별 참여자 수',
-                data: data,
-                backgroundColor: backgroundColors,
-                borderColor: backgroundColors,
-                borderWidth: 1
-            }]
-        },
-        options: {
-            indexAxis: 'y', // 가로 막대 차트
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: { display: false }
-            },
-            scales: {
-                x: {
-                    beginAtZero: true,
-                    ticks: {
-                        stepSize: 1 // 눈금을 1 단위로
-                    }
-                }
-            }
-        }
-    });
-}
-
 function initializeUIEventListeners() {
     startBtn.addEventListener('click', window.startQuiz);
     nextBtn.addEventListener('click', () => {
@@ -335,7 +256,7 @@ function initializeUIEventListeners() {
         const resultType = hash.split('&')[0].split('=')[1];
         if (resultType && resultsData[resultType]) {
             const result = resultsData[resultType];
-            const cleanUrl = window.location.origin + window.location.pathname;
+            const cleanUrl = window.location.href.split('#')[0];
             const summaryText = `[어울림 성향 테스트] 제 타입은 ${result.title}입니다! 여러분도 참여해보세요!\n${cleanUrl}`;
             navigator.clipboard.writeText(summaryText).then(() => {
                 alert("요약 결과가 클립보드에 복사되었습니다!");
@@ -397,17 +318,9 @@ function initializeUIEventListeners() {
         `;
         openModal(modalHtml);
     });
-
-    // 👇 통계 모달 이벤트 바인딩 추가
-    statsBtn.addEventListener('click', openStatsModal);
-    statsModalCloseBtn.addEventListener('click', closeStatsModal);
-    statsModalOverlay.addEventListener('click', (e) => {
-        if (e.target === statsModalOverlay) {
-            closeStatsModal();
-        }
-    });
 }
 
 window.initializeUIEventListeners = initializeUIEventListeners;
 window.resetTheme = resetTheme;
+
 
