@@ -12,6 +12,7 @@ const questionBox = document.getElementById('question-box');
 const progressBar = document.getElementById('progressBar');
 const resultIcon = document.getElementById('result-icon');
 const resultTitle = document.getElementById('result-title');
+const resultMbti = document.getElementById('result-mbti');
 const resultDescription = document.getElementById('result-description');
 const compatibilitySection = document.getElementById('compatibility-section');
 const scoreCanvas = document.getElementById('score-chart');
@@ -41,11 +42,10 @@ function hexToRgba(hex, alpha = 1) {
 
 // 테마 색상을 초기화하는 함수
 function resetTheme() {
-    const root = document.documentElement;
-    root.style.removeProperty('--theme-color');
-    root.style.removeProperty('--theme-color-light');
+    document.documentElement.style.cssText = '';
 }
 
+// 지난 결과 보기 배너 표시 함수
 function showLastResultBanner(result, onViewResultClick) {
     const banner = document.createElement('div');
     banner.className = 'last-result-banner';
@@ -66,6 +66,7 @@ function showLastResultBanner(result, onViewResultClick) {
     });
 }
 
+// 화면 전환 함수들
 function showLoadingScreen() {
     introContainer.style.display = 'none';
     quizContainer.style.display = 'none';
@@ -80,12 +81,14 @@ function showQuizScreen() {
     quizContainer.style.display = 'block';
 }
 
-function showResultScreen(result, scores) {
+function showResultScreen(result, scores, mbtiType) {
     introContainer.style.display = 'none';
     quizContainer.style.display = 'none';
     loadingContainer.style.display = 'none';
     resultContainer.style.display = 'block';
-    renderResult(result);
+    
+    renderResult(result, mbtiType);
+
     if (scores) {
         scoreChartSection.style.display = 'block';
         drawChart(scores, result);
@@ -94,6 +97,7 @@ function showResultScreen(result, scores) {
     }
 }
 
+// 모달 관련 함수
 function openModal(html) {
     modalContent.innerHTML = html;
     modalOverlay.classList.remove('hidden');
@@ -103,12 +107,13 @@ function closeModal() {
     modalOverlay.classList.add('hidden');
 }
 
+// 질문을 화면에 렌더링하는 함수
 function renderQuestion(question, previousAnswer) {
     questionBox.classList.add('question-fade-out');
     setTimeout(() => {
         const questionHtml = `
-            <h2>${question.question}</h2>
-            <div id="options-container">
+            <h2 class="question-fade-in">${question.question}</h2>
+            <div id="options-container" class="question-fade-in">
                 ${question.options.map(option => `
                     <button class="answer-btn" data-score="${option.score}" data-category="${question.category}">${option.text}</button>
                 `).join('')}
@@ -125,6 +130,7 @@ function renderQuestion(question, previousAnswer) {
                 nextBtn.disabled = false;
             });
         });
+
         if (previousAnswer) {
             const btnToSelect = questionBox.querySelector(`.answer-btn[data-score="${previousAnswer.score}"]`);
             if(btnToSelect) {
@@ -134,50 +140,43 @@ function renderQuestion(question, previousAnswer) {
         } else {
             nextBtn.disabled = true;
         }
-        if (question.question.startsWith('1.')) {
-            backBtn.classList.add('hidden');
-        } else {
-            backBtn.classList.remove('hidden');
-        }
+
+        backBtn.style.visibility = question.question.startsWith('1.') ? 'hidden' : 'visible';
+
         questionBox.classList.remove('question-fade-out');
-        questionBox.classList.add('question-fade-in');
     }, 300);
 }
 
-function renderResult(result) {
+// 결과 렌더링 함수
+function renderResult(result, mbtiType) {
     const root = document.documentElement;
     root.style.setProperty('--theme-color', result.themeColor);
     root.style.setProperty('--theme-color-light', result.themeColorLight);
+
     const resultType = Object.keys(resultsData).find(key => resultsData[key].title === result.title);
     
     resultIcon.innerHTML = `<img src="${result.imageUrl}" alt="${result.title}" class="w-40 h-40 mx-auto rounded-full shadow-lg border-4" style="border-color: ${result.themeColor};">`;
-    
-    const titleText = `당신의 성향은 ${result.title}입니다!`;
-    resultTitle.innerText = titleText;
-    
+    resultTitle.innerText = result.title;
+
+    if (mbtiType && resultMbti) {
+        resultMbti.innerHTML = `나의 MBTI 성향: <strong style="color: ${result.themeColor};">${mbtiType}</strong><br>이 유형과 유사해요: ${result.similarMbti}`;
+    }
+
     let descriptionHtml = result.details.map(detail => {
         if (detail.type === 'ul') {
-            const listItems = detail.items.map(item => `<li>${item}</li>`).join('');
-            return `<ul>${listItems}</ul>`;
+            return `<ul>${detail.items.map(item => `<li>${item}</li>`).join('')}</ul>`;
         }
         return `<${detail.type}>${detail.content}</${detail.type}>`;
     }).join('');
+    
+    resultDescription.innerHTML = descriptionHtml;
 
-    const socialTipsHtml = `
-        <div class="result-description-section">
-            <h3>💡 사회생활 꿀팁</h3>
-            <p><strong>👍 꿀팁</strong></p>
-            <ul>${result.socialTips.tips.map(tip => `<li>${tip}</li>`).join('')}</ul>
-            <p><strong>🤔 주의할 점</strong></p>
-            <ul>${result.socialTips.advice.map(advice => `<li>${advice}</li>`).join('')}</ul>
-        </div>
-    `;
-    resultDescription.innerHTML = descriptionHtml + socialTipsHtml;
     const bestMatchData = result.compatibility.best;
     const goodMatchData = result.compatibility.good;
     const bestMatchResult = resultsData[bestMatchData.type];
     const goodMatchResult = resultsData[goodMatchData.type];
-    const compatibilityHtml = `
+
+    compatibilitySection.innerHTML = `
         <h3 class="text-2xl font-bold text-gray-800 mb-4 text-center">다른 유형과의 관계</h3>
         <div class="compatibility-box" data-my-type="${resultType}" data-target-type="${bestMatchData.type}" data-relation="best">
             <h4><span class="type-icon"><img src="${bestMatchResult.imageUrl}" class="w-10 h-10 rounded-full"></span> 환상의 짝꿍: <span class="type-title ml-2">${bestMatchResult.title}</span></h4>
@@ -192,22 +191,27 @@ function renderResult(result) {
             <p class="mt-2 text-gray-700">${result.famous_examples.join(', ')}</p>
         </div>
     `;
-    compatibilitySection.innerHTML = compatibilityHtml;
-    document.querySelector('meta[property="og:title"]').setAttribute('content', '내 어울림 유형 결과는?');
-    document.querySelector('meta[property="og:description"]').setAttribute('content', titleText);
+
+    document.querySelector('meta[property="og:title"]').setAttribute('content', `내 어울림 유형은 "${result.title}"!`);
+    document.querySelector('meta[property="og:description"]').setAttribute('content', result.description);
+    document.querySelector('meta[property="og:image"]').setAttribute('content', result.imageUrl);
 }
 
+// 프로그레스 바 업데이트 함수
 function updateProgressBar(currentIndex, total) {
     const progress = (currentIndex / total) * 100;
     progressBar.style.width = `${progress}%`;
     progressBar.setAttribute('aria-valuenow', progress);
 }
 
+// 차트 그리기 함수
 function drawChart(scores, result) {
     if (myChart) myChart.destroy();
+    
     const chartBackgroundColor = hexToRgba(result.themeColor, 0.4);
     const chartBorderColor = result.themeColor;
     const ctx = scoreCanvas.getContext('2d');
+    
     myChart = new Chart(ctx, {
         type: 'radar',
         data: {
@@ -217,98 +221,127 @@ function drawChart(scores, result) {
                 data: [scores.lead, scores.flow, scores.expression, scores.response],
                 backgroundColor: chartBackgroundColor,
                 borderColor: chartBorderColor,
-                borderWidth: 2
+                borderWidth: 2,
+                pointBackgroundColor: chartBorderColor,
+                pointRadius: 4
             }]
         },
         options: {
             responsive: true,
             maintainAspectRatio: false,
-            scales: { r: { beginAtZero: true, max: 20, display: false } },
-            plugins: { legend: { display: false } }
+            scales: {
+                r: {
+                    beginAtZero: true,
+                    max: 40,
+                    angleLines: { color: 'rgba(0, 0, 0, 0.1)' },
+                    grid: { color: 'rgba(0, 0, 0, 0.1)' },
+                    pointLabels: { font: { size: 14, weight: 'bold' } },
+                    ticks: { display: false }
+                }
+            },
+            plugins: {
+                legend: { display: false }
+            }
         }
     });
 }
 
+// 모든 UI 이벤트 리스너를 초기화하는 함수
 function initializeUIEventListeners() {
     startBtn.addEventListener('click', window.startQuiz);
+
     nextBtn.addEventListener('click', () => {
         const selectedBtn = questionBox.querySelector('.answer-btn.selected');
         if (selectedBtn) {
             const score = parseInt(selectedBtn.dataset.score);
             const category = selectedBtn.dataset.category;
             window.goToNextQuestion(score, category);
-        } else {
-            alert("먼저 답변을 선택해주세요! 😉");
         }
     });
+
     backBtn.addEventListener('click', window.goToPreviousQuestion);
     restartBtn.addEventListener('click', window.restartQuiz);
+
+    // [추가됨] 탭 UI 이벤트 리스너
+    const tabs = document.querySelectorAll('.tab-btn');
+    const tabContents = document.querySelectorAll('[data-tab-content]');
+
+    tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            tabs.forEach(t => t.classList.remove('active'));
+            tabContents.forEach(c => c.classList.add('hidden'));
+
+            tab.classList.add('active');
+            const target = document.querySelector(tab.dataset.tabTarget);
+            if (target) {
+                target.classList.remove('hidden');
+            }
+        });
+    });
+
     copyBtn.addEventListener('click', () => {
-        const resultTitleText = resultTitle.innerText;
-        const resultText = `Awoolim Type Test (ATT) 결과: ${resultTitleText}\n\n${resultDescription.innerText}\n\n${compatibilitySection.innerText}`;
-        navigator.clipboard.writeText(resultText.trim()).then(() => {
+        const resultTextForCopy = `[어울림 성향 테스트 결과: ${resultTitle.innerText}]\n\n${resultDescription.innerText}\n\n${compatibilitySection.innerText}`;
+        navigator.clipboard.writeText(resultTextForCopy.trim()).then(() => {
             alert("전체 결과가 클립보드에 복사되었습니다!");
         });
     });
+
     summaryCopyBtn.addEventListener('click', () => {
-        const hash = window.location.hash.substring(1);
-        if (!hash) return;
-        const resultType = hash.split('&')[0].split('=')[1];
-        if (resultType && resultsData[resultType]) {
-            const result = resultsData[resultType];
-            const cleanUrl = window.location.href.split('#')[0];
-            const summaryText = `[어울림 성향 테스트] 제 타입은 ${result.title}입니다! 여러분도 참여해보세요!\n${cleanUrl}`;
-            navigator.clipboard.writeText(summaryText).then(() => {
-                alert("요약 결과가 클립보드에 복사되었습니다!");
-            });
-        }
+        const cleanUrl = window.location.href.split('#')[0];
+        const summaryText = `[어울림 성향 테스트] 제 타입은 ${resultTitle.innerText}래요! 당신의 유형도 알아보세요!\n${cleanUrl}`;
+        navigator.clipboard.writeText(summaryText).then(() => {
+            alert("요약 결과가 클립보드에 복사되었습니다!");
+        });
     });
+
     shareKakao.addEventListener('click', () => {
-        const resultTitleText = resultTitle.innerText;
-        const currentUrl = window.location.href;
-        if (typeof Kakao !== 'undefined' && Kakao.isInitialized()) {
+        const resultData = resultsData[Object.keys(resultsData).find(key => resultsData[key].title === resultTitle.innerText)];
+        if (typeof Kakao !== 'undefined' && Kakao.isInitialized() && resultData) {
             Kakao.Share.sendDefault({
                 objectType: 'feed',
                 content: {
-                    title: '나의 어울림 성향은? 결과 공유',
-                    description: resultTitleText,
-                    imageUrl: 'https://i.imgur.com/your-default-image.png',
-                    link: { mobileWebUrl: currentUrl, webUrl: currentUrl },
+                    title: `[어울림 테스트] 내 결과는 "${resultData.title}"`,
+                    description: resultData.description,
+                    imageUrl: resultData.imageUrl,
+                    link: { mobileWebUrl: window.location.href, webUrl: window.location.href },
                 },
-                buttons: [{ title: '결과 자세히 보기', link: { mobileWebUrl: currentUrl, webUrl: currentUrl } }],
+                buttons: [{ title: '나도 테스트하기', link: { mobileWebUrl: window.location.href, webUrl: window.location.href } }],
             });
         }
     });
+
     shareFacebook.addEventListener('click', () => {
         const url = encodeURIComponent(window.location.href);
         window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}`, '_blank');
     });
+
     shareTwitter.addEventListener('click', () => {
-        const text = encodeURIComponent(`나의 어울림 성향은? ${resultTitle.innerText}\n\n`);
+        const text = encodeURIComponent(`[어울림 테스트] 제 타입은 ${resultTitle.innerText}래요! 여러분도 참여해보세요!`);
         const url = encodeURIComponent(window.location.href);
         window.open(`https://twitter.com/intent/tweet?text=${text}&url=${url}`, '_blank');
     });
     
     modalCloseBtn.addEventListener('click', closeModal);
     modalOverlay.addEventListener('click', (e) => {
-        if (e.target === modalOverlay) {
-            closeModal();
-        }
+        if (e.target === modalOverlay) closeModal();
     });
+
     compatibilitySection.addEventListener('click', (e) => {
         const targetBox = e.target.closest('.compatibility-box');
         if (!targetBox) return;
+        
         const myType = targetBox.dataset.myType;
         const targetType = targetBox.dataset.targetType;
         const relation = targetBox.dataset.relation;
         const myResult = resultsData[myType];
         const targetResult = resultsData[targetType];
         const relationDetails = myResult.compatibility[relation].details;
+        
         const modalHtml = `
             <div class="type-icons flex justify-center items-center gap-4">
-                <img src="${myResult.imageUrl}" class="w-24 h-24 rounded-full shadow-md">
+                <img src="${myResult.imageUrl}" class="w-24 h-24 rounded-full shadow-md" alt="${myResult.title}">
                 <span class="text-4xl text-red-500 font-bold">❤️</span>
-                <img src="${targetResult.imageUrl}" class="w-24 h-24 rounded-full shadow-md">
+                <img src="${targetResult.imageUrl}" class="w-24 h-24 rounded-full shadow-md" alt="${targetResult.title}">
             </div>
             <h3 class="mt-4">${relationDetails.title}</h3>
             <h4>🤝 함께 일한다면?</h4>
@@ -320,7 +353,15 @@ function initializeUIEventListeners() {
     });
 }
 
+// 전역 스코프에 함수 노출
 window.initializeUIEventListeners = initializeUIEventListeners;
 window.resetTheme = resetTheme;
+window.showQuizScreen = showQuizScreen;
+window.showLoadingScreen = showLoadingScreen;
+window.showResultScreen = showResultScreen;
+window.renderQuestion = renderQuestion;
+window.updateProgressBar = updateProgressBar;
+window.showLastResultBanner = showLastResultBanner;
+
 
 
