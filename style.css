@@ -60,18 +60,15 @@ body {
     transition: all 0.5s ease-in-out;
 }
 
-/* 👇 --- 대표 이미지 스타일 추가 --- 👇 */
 .main-visual-image {
     max-width: 300px;
     width: 100%;
-    border-radius: 50%; /* 이미지를 원형으로 만듦 */
+    border-radius: 50%;
     box-shadow: var(--shadow-lg);
     border: 5px solid white;
     margin-left: auto;
     margin-right: auto;
 }
-/* 👆 --- 여기까지 추가 --- 👆 */
-
 
 /* ==================================== */
 /* 버튼 스타일 */
@@ -104,12 +101,8 @@ body {
     width: 100%;
 }
 
-.btn-primary {
-    background-color: var(--color-primary);
-}
-.btn-primary:hover {
-    background-color: #059669; /* 더 진한 녹색 */
-}
+.btn-primary { background-color: var(--color-primary); }
+.btn-primary:hover { background-color: #059669; }
 .btn-primary:disabled {
     background-color: #9ca3af;
     cursor: not-allowed;
@@ -117,27 +110,14 @@ body {
     box-shadow: var(--shadow-sm);
 }
 
-.btn-secondary {
-    background-color: var(--color-gray);
-}
-.btn-secondary:hover {
-    background-color: #374151; /* 더 진한 회색 */
-}
+.btn-secondary { background-color: var(--color-gray); }
+.btn-secondary:hover { background-color: #374151; }
 
-.btn-teal {
-    background-color: var(--color-teal);
-}
-.btn-teal:hover {
-    background-color: #0D9488; /* 더 진한 청록색 */
-}
+.btn-teal { background-color: var(--color-teal); }
+.btn-teal:hover { background-color: #0D9488; }
 
-.btn-green {
-    background-color: var(--color-green);
-}
-.btn-green:hover {
-    background-color: #059669; /* 더 진한 녹색 */
-}
-
+.btn-green { background-color: var(--color-green); }
+.btn-green:hover { background-color: #059669; }
 
 /* ==================================== */
 /* 퀴즈 페이지 스타일 */
@@ -187,16 +167,30 @@ body {
 /* ==================================== */
 /* 결과 페이지 스타일 */
 /* ==================================== */
+#result-description h2 {
+    font-size: 1.8rem;
+    font-weight: 900;
+    color: var(--color-text-dark);
+    margin-top: var(--spacing-xl);
+    margin-bottom: var(--spacing-sm);
+    padding-bottom: var(--spacing-xs);
+    border-bottom: 2px solid var(--color-border);
+}
+
+#result-description h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-text-dark);
+    margin-top: var(--spacing-lg);
+    margin-bottom: var(--spacing-sm);
+    padding-left: var(--spacing-sm);
+    border-left: 4px solid var(--theme-color);
+}
+
 #result-description p {
     font-size: 1.1rem;
     line-height: 1.8;
-}
-
-#result-description h4 {
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: var(--color-text-dark);
-    margin-top: var(--spacing-xl);
+    color: var(--color-gray);
     margin-bottom: var(--spacing-md);
 }
 
@@ -222,6 +216,9 @@ body {
 /* 미디어 쿼리 (모바일) */
 /* ==================================== */
 @media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
     .container {
         padding: var(--spacing-lg);
     }
@@ -231,10 +228,6 @@ body {
     .answer-btn {
         font-size: 1rem;
         padding: 0.8rem;
-    }
-    .flex-col.sm\:flex-row {
-        flex-direction: column;
-        gap: var(--spacing-md);
     }
 }
 
@@ -256,14 +249,8 @@ body {
 }
 
 @keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 .question-fade-out {
@@ -287,7 +274,6 @@ body {
     transform: scale(1.05) translateY(-5px);
     box-shadow: var(--shadow-lg);
 }
-
 
 /* ==================================== */
 /* 궁합 섹션 스타일 */
@@ -356,10 +342,7 @@ body {
     max-width: 500px;
 }
 
-.last-result-banner p {
-    margin: 0;
-    font-weight: 500;
-}
+.last-result-banner p { margin: 0; font-weight: 500; }
 
 .banner-btn {
     border: none;
@@ -370,31 +353,15 @@ body {
     transition: background-color 0.2s;
 }
 
-.banner-btn.view {
-    background-color: var(--color-primary);
-    color: white;
-}
-.banner-btn.view:hover {
-    background-color: #059669; /* 녹색 계열 호버 색상 */
-}
+.banner-btn.view { background-color: var(--color-primary); color: white; }
+.banner-btn.view:hover { background-color: #059669; }
 
-.banner-btn.close {
-    background-color: transparent;
-    color: #a0aec0;
-}
-.banner-btn.close:hover {
-    color: white;
-}
+.banner-btn.close { background-color: transparent; color: #a0aec0; }
+.banner-btn.close:hover { color: white; }
 
 @keyframes slideInUp {
-    from {
-        transform: translate(-50%, 100px);
-        opacity: 0;
-    }
-    to {
-        transform: translate(-50%, 0);
-        opacity: 1;
-    }
+    from { transform: translate(-50%, 100px); opacity: 0; }
+    to { transform: translate(-50%, 0); opacity: 1; }
 }
 
 /* ==================================== */
@@ -433,9 +400,7 @@ body {
     text-align: left;
 }
 
-.modal-overlay.hidden .modal-panel {
-    transform: scale(0.9);
-}
+.modal-overlay.hidden .modal-panel { transform: scale(0.9); }
 
 .modal-close-btn {
     position: absolute;
@@ -448,9 +413,7 @@ body {
     cursor: pointer;
     color: #9ca3af;
 }
-.modal-close-btn:hover {
-    color: var(--color-text-dark);
-}
+.modal-close-btn:hover { color: var(--color-text-dark); }
 
 #modal-content h3 {
     font-size: 1.8rem;
@@ -479,5 +442,50 @@ body {
 #modal-content p {
     color: #4b5563;
     line-height: 1.7;
+}
+
+/* ==================================== */
+/* 탭 UI 스타일 (추가됨) */
+/* ==================================== */
+.tabs-container {
+    display: flex;
+    border-bottom: 2px solid var(--color-secondary);
+    margin-bottom: var(--spacing-lg);
+}
+
+.tab-btn {
+    padding: var(--spacing-sm) var(--spacing-md);
+    cursor: pointer;
+    background-color: transparent;
+    border: none;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--color-gray);
+    position: relative;
+    transition: color 0.3s ease;
+}
+
+.tab-btn::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: var(--color-primary);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+}
+
+.tab-btn.active {
+    color: var(--color-primary);
+}
+
+.tab-btn.active::after {
+    transform: scaleX(1);
+}
+
+[data-tab-content].hidden {
+    display: none;
 }
 
