@@ -16,6 +16,7 @@ const resultMbti = document.getElementById('result-mbti');
 const resultDescription = document.getElementById('result-description');
 const compatibilitySection = document.getElementById('compatibility-section');
 const scoreCanvas = document.getElementById('score-chart');
+const actionTendencyTitle = document.getElementById('action-tendency-title');
 const scoreChartSection = document.querySelector('#result-container section.my-8');
 const restartBtn = document.getElementById('restart-btn');
 const copyBtn = document.getElementById('copy-btn');
@@ -81,17 +82,17 @@ function showQuizScreen() {
     quizContainer.style.display = 'block';
 }
 
-function showResultScreen(result, scores, mbtiType) {
+function showResultScreen(result, scores, mbtiType, actionTendency) {
     introContainer.style.display = 'none';
     quizContainer.style.display = 'none';
     loadingContainer.style.display = 'none';
     resultContainer.style.display = 'block';
     
-    renderResult(result, mbtiType);
+    renderResult(result, mbtiType, actionTendency);
 
     if (scores) {
         scoreChartSection.style.display = 'block';
-        drawChart(scores, result);
+        drawChart(scores, result, actionTendency); // [수정됨] actionTendency 전달
     } else {
         scoreChartSection.style.display = 'none';
     }
@@ -148,18 +149,30 @@ function renderQuestion(question, previousAnswer) {
 }
 
 // 결과 렌더링 함수
-function renderResult(result, mbtiType) {
+function renderResult(result, mbtiType, actionTendency) {
     const root = document.documentElement;
     root.style.setProperty('--theme-color', result.themeColor);
     root.style.setProperty('--theme-color-light', result.themeColorLight);
 
     const resultType = Object.keys(resultsData).find(key => resultsData[key].title === result.title);
     
+    actionTendencyTitle.innerText = actionTendency.text;
+    actionTendencyTitle.style.color = result.themeColor;
+
     resultIcon.innerHTML = `<img src="${result.imageUrl}" alt="${result.title}" class="w-40 h-40 mx-auto rounded-full shadow-lg border-4" style="border-color: ${result.themeColor};">`;
     resultTitle.innerText = result.title;
 
     if (mbtiType && resultMbti) {
-        resultMbti.innerHTML = `나의 MBTI 성향: <strong style="color: ${result.themeColor};">${mbtiType}</strong><br>이 유형과 유사해요: ${result.similarMbti}`;
+        const relatedTypes = result.similarMbti.split(',').map(t => t.trim());
+        const uniqueProfileTypes = [...new Set([mbtiType, ...relatedTypes])];
+        const profileHtml = uniqueProfileTypes.map(type => 
+            `<span class="font-semibold">${type}</span>`
+        ).join('<span class="mx-2 text-gray-400 font-light">+</span>');
+        
+        resultMbti.innerHTML = `
+            <span class="font-bold text-gray-700">MBTI 성향으로 본 프로필</span>
+            <div class="mt-2 text-2xl" style="color: ${result.themeColor};">${profileHtml}</div>
+        `;
     }
 
     let descriptionHtml = result.details.map(detail => {
@@ -204,10 +217,21 @@ function updateProgressBar(currentIndex, total) {
     progressBar.setAttribute('aria-valuenow', progress);
 }
 
-// 차트 그리기 함수
-function drawChart(scores, result) {
-    if (myChart) myChart.destroy();
+// [핵심 수정] drawChart 함수에서 activeQuizQuestions 변수 참조 제거
+function drawChart(scores, result, actionTendency) {
+    if (myChart) {
+        myChart.destroy();
+    }
     
+    // main.js에서 전달받은 actionTendency 객체에서 문항 수(count)를 사용
+    const actionQuestionCount = actionTendency.count || 0;
+    
+    const minActionScore = actionQuestionCount * 1;
+    const maxActionScore = actionQuestionCount * 5;
+    
+    const willScore = scores.action > 0 ? scores.action - minActionScore : 0;
+    const complianceScore = scores.action > 0 ? maxActionScore - scores.action : 0;
+
     const chartBackgroundColor = hexToRgba(result.themeColor, 0.4);
     const chartBorderColor = result.themeColor;
     const ctx = scoreCanvas.getContext('2d');
@@ -215,10 +239,17 @@ function drawChart(scores, result) {
     myChart = new Chart(ctx, {
         type: 'radar',
         data: {
-            labels: ['리드(L)', '플로우(F)', '표현(E)', '감응(R)'],
+            labels: ['리드(L)', '표현(E)', '의지(A)', '플로우(F)', '감응(R)', '순응(C)'],
             datasets: [{
-                label: '나의 어울림 성향',
-                data: [scores.lead, scores.flow, scores.expression, scores.response],
+                label: '나의 종합 성향',
+                data: [
+                    scores.lead, 
+                    scores.expression, 
+                    willScore, 
+                    scores.flow, 
+                    scores.response, 
+                    complianceScore
+                ],
                 backgroundColor: chartBackgroundColor,
                 borderColor: chartBorderColor,
                 borderWidth: 2,
@@ -253,6 +284,7 @@ function initializeUIEventListeners() {
     nextBtn.addEventListener('click', () => {
         const selectedBtn = questionBox.querySelector('.answer-btn.selected');
         if (selectedBtn) {
+            nextBtn.disabled = true;
             const score = parseInt(selectedBtn.dataset.score);
             const category = selectedBtn.dataset.category;
             window.goToNextQuestion(score, category);
@@ -262,15 +294,12 @@ function initializeUIEventListeners() {
     backBtn.addEventListener('click', window.goToPreviousQuestion);
     restartBtn.addEventListener('click', window.restartQuiz);
 
-    // [추가됨] 탭 UI 이벤트 리스너
     const tabs = document.querySelectorAll('.tab-btn');
     const tabContents = document.querySelectorAll('[data-tab-content]');
-
     tabs.forEach(tab => {
         tab.addEventListener('click', () => {
             tabs.forEach(t => t.classList.remove('active'));
             tabContents.forEach(c => c.classList.add('hidden'));
-
             tab.classList.add('active');
             const target = document.querySelector(tab.dataset.tabTarget);
             if (target) {
