@@ -26,14 +26,15 @@
         const allQuestions = [];
         
         for (const category in questionPool) {
-            if (category === 'mbti') continue;
-            const questions = questionPool[category].map(q => ({ ...q, category: category }));
-            allQuestions.push(...questions);
-        }
-
-        for (const category in questionPool.mbti) {
-            const questions = questionPool.mbti[category].map(q => ({ ...q, category: category }));
-            allQuestions.push(...questions);
+            if (category === 'mbti') {
+                for (const subCategory in questionPool.mbti) {
+                    const questions = questionPool.mbti[subCategory].map(q => ({ ...q, category: subCategory }));
+                    allQuestions.push(...questions);
+                }
+            } else {
+                const questions = questionPool[category].map(q => ({ ...q, category: category }));
+                allQuestions.push(...questions);
+            }
         }
 
         const shuffledAllQuestions = shuffleArray(allQuestions);
@@ -65,6 +66,13 @@
         state.scores[selectedCategory] += selectedScore;
         state.currentQuestionIndex++;
         
+        if (state.currentQuestionIndex === 15) {
+            showEncouragementMessage("👍 거의 다 왔어요! 조금만 더 힘내세요!");
+        }
+        if (state.currentQuestionIndex === 35) {
+            showEncouragementMessage("🧐 당신의 성향이 거의 드러나고 있어요!");
+        }
+
         updateProgressBar(state.currentQuestionIndex, activeQuizQuestions.length);
         
         if (state.currentQuestionIndex < activeQuizQuestions.length) {
@@ -259,6 +267,7 @@
     });
 
 })();
+
 
 
 
