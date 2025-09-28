@@ -25,23 +25,16 @@
     function generateQuizQuestions() {
         const allQuestions = [];
         
-        const awoolimCategories = ['lead', 'flow', 'expression', 'response', 'action'];
-        awoolimCategories.forEach(category => {
-            const categoryQuestions = JSON.parse(JSON.stringify(questionPool[category])).map(q => {
-                q.category = category;
-                return q;
-            });
-            allQuestions.push(...categoryQuestions);
-        });
+        for (const category in questionPool) {
+            if (category === 'mbti') continue;
+            const questions = questionPool[category].map(q => ({ ...q, category: category }));
+            allQuestions.push(...questions);
+        }
 
-        const mbtiCategories = ['ei', 'sn', 'tf', 'jp'];
-        mbtiCategories.forEach(category => {
-            const categoryQuestions = JSON.parse(JSON.stringify(questionPool.mbti[category])).map(q => {
-                q.category = category;
-                return q;
-            });
-            allQuestions.push(...categoryQuestions);
-        });
+        for (const category in questionPool.mbti) {
+            const questions = questionPool.mbti[category].map(q => ({ ...q, category: category }));
+            allQuestions.push(...questions);
+        }
 
         const shuffledAllQuestions = shuffleArray(allQuestions);
         activeQuizQuestions = shuffledAllQuestions.slice(0, TOTAL_QUIZ_QUESTIONS);
@@ -51,6 +44,7 @@
             q.question = `${index + 1}. ${originalQuestionText}`;
         });
     }
+
 
     function startQuiz() {
         state.currentQuestionIndex = 0;
@@ -114,7 +108,6 @@
         }, 2000);
     }
     
-    // [핵심 수정] 행동성 점수 기준을 상위 10% (평균 4.6점)로 변경
     function calculateAwoolimType() {
         const { lead, flow, expression, response, action } = state.scores;
 
@@ -122,9 +115,7 @@
         activeQuizQuestions.forEach(q => {
             if (q.category === 'action') actionCount++;
         });
-
-        // 행동성 점수가 상위 10% 이상인지 판단 (평균 4.6점 이상)
-        // (최소 1점 ~ 최대 5점 범위에서 90% 지점은 1 + (5-1)*0.9 = 4.6점)
+        
         const actionThreshold = actionCount * 4.6;
         const hasExtremelyHighAction = action >= actionThreshold;
 
@@ -133,24 +124,15 @@
         const leadRatio = lead / totalLeadFlow;
         const expressionRatio = expression / totalExprResp;
 
-        // 행동성 점수가 매우 높을 경우에만 리더 유형이 될 수 있음
         if (hasExtremelyHighAction) {
-            // 1. '밸런서형(LC)' 판별
-            if (leadRatio >= 0.45 && leadRatio <= 0.55) {
-                return 'LC';
-            }
-            // 2. '쇼맨형(LP)' 판별
-            if (leadRatio > 0.7 && expressionRatio > 0.7) {
-                return 'LP';
-            }
+            if (leadRatio >= 0.45 && leadRatio <= 0.55) return 'LC';
+            if (leadRatio > 0.7 && expressionRatio > 0.7) return 'LP';
         }
         
-        // 행동성 점수가 리더 기준에 못 미치더라도, lead 성향이 높으면 스파크/백본형으로 판별
         if (leadRatio > 0.5) {
             return expressionRatio > 0.5 ? 'LE' : 'LR';
         }
         
-        // 위 조건에 모두 해당하지 않으면 플로우 유형(FE, FR)으로 판별
         return expressionRatio > 0.5 ? 'FE' : 'FR';
     }
 
