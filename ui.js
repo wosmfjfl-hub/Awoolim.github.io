@@ -92,7 +92,7 @@ function showResultScreen(result, scores, mbtiType, actionTendency) {
 
     if (scores) {
         scoreChartSection.style.display = 'block';
-        drawChart(scores, result, actionTendency); // [수정됨] actionTendency 전달
+        drawChart(scores, result, actionTendency);
     } else {
         scoreChartSection.style.display = 'none';
     }
@@ -200,7 +200,7 @@ function renderResult(result, mbtiType, actionTendency) {
             <p class="mt-2 text-gray-600">${goodMatchData.summary}</p>
         </div>
         <div class="famous-examples">
-            <h4 class="font-bold text-gray-800">⭐ 당신과 같은 유형의 유명인</h4>
+            <h4 class="font-bold text-gray-800">당신과 같은 유형의 유명인</h4>
             <p class="mt-2 text-gray-700">${result.famous_examples.join(', ')}</p>
         </div>
     `;
@@ -217,13 +217,12 @@ function updateProgressBar(currentIndex, total) {
     progressBar.setAttribute('aria-valuenow', progress);
 }
 
-// [핵심 수정] drawChart 함수에서 activeQuizQuestions 변수 참조 제거
+// 육각형 레이더 차트를 그리는 함수
 function drawChart(scores, result, actionTendency) {
     if (myChart) {
         myChart.destroy();
     }
     
-    // main.js에서 전달받은 actionTendency 객체에서 문항 수(count)를 사용
     const actionQuestionCount = actionTendency.count || 0;
     
     const minActionScore = actionQuestionCount * 1;
@@ -391,6 +390,7 @@ window.showResultScreen = showResultScreen;
 window.renderQuestion = renderQuestion;
 window.updateProgressBar = updateProgressBar;
 window.showLastResultBanner = showLastResultBanner;
+
 
 
 
