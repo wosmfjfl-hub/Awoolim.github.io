@@ -90,11 +90,70 @@
         <button id="start-btn" class="btn btn-primary w-full" role="button">진단 시작하기</button>
     </main>
 
-    <main id="quiz-container" class="container bg-white p-8 md:p-12 rounded-2xl shadow-xl hidden fade-in" role="main" aria-hidden="true"><h2 class="text-3xl font-bold text-gray-800 text-center mb-6">어울림 성향 진단</h2><div class="w-full bg-gray-200 rounded-full h-2.5 mb-6" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="퀴즈 진행률"><div id="progressBar" class="bg-blue-600 h-2.5 rounded-full progress-bar-fill" style="width: 0%;"></div></div><div id="question-box" class="min-h-[150px] mb-6"></div><div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4"><button id="back-btn" class="btn btn-secondary" role="button">이전</button><button id="next-btn" class="btn btn-primary" disabled role="button">다음</button></div></main>
-    <main id="loading-container" class="container bg-white p-8 md:p-12 rounded-2xl shadow-xl hidden fade-in text-center" role="main" aria-hidden="true"><h2 class="text-3xl font-bold text-gray-800 mb-6">결과를 분석 중입니다...</h2><div class="loader ease-linear rounded-full border-8 border-t-8 border-gray-200 h-24 w-24 mx-auto"></div><p class="text-lg text-gray-600 mt-6">지금 당신의 어울림 유형을 찾고 있어요!</p></main>
-    <main id="result-container" class="container bg-white p-8 md:p-12 rounded-2xl shadow-xl hidden fade-in text-center" role="main" aria-hidden="true"><h2 id="action-tendency-title" class="text-2xl font-bold text-gray-600 mb-2"></h2><div id="result-title-container" class="flex flex-col items-center justify-center mb-2"><span id="result-icon" class="text-6xl mb-4"></span><h3 id="result-title" class="text-4xl font-extrabold text-gray-800"></h3></div><p id="result-mbti" class="text-xl text-gray-500 mb-6"></p><section class="my-8"><h4 class="text-xl font-bold text-gray-800 mb-4">나의 종합 성향 그래프</h4><div class="flex justify-center"><canvas id="score-chart" class="w-full max-w-md h-96"></canvas></div></section><div id="result-description" class="text-gray-700 text-md text-left mb-8 space-y-4"></div><section id="compatibility-section" class="text-left my-8"></section><div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 mb-4"><button id="summary-copy-btn" class="btn btn-teal" role="button">요약 복사</button><button id="copy-btn" class="btn btn-green" role="button">전체 복사</button><button id="restart-btn" class="btn btn-secondary" role="button">다시 진단하기</button></div><hr class="my-6 border-t-2 border-gray-200"><h4 class="text-xl font-bold text-gray-800 mb-4">결과 공유하기</h4><div id="share-buttons" class="flex justify-center space-x-4"><button id="share-kakao" class="w-12 h-12 flex items-center justify-center bg-[#FEE500] rounded-full text-black hover:opacity-80 transition-opacity duration-300" aria-label="카카오톡 공유"><i class="fas fa-comment fa-2x" aria-hidden="true"></i></button><button id="share-facebook" class="w-12 h-12 flex items-center justify-center bg-[#1877F2] rounded-full text-white hover:opacity-80 transition-opacity duration-300" aria-label="페이스북 공유"><i class="fab fa-facebook-f fa-2x" aria-hidden="true"></i></button><button id="share-twitter" class="w-12 h-12 flex items-center justify-center bg-[#1DA1F2] rounded-full text-white hover:opacity-80 transition-opacity duration-300" aria-label="트위터 공유"><i class="fab fa-twitter fa-2x" aria-hidden="true"></i></button></div></main>
-    <div id="modal-overlay" class="modal-overlay hidden"><div id="modal-panel" class="modal-panel"><button id="modal-close-btn" class="modal-close-btn">&times;</button><div id="modal-content"></div></div></div>
-    <script src="data.js"></script><script src="ui.js"></script><script src="main.js"></script>
+    <main id="quiz-container" class="container bg-white p-8 md:p-12 rounded-2xl shadow-xl hidden fade-in" role="main" aria-hidden="true">
+        <h2 class="text-3xl font-bold text-gray-800 text-center mb-6">어울림 성향 진단</h2>
+        <div class="progress-container relative w-full bg-gray-200 rounded-full h-4 mb-8">
+            <div id="progressBar" class="bg-blue-600 h-4 rounded-full progress-bar-fill" style="width: 0%;"></div>
+            <div id="progress-character" class="progress-character"></div>
+        </div>
+        <div id="question-box" class="min-h-[150px] mb-6"></div>
+        <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+            <button id="back-btn" class="btn btn-secondary" role="button">이전</button>
+            <button id="next-btn" class="btn btn-primary" disabled role="button">다음</button>
+        </div>
+    </main>
+    
+    <main id="loading-container" class="container bg-white p-8 md:p-12 rounded-2xl shadow-xl hidden fade-in text-center" role="main" aria-hidden="true">
+        <h2 class="text-3xl font-bold text-gray-800 mb-6">결과를 분석 중입니다...</h2>
+        <div class="loader ease-linear rounded-full border-8 border-t-8 border-gray-200 h-24 w-24 mx-auto"></div>
+        <p class="text-lg text-gray-600 mt-6">지금 당신의 어울림 유형을 찾고 있어요!</p>
+    </main>
+
+    <main id="result-container" class="container bg-white p-8 md:p-12 rounded-2xl shadow-xl hidden fade-in text-center" role="main" aria-hidden="true">
+        <h2 id="action-tendency-title" class="text-2xl font-bold text-gray-600 mb-2"></h2>
+        <div id="result-title-container" class="flex flex-col items-center justify-center mb-2">
+            <span id="result-icon" class="text-6xl mb-4"></span>
+            <h3 id="result-title" class="text-4xl font-extrabold text-gray-800"></h3>
+        </div>
+        <p id="result-mbti" class="text-xl text-gray-500 mb-6"></p>
+        <section class="my-8">
+            <h4 class="text-xl font-bold text-gray-800 mb-4">나의 종합 성향 그래프</h4>
+            <div class="flex justify-center">
+                <canvas id="score-chart" class="w-full max-w-md h-96"></canvas>
+            </div>
+        </section>
+        <div id="result-description" class="text-gray-700 text-md text-left mb-8 space-y-4"></div>
+        <section id="compatibility-section" class="text-left my-8"></section>
+        <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 mb-4">
+            <button id="summary-copy-btn" class="btn btn-teal" role="button">요약 복사</button>
+            <button id="copy-btn" class="btn btn-green" role="button">전체 복사</button>
+            <button id="restart-btn" class="btn btn-secondary" role="button">다시 진단하기</button>
+        </div>
+        <hr class="my-6 border-t-2 border-gray-200">
+        <h4 class="text-xl font-bold text-gray-800 mb-4">결과 공유하기</h4>
+        <div id="share-buttons" class="flex justify-center space-x-4">
+            <button id="share-kakao" class="w-12 h-12 flex items-center justify-center bg-[#FEE500] rounded-full text-black hover:opacity-80 transition-opacity duration-300" aria-label="카카오톡 공유">
+                <i class="fas fa-comment fa-2x" aria-hidden="true"></i>
+            </button>
+            <button id="share-facebook" class="w-12 h-12 flex items-center justify-center bg-[#1877F2] rounded-full text-white hover:opacity-80 transition-opacity duration-300" aria-label="페이스북 공유">
+                <i class="fab fa-facebook-f fa-2x" aria-hidden="true"></i>
+            </button>
+            <button id="share-twitter" class="w-12 h-12 flex items-center justify-center bg-[#1DA1F2] rounded-full text-white hover:opacity-80 transition-opacity duration-300" aria-label="트위터 공유">
+                <i class="fab fa-twitter fa-2x" aria-hidden="true"></i>
+            </button>
+        </div>
+    </main>
+
+    <div id="modal-overlay" class="modal-overlay hidden">
+        <div id="modal-panel" class="modal-panel">
+            <button id="modal-close-btn" class="modal-close-btn">&times;</button>
+            <div id="modal-content"></div>
+        </div>
+    </div>
+    
+    <script src="data.js"></script>
+    <script src="ui.js"></script>
+    <script src="main.js"></script>
 </body>
 </html>
 
