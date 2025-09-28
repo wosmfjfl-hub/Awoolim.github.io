@@ -10,6 +10,7 @@ const backBtn = document.getElementById('back-btn');
 const nextBtn = document.getElementById('next-btn');
 const questionBox = document.getElementById('question-box');
 const progressBar = document.getElementById('progressBar');
+const progressCharacter = document.getElementById('progress-character');
 const resultIcon = document.getElementById('result-icon');
 const resultTitle = document.getElementById('result-title');
 const resultMbti = document.getElementById('result-mbti');
@@ -75,12 +76,38 @@ function showLoadingScreen() {
     loadingContainer.style.display = 'block';
 }
 
+// [수정됨] 퀴즈 화면에 결과 맛보기(Teasing) 부제목 추가
 function showQuizScreen() {
     resetTheme();
     introContainer.style.display = 'none';
     resultContainer.style.display = 'none';
+    
+    // 퀴즈 화면의 h2 요소를 찾아 부제목 추가
+    const quizTitle = quizContainer.querySelector('h2');
+    if (quizTitle) {
+        // 기존 부제목이 있다면 제거
+        const existingSubtitle = quizContainer.querySelector('.quiz-subtitle');
+        if (existingSubtitle) {
+            existingSubtitle.remove();
+        }
+        
+        const subtitle = document.createElement('p');
+        subtitle.className = 'text-lg text-gray-500 mt-2 mb-6 text-center quiz-subtitle';
+        
+        // 부제목 리스트 중 하나를 랜덤으로 선택
+        const subtitles = [
+            "과연 당신은 팀을 이끄는 '쇼맨'일까요?",
+            "당신의 숨겨진 리더십 유형을 알아보세요!",
+            "나는 어떤 동료와 가장 잘 맞을까?",
+            "지금 당신의 역할을 진단하고 최고의 전략을 세워보세요!"
+        ];
+        subtitle.textContent = subtitles[Math.floor(Math.random() * subtitles.length)];
+        quizTitle.insertAdjacentElement('afterend', subtitle);
+    }
+    
     quizContainer.style.display = 'block';
 }
+
 
 function showResultScreen(result, scores, mbtiType, actionTendency) {
     introContainer.style.display = 'none';
@@ -96,6 +123,18 @@ function showResultScreen(result, scores, mbtiType, actionTendency) {
     } else {
         scoreChartSection.style.display = 'none';
     }
+}
+
+// 응원 메시지 팝업 함수
+function showEncouragementMessage(message) {
+    const popup = document.createElement('div');
+    popup.className = 'encouragement-popup';
+    popup.textContent = message;
+    document.body.appendChild(popup);
+
+    setTimeout(() => {
+        popup.remove();
+    }, 2500);
 }
 
 // 모달 관련 함수
@@ -210,11 +249,15 @@ function renderResult(result, mbtiType, actionTendency) {
     document.querySelector('meta[property="og:image"]').setAttribute('content', result.imageUrl);
 }
 
-// 프로그레스 바 업데이트 함수
+// 프로그레스 바와 캐릭터 위치를 함께 업데이트
 function updateProgressBar(currentIndex, total) {
     const progress = (currentIndex / total) * 100;
     progressBar.style.width = `${progress}%`;
     progressBar.setAttribute('aria-valuenow', progress);
+
+    if (progressCharacter) {
+        progressCharacter.style.left = `calc(${progress}% - 16px)`;
+    }
 }
 
 // 육각형 레이더 차트를 그리는 함수
@@ -308,15 +351,16 @@ function initializeUIEventListeners() {
     });
 
     copyBtn.addEventListener('click', () => {
-        const resultTextForCopy = `[어울림 성향 테스트 결과: ${resultTitle.innerText}]\n\n${resultDescription.innerText}\n\n${compatibilitySection.innerText}`;
+        const resultTextForCopy = `[어울림 성향 진단 결과: ${resultTitle.innerText}]\n\n${actionTendencyTitle.innerText} ${resultTitle.innerText}\n\n${resultDescription.innerText}\n\n${compatibilitySection.innerText}`;
         navigator.clipboard.writeText(resultTextForCopy.trim()).then(() => {
             alert("전체 결과가 클립보드에 복사되었습니다!");
         });
     });
 
+    // [수정됨] 매력적인 공유 문구로 변경
     summaryCopyBtn.addEventListener('click', () => {
         const cleanUrl = window.location.href.split('#')[0];
-        const summaryText = `[어울림 성향 테스트] 제 타입은 ${resultTitle.innerText}래요! 당신의 유형도 알아보세요!\n${cleanUrl}`;
+        const summaryText = `[어울림 성향 진단] 방금 제 성향을 진단해봤는데 '${actionTendencyTitle.innerText} ${resultTitle.innerText}'이래요! 😆 이거 완전 나잖아? 너도 해봐!\n${cleanUrl}`;
         navigator.clipboard.writeText(summaryText).then(() => {
             alert("요약 결과가 클립보드에 복사되었습니다!");
         });
@@ -328,15 +372,16 @@ function initializeUIEventListeners() {
             Kakao.Share.sendDefault({
                 objectType: 'feed',
                 content: {
-                    title: `[어울림 테스트] 내 결과는 "${resultData.title}"`,
-                    description: resultData.description,
+                    title: `[어울림 진단] 내 결과는 '${resultTitle.innerText}'!`,
+                    description: `"${actionTendencyTitle.innerText}" 당신의 유형을 확인해보세요!`,
                     imageUrl: resultData.imageUrl,
                     link: { mobileWebUrl: window.location.href, webUrl: window.location.href },
                 },
-                buttons: [{ title: '나도 테스트하기', link: { mobileWebUrl: window.location.href, webUrl: window.location.href } }],
+                buttons: [{ title: '나도 진단해보기', link: { mobileWebUrl: window.location.href, webUrl: window.location.href } }],
             });
         }
     });
+
 
     shareFacebook.addEventListener('click', () => {
         const url = encodeURIComponent(window.location.href);
@@ -344,7 +389,7 @@ function initializeUIEventListeners() {
     });
 
     shareTwitter.addEventListener('click', () => {
-        const text = encodeURIComponent(`[어울림 테스트] 제 타입은 ${resultTitle.innerText}래요! 여러분도 참여해보세요!`);
+        const text = encodeURIComponent(`[어울림 성향 진단] 제 타입은 '${actionTendencyTitle.innerText} ${resultTitle.innerText}'래요! 😆 너도 해봐!`);
         const url = encodeURIComponent(window.location.href);
         window.open(`https://twitter.com/intent/tweet?text=${text}&url=${url}`, '_blank');
     });
@@ -389,8 +434,6 @@ window.showLoadingScreen = showLoadingScreen;
 window.showResultScreen = showResultScreen;
 window.renderQuestion = renderQuestion;
 window.updateProgressBar = updateProgressBar;
+window.showEncouragementMessage = showEncouragementMessage;
 window.showLastResultBanner = showLastResultBanner;
-
-
-
 
