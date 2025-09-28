@@ -2,36 +2,36 @@
 
 const questionPool = {
     lead: [
-        { question: "모임에서 자연스럽게 중심을 잡고 의견을 제시한다.", options: [{ text: "매우 아니다", score: 1 }, { text: "아니다", score: 2 }, { text: "보통이다", score: 3 }, { text: "그렇다", score: 4 }, { text: "매우 그렇다", score: 5 }] },
-        { question: "문제 발생 시 먼저 해결책을 제시한다.", options: [{ text: "매우 아니다", score: 1 }, { text: "아니다", score: 2 }, { text: "보통이다", score: 3 }, { text: "그렇다", score: 4 }, { text: "매우 그렇다", score: 5 }] },
-        { question: "팀의 방향이나 결정을 주도하는 역할을 즐긴다.", options: [{ text: "매우 아니다", score: 1 }, { text: "아니다", score: 2 }, { text: "보통이다", score: 3 }, { text: "그렇다", score: 4 }, { text: "매우 그렇다", score: 5 }] },
+        { question: "팀플 회의가 산으로 갈 때, '자, 일단 이것부터 정리하죠!'라며 내가 먼저 교통정리를 한다.", options: [{ text: "매우 아니다", score: 1 }, { text: "아니다", score: 2 }, { text: "보통이다", score: 3 }, { text: "그렇다", score: 4 }, { text: "매우 그렇다", score: 5 }] },
+        { question: "문제 상황이 발생하면, '어떻게 해결할까?'를 가장 먼저 생각하고 제시하는 편이다.", options: [{ text: "매우 아니다", score: 1 }, { text: "아니다", score: 2 }, { text: "보통이다", score: 3 }, { text: "그렇다", score: 4 }, { text: "매우 그렇다", score: 5 }] },
+        { question: "총대를 메는 것을 두려워하기보다, 팀의 방향을 결정하는 역할을 즐긴다.", options: [{ text: "매우 아니다", score: 1 }, { text: "아니다", score: 2 }, { text: "보통이다", score: 3 }, { text: "그렇다", score: 4 }, { text: "매우 그렇다", score: 5 }] },
         // [부정형 질문, 역점수] 
-        { question: "나는 팀에서 '주도자' 역할보다는 '조력자' 역할을 맡을 때 마음이 더 편하다.", options: [{ text: "매우 아니다", score: 5 }, { text: "아니다", score: 4 }, { text: "보통이다", score: 3 }, { text: "그렇다", score: 2 }, { text: "매우 그렇다", score: 1 }] },
-        { question: "팀 프로젝트에서 새로운 아이디어를 제시하고 실행하는 것을 즐긴다.", options: [{ text: "매우 아니다", score: 1 }, { text: "아니다", score: 2 }, { text: "보통이다", score: 3 }, { text: "그렇다", score: 4 }, { text: "매우 그렇다", score: 5 }] },
+        { question: "나는 '하드캐리'하는 역할보다는 듬직한 '서포터' 포지션이 더 마음 편하다.", options: [{ text: "매우 아니다", score: 5 }, { text: "아니다", score: 4 }, { text: "보통이다", score: 3 }, { text: "그렇다", score: 2 }, { text: "매우 그렇다", score: 1 }] },
+        { question: "팀 프로젝트에서 '이런 건 어때?' 하고 새로운 아이디어를 던지는 것을 즐긴다.", options: [{ text: "매우 아니다", score: 1 }, { text: "아니다", score: 2 }, { text: "보통이다", score: 3 }, { text: "그렇다", score: 4 }, { text: "매우 그렇다", score: 5 }] },
         // [부정형 질문, 역점수] 
         { question: "팀원 간 갈등이 생기면, 다른 사람이 해결해주기를 기다리는 편이다.", options: [{ text: "매우 아니다", score: 5 }, { text: "아니다", score: 4 }, { text: "보통이다", score: 3 }, { text: "그렇다", score: 2 }, { text: "매우 그렇다", score: 1 }] },
-        { question: "나는 회의에서 최종 결정을 내리는 역할을 자연스럽게 맡는다.", options: [{ text: "매우 아니다", score: 1 }, { text: "아니다", score: 2 }, { text: "보통이다", score: 3 }, { text: "그렇다", score: 4 }, { text: "매우 그렇다", score: 5 }] },
+        { question: "회의에서 어수선한 의견들을 종합해서 '자, 그럼 이렇게 결정합시다!'라고 말하는 쪽은 주로 나다.", options: [{ text: "매우 아니다", score: 1 }, { text: "아니다", score: 2 }, { text: "보통이다", score: 3 }, { text: "그렇다", score: 4 }, { text: "매우 그렇다", score: 5 }] },
         // [부정형 질문, 역점수] 
-        { question: "팀의 성과가 부진할 때, 나는 내 책임이 아니라고 생각하는 경향이 있다.", options: [{ text: "매우 아니다", score: 5 }, { text: "아니다", score: 4 }, { text: "보통이다", score: 3 }, { text: "그렇다", score: 2 }, { text: "매우 그렇다", score: 1 }] },
-        { question: "그룹의 목표가 불분명할 때, 내가 먼저 명확한 방향을 제시해야 직성이 풀린다.", options: [{ text: "매우 아니다", score: 1 }, { text: "아니다", score: 2 }, { text: "보통이다", score: 3 }, { text: "그렇다", score: 4 }, { text: "매우 그렇다", score: 5 }] },
+        { question: "팀의 성과가 부진할 때, '내 탓은 아니겠지'라고 생각하는 경향이 있다.", options: [{ text: "매우 아니다", score: 5 }, { text: "아니다", score: 4 }, { text: "보통이다", score: 3 }, { text: "그렇다", score: 2 }, { text: "매우 그렇다", score: 1 }] },
+        { question: "그룹의 목표가 흐릿할 때, 가장 답답함을 느끼고 내가 먼저 방향을 제시해야 직성이 풀린다.", options: [{ text: "매우 아니다", score: 1 }, { text: "아니다", score: 2 }, { text: "보통이다", score: 3 }, { text: "그렇다", score: 4 }, { text: "매우 그렇다", score: 5 }] },
         // [부정형 질문, 역점수] 
-        { question: "나는 논의가 길어질 때 결론을 내리기보다, 다양한 의견을 계속 듣는 것을 선호한다.", options: [{ text: "매우 아니다", score: 5 }, { text: "아니다", score: 4 }, { text: "보통이다", score: 3 }, { text: "그렇다", score: 2 }, { text: "매우 그렇다", score: 1 }] },
-        { question: "나는 다른 사람들에게 역할을 분배하고 프로젝트를 이끄는 것에 자신감이 있다.", options: [{ text: "매우 아니다", score: 1 }, { text: "아니다", score: 2 }, { text: "보통이다", score: 3 }, { text: "그렇다", score: 4 }, { text: "매우 그렇다", score: 5 }] },
+        { question: "결론 없는 회의가 길어져도, 다양한 의견을 듣는 것이 더 중요하다고 생각한다.", options: [{ text: "매우 아니다", score: 5 }, { text: "아니다", score: 4 }, { text: "보통이다", score: 3 }, { text: "그렇다", score: 2 }, { text: "매우 그렇다", score: 1 }] },
+        { question: "나는 '내가 알아서 할게'라며 역할을 분배하고 프로젝트를 이끄는 것에 자신감이 있다.", options: [{ text: "매우 아니다", score: 1 }, { text: "아니다", score: 2 }, { text: "보통이다", score: 3 }, { text: "그렇다", score: 4 }, { text: "매우 그렇다", score: 5 }] },
         // [부정형 질문, 역점수] 
-        { question: "결정이 필요한 상황에서, 나는 다른 사람의 의견에 따르는 것이 마음 편하다.", options: [{ text: "매우 아니다", score: 5 }, { text: "아니다", score: 4 }, { text: "보통이다", score: 3 }, { text: "그렇다", score: 2 }, { text: "매우 그렇다", score: 1 }] }
+        { question: "결정이 필요한 상황에서 '네가 결정해'라며 다른 사람에게 맡기는 것이 마음 편하다.", options: [{ text: "매우 아니다", score: 5 }, { text: "아니다", score: 4 }, { text: "보통이다", score: 3 }, { text: "그렇다", score: 2 }, { text: "매우 그렇다", score: 1 }] }
     ],
     flow: [
-        { question: "나는 다른 사람의 의견을 따라가며 조화를 이루는 편이다.", options: [{ text: "매우 아니다", score: 1 }, { text: "아니다", score: 2 }, { text: "보통이다", score: 3 }, { text: "그렇다", score: 4 }, { text: "매우 그렇다", score: 5 }] },
+        { question: "맛집에 갔는데 친구들 메뉴 선정이 길어질 때, 나는 '난 다 좋아!'라며 친구들의 선택에 맞춘다.", options: [{ text: "매우 아니다", score: 1 }, { text: "아니다", score: 2 }, { text: "보통이다", score: 3 }, { text: "그렇다", score: 4 }, { text: "매우 그렇다", score: 5 }] },
         // [부정형 질문, 역점수] 
-        { question: "팀에서 안정적인 역할보다는, 새로운 변화를 주도하는 역할을 선호한다.", options: [{ text: "매우 아니다", score: 5 }, { text: "아니다", score: 4 }, { text: "보통이다", score: 3 }, { text: "그렇다", score: 2 }, { text: "매우 그렇다", score: 1 }] },
-        { question: "주도권보다는 팀 흐름에 맞추어 움직이는 것이 더 편하다.", options: [{ text: "매우 아니다", score: 1 }, { text: "아니다", score: 2 }, { text: "보통이다", score: 3 }, { text: "그렇다", score: 4 }, { text: "매우 그렇다", score: 5 }] },
-        { question: "나는 갈등 상황에서 '중재자' 역할을 맡는 경우가 많다.", options: [{ text: "매우 아니다", score: 1 }, { text: "아니다", score: 2 }, { text: "보통이다", score: 3 }, { text: "그렇다", score: 4 }, { text: "매우 그렇다", score: 5 }] },
+        { question: "나는 팀에서 안정적인 역할보다는, 새로운 변화를 주도하고 주목받는 역할을 선호한다.", options: [{ text: "매우 아니다", score: 5 }, { text: "아니다", score: 4 }, { text: "보통이다", score: 3 }, { text: "그렇다", score: 2 }, { text: "매우 그렇다", score: 1 }] },
+        { question: "내가 주도하기보다는 팀의 전반적인 흐름에 맞춰 움직이는 것이 더 편하다.", options: [{ text: "매우 아니다", score: 1 }, { text: "아니다", score: 2 }, { text: "보통이다", score: 3 }, { text: "그렇다", score: 4 }, { text: "매우 그렇다", score: 5 }] },
+        { question: "친구들 싸움에 '자자, 그만들 해'라며 끼어들어 중재하는 것은 주로 내 역할이다.", options: [{ text: "매우 아니다", score: 1 }, { text: "아니다", score: 2 }, { text: "보통이다", score: 3 }, { text: "그렇다", score: 4 }, { text: "매우 그렇다", score: 5 }] },
         // [부정형 질문, 역점수] 
-        { question: "나는 팀의 안정적인 관계보다, 성과를 내는 것이 더 중요하다고 생각한다.", options: [{ text: "매우 아니다", score: 5 }, { text: "아니다", score: 4 }, { text: "보통이다", score: 3 }, { text: "그렇다", score: 2 }, { text: "매우 그렇다", score: 1 }] },
-        { question: "갈등이 생기면, 상대방의 감정을 먼저 살피고 공감하려 노력한다.", options: [{ text: "매우 아니다", score: 1 }, { text: "아니다", score: 2 }, { text: "보통이다", score: 3 }, { text: "그렇다", score: 4 }, { text: "매우 그렇다", score: 5 }] },
+        { question: "나는 '결과만 좋으면 됐지!'라며 과정에서의 잡음이나 관계는 크게 신경 쓰지 않는다.", options: [{ text: "매우 아니다", score: 5 }, { text: "아니다", score: 4 }, { text: "보통이다", score: 3 }, { text: "그렇다", score: 2 }, { text: "매우 그렇다", score: 1 }] },
+        { question: "갈등 상황에서 누구의 잘잘못을 따지기 전에, '저 사람은 왜 그랬을까?' 하고 먼저 생각한다.", options: [{ text: "매우 아니다", score: 1 }, { text: "아니다", score: 2 }, { text: "보통이다", score: 3 }, { text: "그렇다", score: 4 }, { text: "매우 그렇다", score: 5 }] },
         // [부정형 질문, 역점수] 
-        { question: "다른 사람들이 내린 결정에 의문을 제기하고 새로운 방향을 제시하고 싶을 때가 많다.", options: [{ text: "매우 아니다", score: 5 }, { text: "아니다", score: 4 }, { text: "보통이다", score: 3 }, { text: "그렇다", score: 2 }, { text: "매우 그렇다", score: 1 }] },
-        { question: "나는 논쟁보다는 합의를 통해 팀의 평화를 유지하는 것을 중요하게 생각한다.", options: [{ text: "매우 아니다", score: 1 }, { text: "아니다", score: 2 }, { text: "보통이다", score: 3 }, { text: "그렇다", score: 4 }, { text: "매우 그렇다", score: 5 }] },
+        { question: "다른 사람이 내린 결정이 마음에 들지 않으면, 어떻게든 내 의견을 관철시키고 싶다.", options: [{ text: "매우 아니다", score: 5 }, { text: "아니다", score: 4 }, { text: "보통이다", score: 3 }, { text: "그렇다", score: 2 }, { text: "매우 그렇다", score: 1 }] },
+        { question: "약간의 손해를 보더라도, 시끄럽게 언쟁하기보다 조용히 넘어가는 게 낫다.", options: [{ text: "매우 아니다", score: 1 }, { text: "아니다", score: 2 }, { text: "보통이다", score: 3 }, { text: "그렇다", score: 4 }, { text: "매우 그렇다", score: 5 }] },
         { question: "나는 팀의 결정에 이견이 있더라도, 전체적인 화합을 위해 기꺼이 따른다.", options: [{ text: "매우 아니다", score: 1 }, { text: "아니다", score: 2 }, { text: "보통이다", score: 3 }, { text: "그렇다", score: 4 }, { text: "매우 그렇다", score: 5 }] },
         // [부정형 질문, 역점수] 
         { question: "나는 리더를 보조하는 역할보다 직접 리더가 되는 것에서 더 큰 만족을 느낀다.", options: [{ text: "매우 아니다", score: 5 }, { text: "아니다", score: 4 }, { text: "보통이다", score: 3 }, { text: "그렇다", score: 2 }, { text: "매우 그렇다", score: 1 }] },
@@ -40,31 +40,31 @@ const questionPool = {
         { question: "나는 다른 사람의 아이디어를 듣기보다, 내 아이디어를 실현시키는 것에 더 관심이 많다.", options: [{ text: "매우 아니다", score: 5 }, { text: "아니다", score: 4 }, { text: "보통이다", score: 3 }, { text: "그렇다", score: 2 }, { text: "매우 그렇다", score: 1 }] }
     ],
     expression: [
-        { question: "내 감정과 생각을 바로 말하거나 행동으로 표현한다.", options: [{ text: "매우 아니다", score: 1 }, { text: "아니다", score: 2 }, { text: "보통이다", score: 3 }, { text: "그렇다", score: 4 }, { text: "매우 그렇다", score: 5 }] },
+        { question: "나는 좋든 싫든 표정에서 티가 나는, '투명한' 사람에 가깝다.", options: [{ text: "매우 아니다", score: 1 }, { text: "아니다", score: 2 }, { text: "보통이다", score: 3 }, { text: "그렇다", score: 4 }, { text: "매우 그렇다", score: 5 }] },
         // [부정형 질문, 역점수] 
-        { question: "나는 장기적인 관계 형성이 단기적인 성과보다 더 중요하다고 생각한다.", options: [{ text: "매우 아니다", score: 5 }, { text: "아니다", score: 4 }, { text: "보통이다", score: 3 }, { text: "그렇다", score: 2 }, { text: "매우 그렇다", score: 1 }] },
-        { question: "중요한 의견이 있으면 바로 공유하는 편이다.", options: [{ text: "매우 아니다", score: 1 }, { text: "아니다", score: 2 }, { text: "보통이다", score: 3 }, { text: "그렇다", score: 4 }, { text: "매우 그렇다", score: 5 }] },
-        { question: "나는 다른 사람들에게 활기차고 재미있는 사람으로 인식되는 편이다.", options: [{ text: "매우 아니다", score: 1 }, { text: "아니다", score: 2 }, { text: "보통이다", score: 3 }, { text: "그렇다", score: 4 }, { text: "매우 그렇다", score: 5 }] },
+        { question: "나는 장기적인 관계 형성이 눈앞의 성과보다 더 중요하다고 생각한다.", options: [{ text: "매우 아니다", score: 5 }, { text: "아니다", score: 4 }, { text: "보통이다", score: 3 }, { text: "그렇다", score: 2 }, { text: "매우 그렇다", score: 1 }] },
+        { question: "'이거다!' 싶은 의견이 있으면, 다른 사람의 말이 끝나기 전에라도 바로 공유하는 편이다.", options: [{ text: "매우 아니다", score: 1 }, { text: "아니다", score: 2 }, { text: "보통이다", score: 3 }, { text: "그렇다", score: 4 }, { text: "매우 그렇다", score: 5 }] },
+        { question: "사람들은 나를 '인싸' 또는 '분위기 메이커'라고 부르는 편이다.", options: [{ text: "매우 아니다", score: 1 }, { text: "아니다", score: 2 }, { text: "보통이다", score: 3 }, { text: "그렇다", score: 4 }, { text: "매우 그렇다", score: 5 }] },
         // [부정형 질문, 역점수] 
-        { question: "나는 전화나 직접 만나는 것보다 텍스트 메시지로 소통하는 것이 더 편하다.", options: [{ text: "매우 아니다", score: 5 }, { text: "아니다", score: 4 }, { text: "보통이다", score: 3 }, { text: "그렇다", score: 2 }, { text: "매우 그렇다", score: 1 }] },
-        { question: "나는 내 의견을 뒷받침하기 위해 제스처나 표정을 적극적으로 사용하는 편이다.", options: [{ text: "매우 아니다", score: 1 }, { text: "아니다", score: 2 }, { text: "보통이다", score: 3 }, { text: "그렇다", score: 4 }, { text: "매우 그렇다", score: 5 }] },
+        { question: "나는 전화 통화의 어색함보다, '읽씹' 당할 걱정이 없는 카톡이 더 편하다.", options: [{ text: "매우 아니다", score: 5 }, { text: "아니다", score: 4 }, { text: "보통이다", score: 3 }, { text: "그렇다", score: 2 }, { text: "매우 그렇다", score: 1 }] },
+        { question: "이야기할 때 손짓이나 표정을 많이 사용하여 생생하게 전달하는 것을 좋아한다.", options: [{ text: "매우 아니다", score: 1 }, { text: "아니다", score: 2 }, { text: "보통이다", score: 3 }, { text: "그렇다", score: 4 }, { text: "매우 그렇다", score: 5 }] },
         // [부정형 질문, 역점수] 
         { question: "나는 좋은 일이 생겨도 요란하게 표현하기보다 조용히 즐기는 편이다.", options: [{ text: "매우 아니다", score: 5 }, { text: "아니다", score: 4 }, { text: "보통이다", score: 3 }, { text: "그렇다", score: 2 }, { text: "매우 그렇다", score: 1 }] },
-        { question: "나는 침묵이 흐르는 어색한 상황을 깨기 위해 먼저 말을 거는 편이다.", options: [{ text: "매우 아니다", score: 1 }, { text: "아니다", score: 2 }, { text: "보통이다", score: 3 }, { text: "그렇다", score: 4 }, { text: "매우 그렇다", score: 5 }] },
+        { question: "회의나 대화 중 침묵이 흐르면, 어색해서 뭐라도 말해야 할 것 같다.", options: [{ text: "매우 아니다", score: 1 }, { text: "아니다", score: 2 }, { text: "보통이다", score: 3 }, { text: "그렇다", score: 4 }, { text: "매우 그렇다", score: 5 }] },
         // [부정형 질문, 역점수] 
         { question: "나는 내 생각을 말하기 전에, 다른 사람들의 의견을 먼저 듣고 싶다.", options: [{ text: "매우 아니다", score: 5 }, { text: "아니다", score: 4 }, { text: "보통이다", score: 3 }, { text: "그렇다", score: 2 }, { text: "매우 그렇다", score: 1 }] },
         { question: "사람들은 나를 솔직하고 스스럼없는 사람이라고 평가한다.", options: [{ text: "매우 아니다", score: 1 }, { text: "아니다", score: 2 }, { text: "보통이다", score: 3 }, { text: "그렇다", score: 4 }, { text: "매우 그렇다", score: 5 }] }
     ],
     response: [
-        { question: "상황과 사람들의 신호를 살피고 세심하게 대응한다.", options: [{ text: "매우 아니다", score: 1 }, { text: "아니다", score: 2 }, { text: "보통이다", score: 3 }, { text: "그렇다", score: 4 }, { text: "매우 그렇다", score: 5 }] },
+        { question: "나는 말이나 행동을 하기 전, 주변 상황과 분위기를 먼저 살피는 편이다.", options: [{ text: "매우 아니다", score: 1 }, { text: "아니다", score: 2 }, { text: "보통이다", score: 3 }, { text: "그렇다", score: 4 }, { text: "매우 그렇다", score: 5 }] },
         // [부정형 질문, 역점수] 
         { question: "나는 눈에 보이는 결과물이 장기적인 신뢰보다 더 중요하다고 생각한다.", options: [{ text: "매우 아니다", score: 5 }, { text: "아니다", score: 4 }, { text: "보통이다", score: 3 }, { text: "그렇다", score: 2 }, { text: "매우 그렇다", score: 1 }] },
-        { question: "다른 사람의 감정과 분위기를 먼저 살피고 대응하는 편이다.", options: [{ text: "매우 아니다", score: 1 }, { text: "아니다", score: 2 }, { text: "보통이다", score: 3 }, { text: "그렇다", score: 4 }, { text: "매우 그렇다", score: 5 }] },
-        { question: "나는 다른 사람들에게 진지하고 책임감 있는 사람으로 인식되는 편이다.", options: [{ text: "매우 아니다", score: 1 }, { text: "아니다", score: 2 }, { text: "보통이다", score: 3 }, { text: "그렇다", score: 4 }, { text: "매우 그렇다", score: 5 }] },
+        { question: "다른 사람의 미묘한 감정 변화나 분위기를 민감하게 알아차린다.", options: [{ text: "매우 아니다", score: 1 }, { text: "아니다", score: 2 }, { text: "보통이다", score: 3 }, { text: "그렇다", score: 4 }, { text: "매우 그렇다", score: 5 }] },
+        { question: "사람들은 나를 '속이 깊다'거나 '진중하다'고 평가하는 편이다.", options: [{ text: "매우 아니다", score: 1 }, { text: "아니다", score: 2 }, { text: "보통이다", score: 3 }, { text: "그렇다", score: 4 }, { text: "매우 그렇다", score: 5 }] },
         // [부정형 질문, 역점수] 
-        { question: "나는 대화할 때 상대방의 말이 끝나기 전에 내 의견을 말하고 싶을 때가 많다.", options: [{ text: "매우 아니다", score: 5 }, { text: "아니다", score: 4 }, { text: "보통이다", score: 3 }, { text: "그렇다", score: 2 }, { text: "매우 그렇다", score: 1 }] },
-        { question: "나는 그룹의 대화가 잠시 끊겼을 때, 그 침묵의 의미를 생각해보는 편이다.", options: [{ text: "매우 아니다", score: 1 }, { text: "아니다", score: 2 }, { text: "보통이다", score: 3 }, { text: "그렇다", score: 4 }, { text: "매우 그렇다", score: 5 }] },
-        { question: "나는 말하기 전에 상대방이 어떤 반응을 보일지 먼저 생각해보는 편이다.", options: [{ text: "매우 아니다", score: 1 }, { text: "아니다", score: 2 }, { text: "보통이다", score: 3 }, { text: "그렇다", score: 4 }, { text: "매우 그렇다", score: 5 }] },
+        { question: "나는 대화할 때 참지 못하고 'TMI'를 방출하거나 상대의 말을 끊는 경우가 종종 있다.", options: [{ text: "매우 아니다", score: 5 }, { text: "아니다", score: 4 }, { text: "보통이다", score: 3 }, { text: "그렇다", score: 2 }, { text: "매우 그렇다", score: 1 }] },
+        { question: "그룹의 대화가 잠시 끊겼을 때, 그 침묵이 어색하기보다 편안하게 느껴진다.", options: [{ text: "매우 아니다", score: 1 }, { text: "아니다", score: 2 }, { text: "보통이다", score: 3 }, { text: "그렇다", score: 4 }, { text: "매우 그렇다", score: 5 }] },
+        { question: "말이나 행동을 하기 전에 '이러면 상대방이 상처받지 않을까?' 하고 먼저 생각한다.", options: [{ text: "매우 아니다", score: 1 }, { text: "아니다", score: 2 }, { text: "보통이다", score: 3 }, { text: "그렇다", score: 4 }, { text: "매우 그렇다", score: 5 }] },
         // [부정형 질문, 역점수] 
         { question: "나는 단체 채팅방에서 깊게 생각하기보다 즉시 반응하고 메시지를 보내는 편이다.", options: [{ text: "매우 아니다", score: 5 }, { text: "아니다", score: 4 }, { text: "보통이다", score: 3 }, { text: "그렇다", score: 2 }, { text: "매우 그렇다", score: 1 }] },
         { question: "나는 상대방의 표정이나 말투 변화를 민감하게 알아차린다.", options: [{ text: "매우 아니다", score: 1 }, { text: "아니다", score: 2 }, { text: "보통이다", score: 3 }, { text: "그렇다", score: 4 }, { text: "매우 그렇다", score: 5 }] },
@@ -72,48 +72,48 @@ const questionPool = {
         { question: "나는 상대방의 이야기를 들어주는 것보다 내 이야기를 하는 것이 더 즐겁다.", options: [{ text: "매우 아니다", score: 5 }, { text: "아니다", score: 4 }, { text: "보통이다", score: 3 }, { text: "그렇다", score: 2 }, { text: "매우 그렇다", score: 1 }] }
     ],
     action: [
-        { question: "나는 명확한 목표가 없으면 행동에 나서기 어렵다.", options: [{ text: "매우 아니다", score: 1 }, { text: "아니다", score: 2 }, { text: "보통이다", score: 3 }, { text: "그렇다", score: 4 }, { text: "매우 그렇다", score: 5 }] },
+        { question: "새로운 챌린지 공고를 보면 '한번 해볼까?' 하는 마음이 먼저 든다.", options: [{ text: "매우 아니다", score: 1 }, { text: "아니다", score: 2 }, { text: "보통이다", score: 3 }, { text: "그렇다", score: 4 }, { text: "매우 그렇다", score: 5 }] },
         // [부정형 질문, 역점수] 
-        { question: "나는 주변 분위기나 사람들의 기대에 따라 내 행동을 맞추는 편이다.", options: [{ text: "매우 아니다", score: 5 }, { text: "아니다", score: 4 }, { text: "보통이다", score: 3 }, { text: "그렇다", score: 2 }, { text: "매우 그렇다", score: 1 }] },
-        { question: "어떤 일을 할 때, '왜 해야 하는지'에 대한 나만의 이유가 가장 중요하다.", options: [{ text: "매우 아니다", score: 1 }, { text: "아니다", score: 2 }, { text: "보통이다", score: 3 }, { text: "그렇다", score: 4 }, { text: "매우 그렇다", score: 5 }] },
+        { question: "나는 주변 분위기나 사람들의 기대에 맞춰 행동하는 것이 편하고 익숙하다.", options: [{ text: "매우 아니다", score: 5 }, { text: "아니다", score: 4 }, { text: "보통이다", score: 3 }, { text: "그렇다", score: 2 }, { text: "매우 그렇다", score: 1 }] },
+        { question: "어떤 일을 할 때, '왜 해야 하는지'에 대한 나만의 이유나 신념이 가장 중요하다.", options: [{ text: "매우 아니다", score: 1 }, { text: "아니다", score: 2 }, { text: "보통이다", score: 3 }, { text: "그렇다", score: 4 }, { text: "매우 그렇다", score: 5 }] },
         // [부정형 질문, 역점수] 
-        { question: "나는 계획에 없던 즉흥적인 일에 뛰어드는 것을 별로 좋아하지 않는다.", options: [{ text: "매우 아니다", score: 1 }, { text: "아니다", score: 2 }, { text: "보통이다", score: 3 }, { text: "그렇다", score: 4 }, { text: "매우 그렇다", score: 5 }] },
-        { question: "나는 외부의 보상이나 인정보다 내 안의 만족감이 더 중요하다.", options: [{ text: "매우 아니다", score: 1 }, { text: "아니다", score: 2 }, { text: "보통이다", score: 3 }, { text: "그렇다", score: 4 }, { text: "매우 그렇다", score: 5 }] },
+        { question: "'일단 저지르고 보자!'는 말은 나의 신조와는 거리가 멀다.", options: [{ text: "매우 아니다", score: 1 }, { text: "아니다", score: 2 }, { text: "보통이다", score: 3 }, { text: "그렇다", score: 4 }, { text: "매우 그렇다", score: 5 }] },
+        { question: "나는 외부의 보상이나 인정보다 내 안의 만족감이 더 큰 동기부여가 된다.", options: [{ text: "매우 아니다", score: 1 }, { text: "아니다", score: 2 }, { text: "보통이다", score: 3 }, { text: "그렇다", score: 4 }, { text: "매우 그렇다", score: 5 }] },
         // [부정형 질문, 역점수] 
         { question: "나는 누군가 이끌어줄 때 행동하는 것이 더 편하다.", options: [{ text: "매우 아니다", score: 5 }, { text: "아니다", score: 4 }, { text: "보통이다", score: 3 }, { text: "그렇다", score: 2 }, { text: "매우 그렇다", score: 1 }] }
     ],
     mbti: {
         ei: [
-            { question: "나는 여러 사람과 어울린 후에 에너지가 넘친다.", options: [{ text: "매우 아니다", score: 1 }, { text: "아니다", score: 2 }, { text: "보통이다", score: 3 }, { text: "그렇다", score: 4 }, { text: "매우 그렇다", score: 5 }] },
+            { question: "나는 여러 사람과 어울린 후에 '아, 재밌었다!'하며 에너지가 넘친다.", options: [{ text: "매우 아니다", score: 1 }, { text: "아니다", score: 2 }, { text: "보통이다", score: 3 }, { text: "그렇다", score: 4 }, { text: "매우 그렇다", score: 5 }] },
             // [부정형 질문, 역점수] 
-            { question: "나는 여러 사람과의 약속보다 혼자 조용히 보내는 주말을 선호한다.", options: [{ text: "매우 아니다", score: 5 }, { text: "아니다", score: 4 }, { text: "보통이다", score: 3 }, { text: "그렇다", score: 2 }, { text: "매우 그렇다", score: 1 }] },
-            { question: "나는 새로운 사람들을 만나는 사교적인 자리를 즐긴다.", options: [{ text: "매우 아니다", score: 1 }, { text: "아니다", score: 2 }, { text: "보통이다", score: 3 }, { text: "그렇다", score: 4 }, { text: "매우 그렇다", score: 5 }] },
+            { question: "주말 약속이 취소되면, '아싸!'를 외치며 혼자만의 시간을 즐길 계획을 세운다.", options: [{ text: "매우 아니다", score: 5 }, { text: "아니다", score: 4 }, { text: "보통이다", score: 3 }, { text: "그렇다", score: 2 }, { text: "매우 그렇다", score: 1 }] },
+            { question: "새로운 사람들을 만나는 '모르는 사람' 파티에 가는 것을 즐긴다.", options: [{ text: "매우 아니다", score: 1 }, { text: "아니다", score: 2 }, { text: "보통이다", score: 3 }, { text: "그렇다", score: 4 }, { text: "매우 그렇다", score: 5 }] },
             // [부정형 질문, 역점수] 
             { question: "나는 생각을 정리할 때, 다른 사람과 대화하기보다 혼자 조용히 성찰하는 편이다.", options: [{ text: "매우 아니다", score: 5 }, { text: "아니다", score: 4 }, { text: "보통이다", score: 3 }, { text: "그렇다", score: 2 }, { text: "매우 그렇다", score: 1 }] }
         ],
         sn: [
-            { question: "나는 미래의 가능성보다 현재의 사실과 실제 경험에 더 집중한다.", options: [{ text: "매우 아니다", score: 1 }, { text: "아니다", score: 2 }, { text: "보통이다", score: 3 }, { text: "그렇다", score: 4 }, { text: "매우 그렇다", score: 5 }] },
+            { question: "나는 '만약에'라고 상상하기보다, '그래서 팩트는?' 하고 묻는 것에 더 가깝다.", options: [{ text: "매우 아니다", score: 1 }, { text: "아니다", score: 2 }, { text: "보통이다", score: 3 }, { text: "그렇다", score: 4 }, { text: "매우 그렇다", score: 5 }] },
             // [부정형 질문, 역점수] 
-            { question: "나는 구체적인 사실보다 추상적이거나 이론적인 이야기에 더 흥미를 느낀다.", options: [{ text: "매우 아니다", score: 5 }, { text: "아니다", score: 4 }, { text: "보통이다", score: 3 }, { text: "그렇다", score: 2 }, { text: "매우 그렇다", score: 1 }] },
-            { question: "나는 일을 처리할 때, 검증된 방식을 따르는 것이 가장 효과적이라고 생각한다.", options: [{ text: "매우 아니다", score: 1 }, { text: "아니다", score: 2 }, { text: "보통이다", score: 3 }, { text: "그렇다", score: 4 }, { text: "매우 그렇다", score: 5 }] },
+            { question: "나는 구체적인 사실보다 그 이면에 숨겨진 의미나 가능성에 더 흥미를 느낀다.", options: [{ text: "매우 아니다", score: 5 }, { text: "아니다", score: 4 }, { text: "보통이다", score: 3 }, { text: "그렇다", score: 2 }, { text: "매우 그렇다", score: 1 }] },
+            { question: "나는 일을 처리할 때, 선배들이 하던 '검증된 방식'을 따르는 것이 가장 효과적이라고 생각한다.", options: [{ text: "매우 아니다", score: 1 }, { text: "아니다", score: 2 }, { text: "보통이다", score: 3 }, { text: "그렇다", score: 4 }, { text: "매우 그렇다", score: 5 }] },
             // [부정형 질문, 역점수] 
-            { question: "나는 새로운 개념을 배울 때, 비유나 전체적인 그림을 통해 더 잘 이해한다.", options: [{ text: "매우 아니다", score: 5 }, { text: "아니다", score: 4 }, { text: "보통이다", score: 3 }, { text: "그렇다", score: 2 }, { text: "매우 그렇다", score: 1 }] }
+            { question: "나는 새로운 개념을 배울 때, '큰 그림'이나 비유를 통해 더 잘 이해한다.", options: [{ text: "매우 아니다", score: 5 }, { text: "아니다", score: 4 }, { text: "보통이다", score: 3 }, { text: "그렇다", score: 2 }, { text: "매우 그렇다", score: 1 }] }
         ],
         tf: [
             // [부정형 질문, 역점수] 
-            { question: "나는 결정을 내릴 때, 사람들과의 관계나 감정보다 논리적인 분석을 우선적으로 고려한다.", options: [{ text: "매우 아니다", score: 5 }, { text: "아니다", score: 4 }, { text: "보통이다", score: 3 }, { text: "그렇다", score: 2 }, { text: "매우 그렇다", score: 1 }] },
-            { question: "나는 누군가에게 피드백을 줄 때, 진실이더라도 상대방이 상처받지 않도록 돌려 말하는 편이다.", options: [{ text: "매우 아니다", score: 1 }, { text: "아니다", score: 2 }, { text: "보통이다", score: 3 }, { text: "그렇다", score: 4 }, { text: "매우 그렇다", score: 5 }] },
+            { question: "나는 결정을 내릴 때, '사람들이 어떻게 생각할까?'보다 '무엇이 합리적인가?'를 더 중요하게 생각한다.", options: [{ text: "매우 아니다", score: 5 }, { text: "아니다", score: 4 }, { text: "보통이다", score: 3 }, { text: "그렇다", score: 2 }, { text: "매우 그렇다", score: 1 }] },
+            { question: "친구에게 피드백을 줄 때, '팩트 폭력'이 되더라도 솔직하게 말해주는 것이 진짜 친구라고 생각한다.", options: [{ text: "매우 그렇다", score: 1 }, { text: "그렇다", score: 2 }, { text: "보통이다", score: 3 }, { text: "아니다", score: 4 }, { text: "매우 아니다", score: 5 }] },
             // [부정형 질문, 역점수] 
-            { question: "나는 누군가를 위로할 때, 따뜻한 공감보다 현실적인 해결책을 제시하는 편이다.", options: [{ text: "매우 아니다", score: 5 }, { text: "아니다", score: 4 }, { text: "보통이다", score: 3 }, { text: "그렇다", score: 2 }, { text: "매우 그렇다", score: 1 }] },
-            { question: "나는 때로는 원칙보다 사람 사이의 관계나 특수한 상황을 고려하는 것이 더 중요하다고 생각한다.", options: [{ text: "매우 아니다", score: 1 }, { text: "아니다", score: 2 }, { text: "보통이다", score: 3 }, { text: "그렇다", score: 4 }, { text: "매우 그렇다", score: 5 }] }
+            { question: "친구가 힘들어할 때, 나는 현실적인 해결책을 제시하는 것에 더 가깝다.", options: [{ text: "매우 아니다", score: 5 }, { text: "아니다", score: 4 }, { text: "보통이다", score: 3 }, { text: "그렇다", score: 2 }, { text: "매우 그렇다", score: 1 }] },
+            { question: "나는 '원칙'도 중요하지만, 때로는 '사람'을 보고 예외를 둘 수 있다고 생각한다.", options: [{ text: "매우 아니다", score: 1 }, { text: "아니다", score: 2 }, { text: "보통이다", score: 3 }, { text: "그렇다", score: 4 }, { text: "매우 그렇다", score: 5 }] }
         ],
         jp: [
-            { question: "나는 여행을 갈 때, 명확한 계획을 세우고 그대로 따르는 것을 좋아한다.", options: [{ text: "매우 아니다", score: 1 }, { text: "아니다", score: 2 }, { text: "보통이다", score: 3 }, { text: "그렇다", score: 4 }, { text: "매우 그렇다", score: 5 }] },
+            { question: "여행을 갈 때, 나는 'P'처럼 즉흥적으로 다니기보다 'J'처럼 계획을 세워야 마음이 편하다.", options: [{ text: "매우 아니다", score: 1 }, { text: "아니다", score: 2 }, { text: "보통이다", score: 3 }, { text: "그렇다", score: 4 }, { text: "매우 그렇다", score: 5 }] },
             // [부정형 질문, 역점수] 
-            { question: "나는 내 생활 공간이 다소 어질러져 있어도 크게 신경 쓰지 않는 편이다.", options: [{ text: "매우 아니다", score: 5 }, { text: "아니다", score: 4 }, { text: "보통이다", score: 3 }, { text: "그렇다", score: 2 }, { text: "매우 그렇다", score: 1 }] },
-            { question: "나는 새로운 일을 시작하는 것보다, 진행 중인 일을 깔끔하게 마무리하는 것에서 더 큰 만족을 느낀다.", options: [{ text: "매우 아니다", score: 1 }, { text: "아니다", score: 2 }, { text: "보통이다", score: 3 }, { text: "그렇다", score: 4 }, { text: "매우 그렇다", score: 5 }] },
+            { question: "나는 내 방이 다소 어질러져 있어도 크게 신경 쓰지 않는 편이다.", options: [{ text: "매우 아니다", score: 5 }, { text: "아니다", score: 4 }, { text: "보통이다", score: 3 }, { text: "그렇다", score: 2 }, { text: "매우 그렇다", score: 1 }] },
+            { question: "나는 새로운 일을 '시작'하는 것보다, 진행 중인 일을 '마무리'하는 것에서 더 큰 만족을 느낀다.", options: [{ text: "매우 아니다", score: 1 }, { text: "아니다", score: 2 }, { text: "보통이다", score: 3 }, { text: "그렇다", score: 4 }, { text: "매우 그렇다", score: 5 }] },
             // [부정형 질문, 역점수] 
-            { question: "나는 갑작스러운 계획 변경이 생기면, 스트레스를 받기보다 오히려 즐기는 편이다.", options: [{ text: "매우 아니다", score: 5 }, { text: "아니다", score: 4 }, { text: "보통이다", score: 3 }, { text: "그렇다", score: 2 }, { text: "매우 그렇다", score: 1 }] }
+            { question: "갑자기 친구가 '지금 나올래?'라고 하면, 스트레스받기보다 오히려 즐거운 편이다.", options: [{ text: "매우 아니다", score: 5 }, { text: "아니다", score: 4 }, { text: "보통이다", score: 3 }, { text: "그렇다", score: 2 }, { text: "매우 그렇다", score: 1 }] }
         ]
     }
 };
