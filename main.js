@@ -108,6 +108,7 @@
         }, 2000);
     }
     
+    // [핵심 수정] 어울림 유형 계산 로직 재구성
     function calculateAwoolimType() {
         const { lead, flow, expression, response, action } = state.scores;
 
@@ -116,24 +117,36 @@
             if (q.category === 'action') actionCount++;
         });
         
+        // 행동성 점수가 상위 10% 이상인지 판단 (평균 4.6점 이상)
         const actionThreshold = actionCount * 4.6;
-        const hasExtremelyHighAction = action >= actionThreshold;
+        const hasHighWillpower = action >= actionThreshold;
 
         const totalLeadFlow = lead + flow || 1;
         const totalExprResp = expression + response || 1;
         const leadRatio = lead / totalLeadFlow;
         const expressionRatio = expression / totalExprResp;
 
-        if (hasExtremelyHighAction) {
-            if (leadRatio >= 0.45 && leadRatio <= 0.55) return 'LC';
-            if (leadRatio > 0.7 && expressionRatio > 0.7) return 'LP';
+        // 1. '의지 점수'가 매우 높은 특별한 경우를 먼저 확인
+        if (hasHighWillpower) {
+            // '밸런서형(LC)' 조건: 의지 점수가 높고, lead/flow 비율이 균형 잡혔을 때
+            if (leadRatio >= 0.45 && leadRatio <= 0.55) {
+                return 'LC';
+            }
+            // '쇼맨형(LP)' 조건: 의지 점수가 높고, lead와 expression 비율이 모두 압도적일 때
+            if (leadRatio > 0.7 && expressionRatio > 0.7) {
+                return 'LP';
+            }
         }
-        
+
+        // 2. 위 특별 유형이 아니라면, 일반적인 리더/플로우 유형으로 판별
+        // (이 부분은 '의지 점수'와 관계없이 작동)
         if (leadRatio > 0.5) {
+            // '스파크형(LE)' 또는 '백본형(LR)'
             return expressionRatio > 0.5 ? 'LE' : 'LR';
+        } else {
+            // '인싸형(FE)' 또는 '힐러형(FR)'
+            return expressionRatio > 0.5 ? 'FE' : 'FR';
         }
-        
-        return expressionRatio > 0.5 ? 'FE' : 'FR';
     }
 
     function calculateActionTendency(resultData) {
