@@ -1,396 +1,492 @@
-// ui.js
+/* ==================================== */
+/* CSS 변수 설정 */
+/* ==================================== */
+:root {
+    /* 기본 색상 */
+    --color-primary: #10B981; /* 녹색 테마 */
+    --color-secondary: #e2e8f0;
+    --color-text-dark: #1f2937;
+    --color-text-body: #333;
+    --color-bg-light: #f7fafc;
+    --color-border: #cbd5e1;
+    --color-gray: #4b5563;
+    --color-green: #10B981;
+    --color-teal: #14B8A6;
 
-// HTML 요소 참조
-const introContainer = document.getElementById('intro-container');
-const quizContainer = document.getElementById('quiz-container');
-const loadingContainer = document.getElementById('loading-container');
-const resultContainer = document.getElementById('result-container');
-const startBtn = document.getElementById('start-btn');
-const backBtn = document.getElementById('back-btn');
-const nextBtn = document.getElementById('next-btn');
-const questionBox = document.getElementById('question-box');
-const progressBar = document.getElementById('progressBar');
-const resultIcon = document.getElementById('result-icon');
-const resultTitle = document.getElementById('result-title');
-const resultMbti = document.getElementById('result-mbti');
-const resultDescription = document.getElementById('result-description');
-const compatibilitySection = document.getElementById('compatibility-section');
-const scoreCanvas = document.getElementById('score-chart');
-const actionTendencyTitle = document.getElementById('action-tendency-title');
-const scoreChartSection = document.querySelector('#result-container section.my-8');
-const restartBtn = document.getElementById('restart-btn');
-const copyBtn = document.getElementById('copy-btn');
-const summaryCopyBtn = document.getElementById('summary-copy-btn');
-const shareKakao = document.getElementById('share-kakao');
-const shareFacebook = document.getElementById('share-facebook');
-const shareTwitter = document.getElementById('share-twitter');
-const modalOverlay = document.getElementById('modal-overlay');
-const modalPanel = document.getElementById('modal-panel');
-const modalContent = document.getElementById('modal-content');
-const modalCloseBtn = document.getElementById('modal-close-btn');
+    /* 결과 페이지 테마 색상 변수 (기본값: 녹색) */
+    --theme-color: var(--color-primary);
+    --theme-color-light: #ECFDF5;
+    --theme-chart-bg: rgba(16, 185, 129, 0.4);
+    --theme-chart-border: rgba(16, 185, 129, 1);
 
-let myChart = null;
+    /* 간격 */
+    --spacing-xs: 0.5rem;
+    --spacing-sm: 0.75rem;
+    --spacing-md: 1rem;
+    --spacing-lg: 1.5rem;
+    --spacing-xl: 2rem;
 
-/**
- * HEX 색상 코드를 RGBA로 변환하는 헬퍼 함수
- */
-function hexToRgba(hex, alpha = 1) {
-    const r = parseInt(hex.slice(1, 3), 16);
-    const g = parseInt(hex.slice(3, 5), 16);
-    const b = parseInt(hex.slice(5, 7), 16);
-    return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+    /* 그림자 */
+    --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+    --shadow-lg: 0 10px 20px rgba(0, 0, 0, 0.1);
 }
 
-// 테마 색상을 초기화하는 함수
-function resetTheme() {
-    document.documentElement.style.cssText = '';
+/* ==================================== */
+/* 전체 페이지 기본 스타일 */
+/* ==================================== */
+body {
+    font-family: 'Noto Sans KR', sans-serif;
+    background-color: var(--color-bg-light);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    padding: 20px;
+    box-sizing: border-box;
+    color: var(--color-text-body);
 }
 
-// 지난 결과 보기 배너 표시 함수
-function showLastResultBanner(result, onViewResultClick) {
-    const banner = document.createElement('div');
-    banner.className = 'last-result-banner';
-    banner.innerHTML = `
-        <p>지난번 결과는 <strong>${result.title}</strong>이었어요. 다시 보시겠어요?</p>
-        <div>
-            <button id="view-last-result" class="banner-btn view">결과 보기</button>
-            <button id="close-banner" class="banner-btn close">닫기</button>
-        </div>
-    `;
-    document.body.appendChild(banner);
-    document.getElementById('view-last-result').addEventListener('click', () => {
-        onViewResultClick();
-        banner.remove();
-    });
-    document.getElementById('close-banner').addEventListener('click', () => {
-        banner.remove();
-    });
+/* ==================================== */
+/* 컨테이너 및 섹션 공통 스타일 */
+/* ==================================== */
+.container {
+    background-color: white;
+    padding: var(--spacing-xl) var(--spacing-lg);
+    border-radius: 1.25rem;
+    box-shadow: var(--shadow-lg);
+    width: 100%;
+    max-width: 800px;
+    transition: all 0.5s ease-in-out;
 }
 
-// 화면 전환 함수들
-function showLoadingScreen() {
-    introContainer.style.display = 'none';
-    quizContainer.style.display = 'none';
-    resultContainer.style.display = 'none';
-    loadingContainer.style.display = 'block';
+.main-visual-image {
+    max-width: 300px;
+    width: 100%;
+    border-radius: 50%;
+    box-shadow: var(--shadow-lg);
+    border: 5px solid white;
+    margin-left: auto;
+    margin-right: auto;
 }
 
-function showQuizScreen() {
-    resetTheme();
-    introContainer.style.display = 'none';
-    resultContainer.style.display = 'none';
-    quizContainer.style.display = 'block';
+/* ==================================== */
+/* 버튼 스타일 */
+/* ==================================== */
+.btn {
+    flex: 1;
+    font-weight: bold;
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+    border-radius: 0.75rem;
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.2s ease-out, box-shadow 0.2s ease-out, background-color 0.2s;
+    cursor: pointer;
+    border: none;
+    color: white;
 }
 
-function showResultScreen(result, scores, mbtiType, actionTendency) {
-    introContainer.style.display = 'none';
-    quizContainer.style.display = 'none';
-    loadingContainer.style.display = 'none';
-    resultContainer.style.display = 'block';
-    
-    renderResult(result, mbtiType, actionTendency);
+.btn:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+}
 
-    if (scores) {
-        scoreChartSection.style.display = 'block';
-        drawChart(scores, result, actionTendency); // [수정됨] actionTendency 전달
-    } else {
-        scoreChartSection.style.display = 'none';
+.btn:active {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-sm);
+}
+
+.btn.w-full {
+    flex: none;
+    width: 100%;
+}
+
+.btn-primary { background-color: var(--color-primary); }
+.btn-primary:hover { background-color: #059669; }
+.btn-primary:disabled {
+    background-color: #9ca3af;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: var(--shadow-sm);
+}
+
+.btn-secondary { background-color: var(--color-gray); }
+.btn-secondary:hover { background-color: #374151; }
+
+.btn-teal { background-color: var(--color-teal); }
+.btn-teal:hover { background-color: #0D9488; }
+
+.btn-green { background-color: var(--color-green); }
+.btn-green:hover { background-color: #059669; }
+
+/* ==================================== */
+/* 퀴즈 페이지 스타일 */
+/* ==================================== */
+#question-box {
+    margin-bottom: var(--spacing-xl);
+}
+
+#question-box h2 {
+    font-size: var(--spacing-lg);
+    font-weight: bold;
+    color: var(--color-text-dark);
+    text-align: center;
+    line-height: 1.5;
+    word-break: keep-all;
+    margin-bottom: var(--spacing-lg);
+}
+
+.answer-btn {
+    display: block;
+    width: 100%;
+    padding: var(--spacing-md);
+    margin-bottom: var(--spacing-sm);
+    background-color: var(--color-secondary);
+    border: none;
+    border-radius: 0.625rem;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
+    text-align: left;
+    font-weight: 500;
+}
+
+.answer-btn:hover {
+    background-color: var(--color-border);
+    transform: translateY(-0.125rem);
+}
+
+.answer-btn.selected {
+    background-color: var(--theme-color);
+    color: white;
+    font-weight: bold;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transform: scale(1.02);
+}
+
+/* ==================================== */
+/* 결과 페이지 스타일 */
+/* ==================================== */
+#result-description h2 {
+    font-size: 1.8rem;
+    font-weight: 900;
+    color: var(--color-text-dark);
+    margin-top: var(--spacing-xl);
+    margin-bottom: var(--spacing-sm);
+    padding-bottom: var(--spacing-xs);
+    border-bottom: 2px solid var(--color-border);
+}
+
+#result-description h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-text-dark);
+    margin-top: var(--spacing-lg);
+    margin-bottom: var(--spacing-sm);
+    padding-left: var(--spacing-sm);
+    border-left: 4px solid var(--theme-color);
+}
+
+#result-description p {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: var(--color-gray);
+    margin-bottom: var(--spacing-md);
+}
+
+#result-description ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+#result-description li {
+    background-color: var(--color-bg-light);
+    border-left: 4px solid var(--theme-color);
+    padding: var(--spacing-md) 1.25rem;
+    margin-bottom: var(--spacing-sm);
+    border-radius: 0.5rem;
+    box-shadow: var(--shadow-sm);
+}
+
+#result-description li strong {
+    color: var(--theme-color);
+}
+
+/* ==================================== */
+/* 미디어 쿼리 (모바일) */
+/* ==================================== */
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+    .container {
+        padding: var(--spacing-lg);
+    }
+    #question-box h2 {
+        font-size: 1.25rem;
+    }
+    .answer-btn {
+        font-size: 1rem;
+        padding: 0.8rem;
     }
 }
 
-// 모달 관련 함수
-function openModal(html) {
-    modalContent.innerHTML = html;
-    modalOverlay.classList.remove('hidden');
+/* ==================================== */
+/* 로딩 및 애니메이션 효과 */
+/* ==================================== */
+.loader {
+    border-top-color: var(--theme-color);
+    animation: spinner 1.5s linear infinite;
 }
 
-function closeModal() {
-    modalOverlay.classList.add('hidden');
+@keyframes spinner {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }
 
-// 질문을 화면에 렌더링하는 함수
-function renderQuestion(question, previousAnswer) {
-    questionBox.classList.add('question-fade-out');
-    setTimeout(() => {
-        const questionHtml = `
-            <h2 class="question-fade-in">${question.question}</h2>
-            <div id="options-container" class="question-fade-in">
-                ${question.options.map(option => `
-                    <button class="answer-btn" data-score="${option.score}" data-category="${question.category}">${option.text}</button>
-                `).join('')}
-            </div>
-        `;
-        questionBox.innerHTML = questionHtml;
-        questionBox.querySelectorAll('.answer-btn').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                const currentSelected = questionBox.querySelector('.answer-btn.selected');
-                if (currentSelected) {
-                    currentSelected.classList.remove('selected');
-                }
-                e.target.classList.add('selected');
-                nextBtn.disabled = false;
-            });
-        });
-
-        if (previousAnswer) {
-            const btnToSelect = questionBox.querySelector(`.answer-btn[data-score="${previousAnswer.score}"]`);
-            if(btnToSelect) {
-                btnToSelect.classList.add('selected');
-                nextBtn.disabled = false;
-            }
-        } else {
-            nextBtn.disabled = true;
-        }
-
-        backBtn.style.visibility = question.question.startsWith('1.') ? 'hidden' : 'visible';
-
-        questionBox.classList.remove('question-fade-out');
-    }, 300);
+.fade-in {
+    animation: fadeIn 0.8s ease-out forwards;
 }
 
-// 결과 렌더링 함수
-function renderResult(result, mbtiType, actionTendency) {
-    const root = document.documentElement;
-    root.style.setProperty('--theme-color', result.themeColor);
-    root.style.setProperty('--theme-color-light', result.themeColorLight);
-
-    const resultType = Object.keys(resultsData).find(key => resultsData[key].title === result.title);
-    
-    actionTendencyTitle.innerText = actionTendency.text;
-    actionTendencyTitle.style.color = result.themeColor;
-
-    resultIcon.innerHTML = `<img src="${result.imageUrl}" alt="${result.title}" class="w-40 h-40 mx-auto rounded-full shadow-lg border-4" style="border-color: ${result.themeColor};">`;
-    resultTitle.innerText = result.title;
-
-    if (mbtiType && resultMbti) {
-        const relatedTypes = result.similarMbti.split(',').map(t => t.trim());
-        const uniqueProfileTypes = [...new Set([mbtiType, ...relatedTypes])];
-        const profileHtml = uniqueProfileTypes.map(type => 
-            `<span class="font-semibold">${type}</span>`
-        ).join('<span class="mx-2 text-gray-400 font-light">+</span>');
-        
-        resultMbti.innerHTML = `
-            <span class="font-bold text-gray-700">MBTI 성향으로 본 프로필</span>
-            <div class="mt-2 text-2xl" style="color: ${result.themeColor};">${profileHtml}</div>
-        `;
-    }
-
-    let descriptionHtml = result.details.map(detail => {
-        if (detail.type === 'ul') {
-            return `<ul>${detail.items.map(item => `<li>${item}</li>`).join('')}</ul>`;
-        }
-        return `<${detail.type}>${detail.content}</${detail.type}>`;
-    }).join('');
-    
-    resultDescription.innerHTML = descriptionHtml;
-
-    const bestMatchData = result.compatibility.best;
-    const goodMatchData = result.compatibility.good;
-    const bestMatchResult = resultsData[bestMatchData.type];
-    const goodMatchResult = resultsData[goodMatchData.type];
-
-    compatibilitySection.innerHTML = `
-        <h3 class="text-2xl font-bold text-gray-800 mb-4 text-center">다른 유형과의 관계</h3>
-        <div class="compatibility-box" data-my-type="${resultType}" data-target-type="${bestMatchData.type}" data-relation="best">
-            <h4><span class="type-icon"><img src="${bestMatchResult.imageUrl}" class="w-10 h-10 rounded-full"></span> 환상의 짝꿍: <span class="type-title ml-2">${bestMatchResult.title}</span></h4>
-            <p class="mt-2 text-gray-600">${bestMatchData.summary}</p>
-        </div>
-        <div class="compatibility-box" data-my-type="${resultType}" data-target-type="${goodMatchData.type}" data-relation="good">
-            <h4><span class="type-icon"><img src="${goodMatchResult.imageUrl}" class="w-10 h-10 rounded-full"></span> 좋은 동료: <span class="type-title ml-2">${goodMatchResult.title}</span></h4>
-            <p class="mt-2 text-gray-600">${goodMatchData.summary}</p>
-        </div>
-        <div class="famous-examples">
-            <h4 class="font-bold text-gray-800">⭐ 당신과 같은 유형의 유명인</h4>
-            <p class="mt-2 text-gray-700">${result.famous_examples.join(', ')}</p>
-        </div>
-    `;
-
-    document.querySelector('meta[property="og:title"]').setAttribute('content', `내 어울림 유형은 "${result.title}"!`);
-    document.querySelector('meta[property="og:description"]').setAttribute('content', result.description);
-    document.querySelector('meta[property="og:image"]').setAttribute('content', result.imageUrl);
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
-// 프로그레스 바 업데이트 함수
-function updateProgressBar(currentIndex, total) {
-    const progress = (currentIndex / total) * 100;
-    progressBar.style.width = `${progress}%`;
-    progressBar.setAttribute('aria-valuenow', progress);
+.question-fade-out {
+    animation: fadeOut 0.3s ease-out forwards;
+}
+.question-fade-in {
+    animation: fadeIn 0.4s ease-in forwards;
 }
 
-// [핵심 수정] drawChart 함수에서 activeQuizQuestions 변수 참조 제거
-function drawChart(scores, result, actionTendency) {
-    if (myChart) {
-        myChart.destroy();
-    }
-    
-    // main.js에서 전달받은 actionTendency 객체에서 문항 수(count)를 사용
-    const actionQuestionCount = actionTendency.count || 0;
-    
-    const minActionScore = actionQuestionCount * 1;
-    const maxActionScore = actionQuestionCount * 5;
-    
-    const willScore = scores.action > 0 ? scores.action - minActionScore : 0;
-    const complianceScore = scores.action > 0 ? maxActionScore - scores.action : 0;
-
-    const chartBackgroundColor = hexToRgba(result.themeColor, 0.4);
-    const chartBorderColor = result.themeColor;
-    const ctx = scoreCanvas.getContext('2d');
-    
-    myChart = new Chart(ctx, {
-        type: 'radar',
-        data: {
-            labels: ['리드(L)', '표현(E)', '의지(A)', '플로우(F)', '감응(R)', '순응(C)'],
-            datasets: [{
-                label: '나의 종합 성향',
-                data: [
-                    scores.lead, 
-                    scores.expression, 
-                    willScore, 
-                    scores.flow, 
-                    scores.response, 
-                    complianceScore
-                ],
-                backgroundColor: chartBackgroundColor,
-                borderColor: chartBorderColor,
-                borderWidth: 2,
-                pointBackgroundColor: chartBorderColor,
-                pointRadius: 4
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            scales: {
-                r: {
-                    beginAtZero: true,
-                    max: 40,
-                    angleLines: { color: 'rgba(0, 0, 0, 0.1)' },
-                    grid: { color: 'rgba(0, 0, 0, 0.1)' },
-                    pointLabels: { font: { size: 14, weight: 'bold' } },
-                    ticks: { display: false }
-                }
-            },
-            plugins: {
-                legend: { display: false }
-            }
-        }
-    });
+@keyframes fadeOut {
+    from { opacity: 1; transform: translateY(0); }
+    to { opacity: 0; transform: translateY(-10px); }
 }
 
-// 모든 UI 이벤트 리스너를 초기화하는 함수
-function initializeUIEventListeners() {
-    startBtn.addEventListener('click', window.startQuiz);
-
-    nextBtn.addEventListener('click', () => {
-        const selectedBtn = questionBox.querySelector('.answer-btn.selected');
-        if (selectedBtn) {
-            nextBtn.disabled = true;
-            const score = parseInt(selectedBtn.dataset.score);
-            const category = selectedBtn.dataset.category;
-            window.goToNextQuestion(score, category);
-        }
-    });
-
-    backBtn.addEventListener('click', window.goToPreviousQuestion);
-    restartBtn.addEventListener('click', window.restartQuiz);
-
-    const tabs = document.querySelectorAll('.tab-btn');
-    const tabContents = document.querySelectorAll('[data-tab-content]');
-    tabs.forEach(tab => {
-        tab.addEventListener('click', () => {
-            tabs.forEach(t => t.classList.remove('active'));
-            tabContents.forEach(c => c.classList.add('hidden'));
-            tab.classList.add('active');
-            const target = document.querySelector(tab.dataset.tabTarget);
-            if (target) {
-                target.classList.remove('hidden');
-            }
-        });
-    });
-
-    copyBtn.addEventListener('click', () => {
-        const resultTextForCopy = `[어울림 성향 테스트 결과: ${resultTitle.innerText}]\n\n${resultDescription.innerText}\n\n${compatibilitySection.innerText}`;
-        navigator.clipboard.writeText(resultTextForCopy.trim()).then(() => {
-            alert("전체 결과가 클립보드에 복사되었습니다!");
-        });
-    });
-
-    summaryCopyBtn.addEventListener('click', () => {
-        const cleanUrl = window.location.href.split('#')[0];
-        const summaryText = `[어울림 성향 테스트] 제 타입은 ${resultTitle.innerText}래요! 당신의 유형도 알아보세요!\n${cleanUrl}`;
-        navigator.clipboard.writeText(summaryText).then(() => {
-            alert("요약 결과가 클립보드에 복사되었습니다!");
-        });
-    });
-
-    shareKakao.addEventListener('click', () => {
-        const resultData = resultsData[Object.keys(resultsData).find(key => resultsData[key].title === resultTitle.innerText)];
-        if (typeof Kakao !== 'undefined' && Kakao.isInitialized() && resultData) {
-            Kakao.Share.sendDefault({
-                objectType: 'feed',
-                content: {
-                    title: `[어울림 테스트] 내 결과는 "${resultData.title}"`,
-                    description: resultData.description,
-                    imageUrl: resultData.imageUrl,
-                    link: { mobileWebUrl: window.location.href, webUrl: window.location.href },
-                },
-                buttons: [{ title: '나도 테스트하기', link: { mobileWebUrl: window.location.href, webUrl: window.location.href } }],
-            });
-        }
-    });
-
-    shareFacebook.addEventListener('click', () => {
-        const url = encodeURIComponent(window.location.href);
-        window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}`, '_blank');
-    });
-
-    shareTwitter.addEventListener('click', () => {
-        const text = encodeURIComponent(`[어울림 테스트] 제 타입은 ${resultTitle.innerText}래요! 여러분도 참여해보세요!`);
-        const url = encodeURIComponent(window.location.href);
-        window.open(`https://twitter.com/intent/tweet?text=${text}&url=${url}`, '_blank');
-    });
-    
-    modalCloseBtn.addEventListener('click', closeModal);
-    modalOverlay.addEventListener('click', (e) => {
-        if (e.target === modalOverlay) closeModal();
-    });
-
-    compatibilitySection.addEventListener('click', (e) => {
-        const targetBox = e.target.closest('.compatibility-box');
-        if (!targetBox) return;
-        
-        const myType = targetBox.dataset.myType;
-        const targetType = targetBox.dataset.targetType;
-        const relation = targetBox.dataset.relation;
-        const myResult = resultsData[myType];
-        const targetResult = resultsData[targetType];
-        const relationDetails = myResult.compatibility[relation].details;
-        
-        const modalHtml = `
-            <div class="type-icons flex justify-center items-center gap-4">
-                <img src="${myResult.imageUrl}" class="w-24 h-24 rounded-full shadow-md" alt="${myResult.title}">
-                <span class="text-4xl text-red-500 font-bold">❤️</span>
-                <img src="${targetResult.imageUrl}" class="w-24 h-24 rounded-full shadow-md" alt="${targetResult.title}">
-            </div>
-            <h3 class="mt-4">${relationDetails.title}</h3>
-            <h4>🤝 함께 일한다면?</h4>
-            <p>${relationDetails.collab}</p>
-            <h4>💥 갈등이 생긴다면?</h4>
-            <p>${relationDetails.conflict}</p>
-        `;
-        openModal(modalHtml);
-    });
+#intro-container article {
+    border: 1px solid var(--color-secondary);
+    transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
 }
 
-// 전역 스코프에 함수 노출
-window.initializeUIEventListeners = initializeUIEventListeners;
-window.resetTheme = resetTheme;
-window.showQuizScreen = showQuizScreen;
-window.showLoadingScreen = showLoadingScreen;
-window.showResultScreen = showResultScreen;
-window.renderQuestion = renderQuestion;
-window.updateProgressBar = updateProgressBar;
-window.showLastResultBanner = showLastResultBanner;
+#intro-container article:hover {
+    transform: scale(1.05) translateY(-5px);
+    box-shadow: var(--shadow-lg);
+}
 
+/* ==================================== */
+/* 궁합 섹션 스타일 */
+/* ==================================== */
+.compatibility-box {
+    background-color: var(--color-bg-light);
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+    margin-top: 1rem;
+    border: 1px solid var(--color-border);
+    cursor: pointer;
+    transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+}
+
+.compatibility-box:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+}
+
+.compatibility-box h4 {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: var(--color-text-dark);
+    display: flex;
+    align-items: center;
+}
+
+.compatibility-box .type-icon {
+    font-size: 1.5rem;
+    margin-right: 0.75rem;
+}
+
+.compatibility-box .type-title {
+    color: var(--theme-color);
+    font-weight: bold;
+}
+
+.famous-examples {
+    background-color: var(--theme-color-light);
+    border-left: 4px solid var(--theme-color);
+    padding: 1rem;
+    border-radius: 0.5rem;
+    margin-top: 2rem;
+}
+
+/* ==================================== */
+/* 이전 결과 알림 배너 스타일 */
+/* ==================================== */
+.last-result-banner {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--color-text-dark);
+    color: white;
+    padding: 1rem 1.5rem;
+    border-radius: 0.75rem;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    z-index: 1000;
+    animation: slideInUp 0.5s ease-out forwards;
+    width: 90%;
+    max-width: 500px;
+}
+
+.last-result-banner p { margin: 0; font-weight: 500; }
+
+.banner-btn {
+    border: none;
+    border-radius: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.2s;
+}
+
+.banner-btn.view { background-color: var(--color-primary); color: white; }
+.banner-btn.view:hover { background-color: #059669; }
+
+.banner-btn.close { background-color: transparent; color: #a0aec0; }
+.banner-btn.close:hover { color: white; }
+
+@keyframes slideInUp {
+    from { transform: translate(-50%, 100px); opacity: 0; }
+    to { transform: translate(-50%, 0); opacity: 1; }
+}
+
+/* ==================================== */
+/* 상세 관계성 모달 스타일 */
+/* ==================================== */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+    opacity: 1;
+    transition: opacity 0.3s ease;
+}
+
+.modal-overlay.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.modal-panel {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    width: 90%;
+    max-width: 600px;
+    position: relative;
+    transform: scale(1);
+    transition: transform 0.3s ease;
+    text-align: left;
+}
+
+.modal-overlay.hidden .modal-panel { transform: scale(0.9); }
+
+.modal-close-btn {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: none;
+    border: none;
+    font-size: 2rem;
+    line-height: 1;
+    cursor: pointer;
+    color: #9ca3af;
+}
+.modal-close-btn:hover { color: var(--color-text-dark); }
+
+#modal-content h3 {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: var(--color-text-dark);
+    margin-bottom: 0.5rem;
+    text-align: center;
+}
+
+#modal-content .type-icons {
+    font-size: 2.5rem;
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+#modal-content h4 {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: var(--theme-color);
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+    border-left: 4px solid var(--theme-color);
+    padding-left: 0.75rem;
+}
+
+#modal-content p {
+    color: #4b5563;
+    line-height: 1.7;
+}
+
+/* ==================================== */
+/* 탭 UI 스타일 (추가됨) */
+/* ==================================== */
+.tabs-container {
+    display: flex;
+    border-bottom: 2px solid var(--color-secondary);
+    margin-bottom: var(--spacing-lg);
+}
+
+.tab-btn {
+    padding: var(--spacing-sm) var(--spacing-md);
+    cursor: pointer;
+    background-color: transparent;
+    border: none;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--color-gray);
+    position: relative;
+    transition: color 0.3s ease;
+}
+
+.tab-btn::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: var(--color-primary);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+}
+
+.tab-btn.active {
+    color: var(--color-primary);
+}
+
+.tab-btn.active::after {
+    transform: scaleX(1);
+}
+
+[data-tab-content].hidden {
+    display: none;
+}
 
 
